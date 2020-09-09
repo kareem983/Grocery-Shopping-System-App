@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "467496904796",
+    "firebase_url": "https://grocery-shopping-system-311ca.firebaseio.com",
+    "project_id": "grocery-shopping-system-311ca",
+    "storage_bucket": "grocery-shopping-system-311ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467496904796:android:f82dccb57c548ac0ad1e99",
+        "android_client_info": {
+          "package_name": "com.example.groceryshoppingsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467496904796-qnkcblf9s7tia25bmrgp50ed9a0uqfnf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXNcKOosz3fZsGtjKqGmAaKAwS0cPKGMo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467496904796-qnkcblf9s7tia25bmrgp50ed9a0uqfnf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
