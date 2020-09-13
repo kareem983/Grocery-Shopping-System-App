@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+ <item
+     android:id="@+id/HomeID"
+     android:title="Home"
+     android:icon="@drawable/ic_baseline_home_24"/>
+
+    <item
+        android:id="@+id/CreateID"
+        android:title="Create"
+        android:icon="@drawable/ic_baseline_create_new_folder_24"/>
+
+
+    <item
+        android:id="@+id/AddID"
+        android:title="Add"
+        android:icon="@drawable/ic_baseline_add_24"/>
+
+
+    <item
+        android:id="@+id/EditID"
+        android:title="Edit"
+        android:icon="@drawable/ic_baseline_edit_24"/>
+
+
+    <item
+        android:id="@+id/DeleteID"
+        android:title="Delete"
+        android:icon="@drawable/ic_baseline_delete_24"/>
+
+</menu>

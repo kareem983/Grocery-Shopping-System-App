@@ -17,5 +17,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolBar);
         getSupportActionBar().setTitle("بقالة");
 
+
+
     }
 }
