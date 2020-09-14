@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="170dp"
+    android:layout_height="100dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/option_back">
+
+    <ImageView
+        android:id="@+id/OptionIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:id="@+id/OptionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginLeft="10dp"
+        android:textSize="16dp"
+        android:layout_below="@id/OptionIcon"
+        android:textColor="#FFF"/>
+
+</RelativeLayout>

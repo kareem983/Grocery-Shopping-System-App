@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+<<<<<<< HEAD
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -49,5 +50,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+=======
+
+
+>>>>>>> 6256962aa1126f35f362404064334f02b05a2c63
     }
 }

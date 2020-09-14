@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.groceryshoppingsystem">
 
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+=======
+>>>>>>> 6256962aa1126f35f362404064334f02b05a2c63
     <application
         android:allowBackup="true"
         android:icon="@mipmap/appicon"
@@ -10,17 +13,29 @@
         android:roundIcon="@mipmap/appicon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< HEAD
         <activity android:name=".loginActivity">
+=======
+        <activity android:name=".AdminActivity"></activity>
+        <activity android:name=".SplashScreen">
+>>>>>>> 6256962aa1126f35f362404064334f02b05a2c63
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+<<<<<<< HEAD
         </activity>
         <activity android:name=".MainActivity"></activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+=======
+
+        </activity>
+        <activity android:name=".MainActivity">
+            </activity>
+>>>>>>> 6256962aa1126f35f362404064334f02b05a2c63
     </application>
 
 </manifest>
