@@ -4,7 +4,10 @@ Full android Grocery Shopping System App. It consist of Admin and users: (Using 
 //work tasks
 
 Login Activity (Amr)
+
 Register Activity (Osama)
+
 Splash Screen (Ziad)
+
 Admin Activity (Kareem)
 
