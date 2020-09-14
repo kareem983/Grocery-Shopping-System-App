@@ -41,13 +41,21 @@ public class loginActivity extends AppCompatActivity {
         if (fauth.getCurrentUser() != null) {
             startActivity(new Intent(loginActivity.this, MainActivity.class));
             finish();
-        }
 
+            // a3mel de lama t3mel log out button f al admin activity .
+           /* if (fauth.getCurrentUser().getEmail().equals("admin@gmail.com")) {
+                startActivity(new Intent(loginActivity.this, AdminActivity.class));
+                finish();
+            } else {
+                startActivity(new Intent(loginActivity.this, MainActivity.class));
+                finish();
+            }*/
+        }
         mlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String Email = mEmail.getText().toString().trim();
-                String Password = mPassword.getText().toString().trim();
+                final String Email = mEmail.getText().toString().trim();
+                final String Password = mPassword.getText().toString().trim();
                 if (TextUtils.isEmpty(Email)) {
                     mEmail.setError("Email is required");
                     return;
@@ -62,21 +70,23 @@ public class loginActivity extends AppCompatActivity {
                 }
                 // progress in background and i make it here visible.
                 mprogresspar.setVisibility(View.VISIBLE);
-                if (Email.equals("admin") && Password.equals("password")) {
-                    Toast.makeText(loginActivity.this, "Welcome My Creator", Toast.LENGTH_SHORT).show();
-                    // here we will go to admin page
-                    finish();
-                }
+
                 // Authenticate
                 fauth.signInWithEmailAndPassword(Email, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(loginActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(loginActivity.this, MainActivity.class));
-                            finish();
+                            if (Email.equals("admin@gmail.com") && Password.equals("password")) {
+                                Toast.makeText(loginActivity.this, "Welcome My Creator", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(loginActivity.this, AdminActivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(loginActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(loginActivity.this, MainActivity.class));
+                                finish();
+                            }
                         } else {
-                            Toast.makeText(loginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(loginActivity.this, "Wrong User name Or Password", Toast.LENGTH_SHORT).show();
                             mprogresspar.setVisibility(View.GONE);
                         }
                     }
