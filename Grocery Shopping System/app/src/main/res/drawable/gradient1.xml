@@ -4,9 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <gradient
-        android:startColor="#3D5069"
-        android:centerColor="#2A3c58"
-        android:endColor="#192943"
+        android:startColor="#5E35B1"
+        android:centerColor="#325387"
+        android:endColor="#362061"
         android:angle="0"/>
 
 </shape>

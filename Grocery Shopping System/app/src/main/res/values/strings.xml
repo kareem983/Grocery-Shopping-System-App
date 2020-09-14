@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">بقالة</string>
+    <string name="logout">logout</string>
 </resources>

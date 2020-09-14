@@ -5,7 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <include layout="@layout/main_toolbar"
-        android:id="@+id/main_TooBar"/>
+    <include
+        android:id="@+id/main_TooBar"
+        layout="@layout/main_toolbar"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
