@@ -106,7 +106,7 @@ public class loginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Here we will send a verification message
-
+                startActivity(new Intent(loginActivity.this , ForgetPassword.class));
             }
         });
     }
