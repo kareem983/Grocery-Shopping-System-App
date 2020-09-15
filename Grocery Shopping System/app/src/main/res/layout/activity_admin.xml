@@ -10,22 +10,34 @@
     <include layout="@layout/main2_toolbar"
         android:id="@+id/Admin_ToolBar"/>
 
-
-    <GridView
-        android:id="@+id/AdminGridOptions"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/FragmentTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="23dp"
+        android:textColor="#000"
+        android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:columnWidth="140dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
-        android:layout_margin="10dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"/>
+        android:layout_below="@id/Admin_ToolBar"/>
+
+    <FrameLayout
+        android:id="@+id/FrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/FragmentTitle"
+        android:layout_above="@id/Bottom_view"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingBtnId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_add_24"
+        android:layout_above="@id/Bottom_view"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:backgroundTint="@color/colorPrimaryDark"/>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

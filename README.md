@@ -11,3 +11,8 @@ Splash Screen (Ziad)
 
 Admin Activity (Kareem)
 
+Reset Passowrd (Ziad)
+
+Products & Offers & SalesMen Fragment (Kareem)
+
+

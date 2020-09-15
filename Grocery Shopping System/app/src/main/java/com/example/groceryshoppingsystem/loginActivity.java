@@ -37,23 +37,22 @@ public class loginActivity extends AppCompatActivity {
         mforgerpassword = (TextView) findViewById(R.id.ForgetPassword);
         // Checking if the user is logging in or log out ! ;
         if (fauth.getCurrentUser() != null) {
-            startActivity(new Intent(loginActivity.this, MainActivity.class));
-            finish();
-
-            // a3mel de lama t3mel log out button f al admin activity .
-           /* if (fauth.getCurrentUser().getEmail().equals("admin@gmail.com")) {
+            if (fauth.getCurrentUser().getEmail().equals("admin@gmail.com")) {
                 startActivity(new Intent(loginActivity.this, AdminActivity.class));
                 finish();
-            } else {
+            }
+            else {
                 startActivity(new Intent(loginActivity.this, MainActivity.class));
                 finish();
-            }*/
+            }
+
         }
+
         mlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String Email = mEmail.getText().toString().trim();
-                final String Password = mPassword.getText().toString().trim();
+                final String Password = mPassword.getText().toString();
                 if (TextUtils.isEmpty(Email)) {
                     mEmail.setError("Email is required");
                     return;
