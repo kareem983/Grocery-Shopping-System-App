@@ -2,8 +2,12 @@ package com.example.groceryshoppingsystem;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager pager;
     private My_Adapter adapter;
     private List<model> models;
+    List<HorizontalProductModel> lastmodels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +76,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pager.setAdapter((PagerAdapter) adapter);
         pager.setPadding(130, 0, 130, 0);
 
+        // Square Slider
+        LinearLayout mylayout = (LinearLayout) findViewById(R.id.my_cardView);
+        LayoutInflater inflater = getLayoutInflater();
+        View myLayout = inflater.inflate(R.layout.grid_product_layout, mylayout, false);
+        TextView gridlayouttitle = mylayout.findViewById(R.id.grid_product_layout_textview);
+        Button GridLayoutViewBtn = mylayout.findViewById(R.id.grid_button_layout_viewall_button);
+        GridView gv = mylayout.findViewById(R.id.product_layout_gridview);
+        lastmodels = new ArrayList<>();
+        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "amr", "ae el kalam", "sfveksbmsv"));
+        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "osama", "ae el kalam", "sfveksbmsv"));
+        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "kareem", "ae el kalam", "sfveksbmsv"));
+        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "ziad", "ae el kalam", "sfveksbmsv"));
+        gv.setAdapter(new GridproductAdapter(lastmodels));
+        mylayout = (LinearLayout) findViewById(R.id.my_cardView2);
+        inflater = getLayoutInflater();
+        myLayout = inflater.inflate(R.layout.grid_product_layout, mylayout, false);
+        gridlayouttitle = mylayout.findViewById(R.id.grid_product_layout_textview);
+        GridLayoutViewBtn = mylayout.findViewById(R.id.grid_button_layout_viewall_button);
+        gv = mylayout.findViewById(R.id.product_layout_gridview);
+        lastmodels = new ArrayList<>();
+        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "amrr", "ae el kalam", "sfveksbmsv"));
+        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "osamaa", "ae el kalam", "sfveksbmsv"));
+        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "kareemm", "ae el kalam", "sfveksbmsv"));
+        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "ziadd", "ae el kalam", "sfveksbmsv"));
+        gv.setAdapter(new GridproductAdapter(lastmodels));
+
+
         //toolbar
-        mToolBar = findViewById(R.id.main_TooBar);
         drawerLayout = findViewById(R.id.drawer);
+        mToolBar = findViewById(R.id.main_TooBar);
         setSupportActionBar(mToolBar);
         mtoggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
         drawerLayout.addDrawerListener(mtoggle);
@@ -94,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (mtoggle.onOptionsItemSelected(item)) return true;
         return super.onOptionsItemSelected(item);
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

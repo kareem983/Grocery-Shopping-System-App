@@ -13,52 +13,72 @@
     app:layout_constraintVertical_bias="1.0"
     tools:context=".MainActivity">
 
-    <ScrollView
+
+    <RelativeLayout
+        android:id="@+id/ScrolViewID"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bar">
 
-        <RelativeLayout
+
+        <include
+            android:id="@+id/main_TooBar"
+            layout="@layout/main2_toolbar"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <ScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/main_TooBar">
 
-            <RelativeLayout
-                android:id="@+id/ScrolViewID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <include
-                    android:id="@+id/main_TooBar"
-                    layout="@layout/main2_toolbar"
-                    tools:layout_editor_absoluteX="16dp"
-                    tools:layout_editor_absoluteY="0dp" />
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/cardview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/main_TooBar"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:clipToPadding="false"
-                    android:foregroundGravity="center"
-                    android:overScrollMode="never" />
-            </RelativeLayout>
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ScrolViewID">
+                android:orientation="vertical">
 
-                <include layout="@layout/grid_product_layout" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp">
 
-            </RelativeLayout>
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="305dp">
 
-        </RelativeLayout>
-    </ScrollView>
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/cardview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:foregroundGravity="center"
+                        android:overScrollMode="never" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/my_cardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <include layout="@layout/grid_product_layout" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/my_cardView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <include layout="@layout/grid_product_layout" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navegation_view"
