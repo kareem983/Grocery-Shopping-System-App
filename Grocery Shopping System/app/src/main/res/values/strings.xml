@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">بقالة</string>
-    <string name="logout">logout</string>
+    <string name="Open">Open</string>
+    <string name="Close">Close</string>
+    <string name="logout">Logout</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="favorites">Favorites</string>
+    <string name="cart">Cart</string>
+    <string name="my_orders">My Orders</string>
 </resources>

@@ -1,8 +1,5 @@
 package com.example.groceryshoppingsystem;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,6 +13,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -28,15 +30,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
+
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    ImageView image ;
+    ImageView image;
     private Bitmap bitmap;
-    private static final int GALARY_PICK=1;
+    private static final int GALARY_PICK = 1;
     private StorageReference mStorageRef;
     private Uri ResultURI;
     private String uId;
@@ -45,18 +48,18 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        mAuth= FirebaseAuth.getInstance();
-        mStorageRef= FirebaseStorage.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        final EditText email  =  (EditText)findViewById(R.id.email);
-        final EditText name  =  (EditText)findViewById(R.id.name);
-        final EditText pass1  =  (EditText)findViewById(R.id.pass1);
-        final EditText pass2  =  (EditText)findViewById(R.id.pass2);
-        final EditText num  =  (EditText)findViewById(R.id.num);
+        final EditText email = (EditText) findViewById(R.id.email);
+        final EditText name = (EditText) findViewById(R.id.name);
+        final EditText pass1 = (EditText) findViewById(R.id.pass1);
+        final EditText pass2 = (EditText) findViewById(R.id.pass2);
+        final EditText num = (EditText) findViewById(R.id.num);
 
         image = findViewById(R.id.image);
-        final Button btn = (Button)findViewById(R.id.addimage);
-        final Button finish=  (Button)findViewById(R.id.finish);
+        final Button btn = (Button) findViewById(R.id.addimage);
+        final Button finish = (Button) findViewById(R.id.finish);
         TextView login = (TextView) findViewById(R.id.login);
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -69,62 +72,62 @@ public class RegisterActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(RegisterActivity.this, loginActivity.class);
+                Intent i = new Intent(RegisterActivity.this, loginActivity.class);
                 startActivity(i);
                 finish();
             }
         });
 
 
-
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(email.getText().toString().isEmpty() || name.getText().toString().isEmpty() ||pass1.getText().toString().isEmpty()
-                        ||pass2.getText().toString().isEmpty() || num.getText().toString().isEmpty()){
+                if (email.getText().toString().isEmpty() || name.getText().toString().isEmpty() || pass1.getText().toString().isEmpty()
+                        || pass2.getText().toString().isEmpty() || num.getText().toString().isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Empty Cells", Toast.LENGTH_LONG).show();
-                }
-                else if (!pass1.getText().toString().equals(pass2.getText().toString())) {
+                } else if (!pass1.getText().toString().equals(pass2.getText().toString())) {
                     Toast.makeText(RegisterActivity.this, "you must write password in two boxes", Toast.LENGTH_LONG).show();
-                    pass1.setText(""); pass2.setText("");
+                    pass1.setText("");
+                    pass2.setText("");
+                } else {
+                    String mailtxt = email.getText().toString(), passtxt = pass1.getText().toString();
+                    mAuth.createUserWithEmailAndPassword(mailtxt, passtxt).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
 
-                }
-                else {
-                    String mailtxt = email.getText().toString() , passtxt = pass1.getText().toString();
-                    mAuth.createUserWithEmailAndPassword(mailtxt,passtxt).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() { @Override public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
+                                HashMap<String, String> hashMap = new HashMap<>();
+                                hashMap.put("Name", name.getText().toString());
+                                hashMap.put("Image", "default");
+                                hashMap.put("Phone", num.getText().toString());
 
-                            HashMap<String,String> hashMap=new HashMap<>();
-                            hashMap.put("Name",name.getText().toString());
-                            hashMap.put("Image","default");
-                            hashMap.put("Phone" ,num.getText().toString() );
+                                FirebaseUser currentUser = mAuth.getCurrentUser();
+                                uId = currentUser.getUid();
+                                DatabaseReference z = FirebaseDatabase.getInstance().getReference().child("users");
+                                z.child(uId).setValue(hashMap);
 
-                            FirebaseUser currentUser = mAuth.getCurrentUser();
-                            uId= currentUser.getUid();
-                            DatabaseReference z= FirebaseDatabase.getInstance().getReference().child("users");
-                            z.child(uId).setValue(hashMap);
+                                if (ResultURI != null) UploadImageInStorageDataBase(ResultURI);
 
-                            if(ResultURI!=null)UploadImageInStorageDataBase(ResultURI);
-
-                            Toast.makeText(RegisterActivity.this,"Registered Successfully",Toast.LENGTH_LONG).show();
-                            Intent intent=new Intent(RegisterActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                                Toast.makeText(RegisterActivity.this, "Registered Successfully", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "registration failed", Toast.LENGTH_LONG).show();
+                            }
                         }
-                        else{
-                            Toast.makeText(RegisterActivity.this,"registration failed",Toast.LENGTH_LONG).show(); }
-                    }
                     });
-                }}
+                }
+            }
         });
 
     }
 
-    public  void choosephoto(){
-        Intent intent =new Intent();
+    public void choosephoto() {
+        Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"SELECT IMAGE"),GALARY_PICK);
+        startActivityForResult(Intent.createChooser(intent, "SELECT IMAGE"), GALARY_PICK);
 
     }
 
@@ -133,20 +136,20 @@ public class RegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         //to crop image
-        if(requestCode== GALARY_PICK && resultCode==RESULT_OK){
+        if (requestCode == GALARY_PICK && resultCode == RESULT_OK) {
             try {
-            Uri ImageUri=data.getData();
-            CropImage.activity(ImageUri)
-                    .setAspectRatio(1,1)
-                    .start(this);
+                Uri ImageUri = data.getData();
+                CropImage.activity(ImageUri)
+                        .setAspectRatio(1, 1)
+                        .start(this);
 
-            ParcelFileDescriptor descriptor = getContentResolver().openFileDescriptor(ImageUri, "r");
-            FileDescriptor fileDescriptor = descriptor.getFileDescriptor();
-            bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+                ParcelFileDescriptor descriptor = getContentResolver().openFileDescriptor(ImageUri, "r");
+                FileDescriptor fileDescriptor = descriptor.getFileDescriptor();
+                bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
 
                 descriptor.close();
             } catch (IOException e) {
-                Log.e("B2ala","fileNotFound",e);
+                Log.e("B2ala", "fileNotFound", e);
             }
             image.setImageBitmap(bitmap);
         }
@@ -157,9 +160,8 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
-                ResultURI=resultUri;
-            }
-            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                ResultURI = resultUri;
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
         }
@@ -168,10 +170,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void UploadImageInStorageDataBase(Uri resultUri) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        uId= currentUser.getUid();
+        uId = currentUser.getUid();
 
         //upload image in storage database
-        final StorageReference FilePath = mStorageRef.child("users_image").child(uId+"jpg");
+        final StorageReference FilePath = mStorageRef.child("users_image").child(uId + "jpg");
         FilePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

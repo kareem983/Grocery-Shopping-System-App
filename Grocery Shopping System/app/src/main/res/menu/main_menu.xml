@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/Logout"
-        android:title="@string/logout" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group>
+        <item
+            android:id="@+id/Home"
+            android:icon="@drawable/ic_baseline_home_24"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/Profile"
+            android:icon="@drawable/profile_icon"
+            android:title="@string/profile" />
+        <item
+            android:id="@+id/favourites"
+            android:icon="@drawable/ic_baseline_favorite_24"
+            android:title="@string/favorites" />
+        <item
+            android:id="@+id/Cart"
+            android:icon="@drawable/ic_baseline_shopping_cart_24"
+            android:title="@string/cart" />
+        <item
+            android:id="@+id/MyOrders"
+            android:icon="@drawable/ic_baseline_my_orders_24"
+            android:title="@string/my_orders" />
+
+    </group>
+    <item android:title="Categories">
+        <menu>
+            <item
+                android:id="@+id/fruits"
+                android:title="   Fruits" />
+            <item
+                android:id="@+id/vegetables"
+                android:title="   Vegetables" />
+
+            <item
+                android:id="@+id/meats"
+                android:title="   Meats" />
+            <item
+                android:id="@+id/electronics"
+                android:title="   Electronics" />
+        </menu>
+    </item>
+    <item android:title="@string/logout">
+        <menu>
+            <item
+                android:id="@+id/Logout"
+                android:icon="@drawable/ic_baseline_exit_to_app_24"
+                android:title="@string/logout" />
+        </menu>
+    </item>
 </menu>

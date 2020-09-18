@@ -1,7 +1,5 @@
 package com.example.groceryshoppingsystem;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +9,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -92,11 +94,10 @@ public class loginActivity extends AppCompatActivity {
 
             }
         });
-
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(loginActivity.this,RegisterActivity.class);
+                Intent intent = new Intent(loginActivity.this, RegisterActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -106,7 +107,7 @@ public class loginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Here we will send a verification message
-                startActivity(new Intent(loginActivity.this , ForgetPassword.class));
+                startActivity(new Intent(loginActivity.this, ForgetPassword.class));
             }
         });
     }
