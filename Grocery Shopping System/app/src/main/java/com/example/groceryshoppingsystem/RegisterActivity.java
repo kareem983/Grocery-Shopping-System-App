@@ -36,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     ImageView image;
     private Bitmap bitmap;
-    private static final int GALARY_PICK = 1;
+    public static final int GALARY_PICK = 1;
     private StorageReference mStorageRef;
     private Uri ResultURI;
     private String uId;

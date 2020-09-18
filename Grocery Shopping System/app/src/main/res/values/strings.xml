@@ -9,4 +9,11 @@
     <string name="cart">Cart</string>
     <string name="my_orders">My Orders</string>
 
+    <string-array name="productstypes">
+        <item>Fruits</item>
+        <item>Vegetables</item>
+        <item>Meats</item>
+        <item>Electronics</item>
+    </string-array>
+
 </resources>
