@@ -1,99 +1,125 @@
 package com.example.groceryshoppingsystem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.TextView;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import java.util.ArrayList;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class AdminActivity extends AppCompatActivity {
-    private GridView gridView;
     private Toolbar mToolBar;
-    private AdminOptionsAdapter adapter;
+    private FloatingActionButton floatingActionButton;
     private BottomNavigationView bottomNavigationView;
-    private String Option1;
-    private String Option2;
-    private String Option3;
-    private String Option4;
+    private TextView FragmentTitle;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+        mAuth=FirebaseAuth.getInstance();
 
+        //tool bar
         mToolBar = (Toolbar)findViewById(R.id.Admin_ToolBar);
         setSupportActionBar(mToolBar);
 
-        gridView= (GridView)findViewById(R.id.AdminGridOptions);
+        FragmentTitle =(TextView)findViewById(R.id.FragmentTitle);
+        floatingActionButton= (FloatingActionButton)findViewById(R.id.floatingBtnId);
         bottomNavigationView= (BottomNavigationView)findViewById(R.id.Bottom_view);
+        bottomNavigationView.setOnNavigationItemSelectedListener(naveListener);
 
-        Option1= "Add new Salesman";
-        Option2= "Set new Offer";
-        Option3= "Delete Salesman";
-        Option4= "set Discount";
-
-        final ArrayList<AdminOptions> OptionArrayList = new ArrayList<>();
-        OptionArrayList.add(new AdminOptions(Option1,R.drawable.ic_baseline_add_24));
-        OptionArrayList.add(new AdminOptions(Option2,R.drawable.ic_baseline_local_offer_24));
-        OptionArrayList.add(new AdminOptions(Option3,R.drawable.ic_baseline_delete_24));
-        OptionArrayList.add(new AdminOptions(Option4,R.drawable.ic_baseline_edit_24));
+        //default fragment is product (awl ma y sign in go to products fragment)
+        getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout,new ProductsFragment()).commit();
+        FragmentTitle.setText("All Products");
 
 
-        adapter = new AdminOptionsAdapter(this,OptionArrayList);
-        gridView.setAdapter(adapter);
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //on clicking to adding button
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                AdminOptions adminOptions = OptionArrayList.get(i);
-
-                if(adminOptions.getOptionName().equals(Option1)){
-
-                }
-                else if(adminOptions.getOptionName().equals(Option2)){
-
-                }
-                else if(adminOptions.getOptionName().equals(Option3)){
-
-                }
-                else if(adminOptions.getOptionName().equals(Option4)){
-
-                }
-
+            public void onClick(View view) {
+                //here add button
             }
         });
-
 
     }
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener naveLis=
+    private BottomNavigationView.OnNavigationItemSelectedListener naveListener=
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment SelectedFragment =null;
                     int id = item.getItemId();
-                    if(id==R.id.HomeID){
-
+                    if(id==R.id.ProductID){
+                        SelectedFragment = new ProductsFragment();
+                        FragmentTitle.setText("All Products");
                     }
-                    else if(id==R.id.CreateID){
-
+                    else if(id==R.id.OffersID){
+                        SelectedFragment = new OffersFragment();
+                        FragmentTitle.setText("All Offers");
                     }
-                    else if(id==R.id.AddID){
-
+                    else if(id==R.id.SalesMenID){
+                        SelectedFragment = new SalesMenFragment();
+                        FragmentTitle.setText("All SalesMen");
                     }
-                    else if(id==R.id.EditID){
 
-                    }
-                    else if(id==R.id.DeleteID){
-
-                    }
-                    return false;
+                    getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout,SelectedFragment).commit();
+                    return true;
                 }
             };
 
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.admin_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id =item.getItemId();
+        if(id==R.id.adminLogoutId){
+            CheckLogout();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void CheckLogout(){
+        AlertDialog.Builder checkAlert = new AlertDialog.Builder(AdminActivity.this);
+        checkAlert.setMessage("Do you want to Logout?")
+                .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mAuth.signOut();
+                Intent intent=new Intent(AdminActivity.this,loginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = checkAlert.create();
+        alert.setTitle("LogOut");
+        alert.show();
+
+    }
 }

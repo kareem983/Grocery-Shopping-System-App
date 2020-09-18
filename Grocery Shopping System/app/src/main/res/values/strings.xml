@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">بقالة</string>
+<<<<<<< HEAD
     <string name="Open">Open</string>
     <string name="Close">Close</string>
     <string name="logout">Logout</string>
@@ -8,4 +9,8 @@
     <string name="favorites">Favorites</string>
     <string name="cart">Cart</string>
     <string name="my_orders">My Orders</string>
+=======
+    <string name="logout">logout</string>
+
+>>>>>>> 828cf811e36fa4a20d4b21db6ce0e063d58ee5ca
 </resources>
