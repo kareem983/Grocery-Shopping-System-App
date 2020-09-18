@@ -176,29 +176,3 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         m.addListenerForSingleValueEvent(eventListener);
     }
 }
-/*
-class fragmant_home extends Fragment {
-
-
-    List<HorizontalProductModel> models;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        TextView gridLayoutTitle = view.findViewById(R.id.grid_product_layout);
-        Button gridBtn = view.findViewById(R.id.grid_button_layout_viewall_button);
-        GridView gridView = view.findViewById(R.id.product_layout_gridview);
-        models = new ArrayList<>();
-        models.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "a7a", "ae el kalam", "sfveksbmsv"));
-        models.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "a7a", "ae el kalam", "sfveksbmsv"));
-        models.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "a7a", "ae el kalam", "sfveksbmsv"));
-        models.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "a7a", "ae el kalam", "sfveksbmsv"));
-
-
-        gridView.setAdapter(new GridproductAdapter(models));
-
-        return view;
-    }
-}*/
-
