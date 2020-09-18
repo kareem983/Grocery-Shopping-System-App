@@ -15,6 +15,6 @@ Reset Passowrd (Ziad)
 
 Products & Offers & SalesMen Fragment (Kareem)
 
-Home Activity (Amr & Osama)
+Main Activity (Amr & Osama)
 
 Main Navigation View (Amr)
