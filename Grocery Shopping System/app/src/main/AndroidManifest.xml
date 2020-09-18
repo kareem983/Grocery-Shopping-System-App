@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/appicon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserProfileActivity"></activity>
+        <activity android:name=".UserProfileActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ForgetPassword"
             android:screenOrientation="portrait" />

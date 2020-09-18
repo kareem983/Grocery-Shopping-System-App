@@ -127,7 +127,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.Logout) {
+        if (id == R.id.Profile) {
+            startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
+        }
+        else if (id == R.id.Logout) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(MainActivity.this, loginActivity.class));
             finish();

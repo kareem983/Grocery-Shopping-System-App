@@ -1,9 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/UserProfileDrawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".UserProfileActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ProfileCover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/headerbackground"
+            android:scaleX="1.5"/>
+
+        <include layout="@layout/main2_toolbar"
+            android:id="@+id/UserProfileToolBar"/>
+
+
+        <RelativeLayout
+            android:id="@+id/Container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/UserProfileNavigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#FFF7DA"
+        app:menu="@menu/main_menu"
+        android:layout_gravity="start"
+        app:itemIconTint="#000"
+        app:itemTextColor="#A30000"
+        app:headerLayout="@layout/navigation_drawer_header"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>

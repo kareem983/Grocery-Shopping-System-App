@@ -86,8 +86,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/navigation_drawer_header"
-        app:menu="@menu/main_menu">
-
+        app:menu="@menu/main_menu"
+        android:background="#FFF7DA"
+        app:itemIconTint="#000"
+        app:itemTextColor="#A30000">
     </com.google.android.material.navigation.NavigationView>
 
 
