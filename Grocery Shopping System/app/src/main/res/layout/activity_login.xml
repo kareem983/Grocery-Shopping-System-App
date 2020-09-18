@@ -7,11 +7,28 @@
     android:background="@drawable/gradient1"
     tools:context=".loginActivity">
 
+    <TextView
+        android:id="@+id/p2ala"
+        android:layout_width="273dp"
+        android:layout_height="125dp"
+        android:fontFamily="@font/aldhabi"
+        android:lineSpacingExtra="8sp"
+        android:text="بــــقــــالــــة"
+        android:textColor="#FAFAFA"
+        android:textSize="80sp"
+        app:layout_constraintBottom_toTopOf="@+id/EmailLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.687" />
+
     <EditText
         android:id="@+id/EmailLogin"
         style="@android:style/Widget.DeviceDefault.EditText"
-        android:layout_width="346dp"
+        android:layout_width="match_parent"
         android:layout_height="41dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
         android:background="@drawable/customize_button"
         android:ems="10"
         android:fontFamily="@font/arima_madurai"
@@ -32,8 +49,10 @@
     <EditText
         android:id="@+id/PasswordLogin"
         style="@android:style/Widget.DeviceDefault.EditText"
-        android:layout_width="346dp"
+        android:layout_width="match_parent"
         android:layout_height="41dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
         android:background="@drawable/customize_button"
         android:ems="10"
         android:fontFamily="@font/arima_madurai"
@@ -60,7 +79,6 @@
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PasswordLogin"
         app:layout_constraintVertical_bias="0.086" />
@@ -77,6 +95,19 @@
         app:layout_constraintTop_toBottomOf="@+id/Login"
         app:layout_constraintVertical_bias="0.15" />
 
+    <TextView
+        android:id="@+id/ForgetPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Forget Password ?"
+        android:textColor="#FBFBFB"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignUPtext"
+        app:layout_constraintVertical_bias="0.046" />
+
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyle"
@@ -91,32 +122,5 @@
         app:layout_constraintTop_toBottomOf="@+id/ForgetPassword"
         app:layout_constraintVertical_bias="0.165" />
 
-    <TextView
-        android:id="@+id/p2ala"
-        android:layout_width="273dp"
-        android:layout_height="125dp"
-        android:fontFamily="@font/aldhabi"
-        android:lineSpacingExtra="8sp"
-        android:text="بــــقــــالــــة"
-        android:textColor="#FAFAFA"
-        android:textSize="80sp"
-        app:layout_constraintBottom_toTopOf="@+id/EmailLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.687" />
-
-    <TextView
-        android:id="@+id/ForgetPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Forget Password ?"
-        android:textColor="#FBFBFB"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SignUPtext"
-        app:layout_constraintVertical_bias="0.046" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

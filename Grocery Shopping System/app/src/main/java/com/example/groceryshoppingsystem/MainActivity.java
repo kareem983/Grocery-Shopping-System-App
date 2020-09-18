@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,14 +26,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
     private Toolbar mToolBar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle mtoggle;
@@ -67,10 +62,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //slider
         models = new ArrayList<>();
-        models.add(new model(R.drawable.ic_baseline_favorite_24, "a7a", "eh elkalam asdasd asd ad asdadwq dqweqw qw wqe qwe wqe qwe wq asd sa dsad sa zxzcxzc"));
-        models.add(new model(R.drawable.ic_baseline_my_orders_24, "a7a", "eh elkalam"));
-        models.add(new model(R.drawable.profile_icon, "a7a", "eh elkalam"));
-        models.add(new model(R.drawable.ic_baseline_exit_to_app_24, "a7a", "eh elkalam"));
+        models.add(new model(R.drawable.ic_baseline_favorite_24, "Title", "eh elkalam asdasd asd ad asdadwq dqweqw qw wqe qwe wqe qwe wq asd sa dsad sa zxzcxzc"));
+        models.add(new model(R.drawable.ic_baseline_my_orders_24, "Title", "eh elkalam"));
+        models.add(new model(R.drawable.profile_icon, "Title", "eh elkalam"));
+        models.add(new model(R.drawable.ic_baseline_exit_to_app_24, "Title", "eh elkalam"));
         adapter = new My_Adapter(models, this);
         pager = findViewById(R.id.cardview);
         pager.setAdapter((PagerAdapter) adapter);

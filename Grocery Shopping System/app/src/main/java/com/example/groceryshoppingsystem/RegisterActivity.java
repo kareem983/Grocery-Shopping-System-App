@@ -13,11 +13,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -30,7 +28,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
-
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.HashMap;
@@ -58,11 +55,10 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText num = (EditText) findViewById(R.id.num);
 
         image = findViewById(R.id.image);
-        final Button btn = (Button) findViewById(R.id.addimage);
         final Button finish = (Button) findViewById(R.id.finish);
         TextView login = (TextView) findViewById(R.id.login);
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 choosephoto();
