@@ -19,14 +19,210 @@
             android:src="@drawable/headerbackground"
             android:scaleX="1.5"/>
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/UserImage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/profile"
+            android:layout_below="@id/ProfileCover"
+            android:layout_marginTop="-100dp"
+            android:layout_marginLeft="10dp"/>
+
+        <ProgressBar
+            android:id="@+id/ProfileprogressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ProfileCover"
+            android:layout_marginTop="-40dp"
+            android:layout_marginLeft="55dp"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ProfileCover"
+            android:layout_marginTop="-5dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/new_camera"/>
+
+
         <include layout="@layout/main2_toolbar"
             android:id="@+id/UserProfileToolBar"/>
 
 
         <RelativeLayout
-            android:id="@+id/Container"
+            android:id="@+id/DataContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@id/UserImage">
+
+            <TextView
+                android:id="@+id/UserName"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text=""
+                android:textSize="23dp"
+                android:textColor="#000"
+                android:textStyle="italic"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:id="@+id/infoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Info"
+                android:textSize="23dp"
+                android:textColor="#000"
+                android:textStyle="italic"
+                android:layout_below="@id/UserName"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="50dp"/>
+
+            <ImageView
+                android:id="@+id/EmailIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_email_24"
+                android:layout_below="@id/infoText"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:id="@+id/UserEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/EmailIcon"
+                android:layout_below="@id/infoText"
+                android:text=""
+                android:textSize="20dp"
+                android:textColor="#000"
+                android:textStyle="normal"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="2dp"/>
+
+
+            <ImageView
+                android:id="@+id/PhoneIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_phone_24"
+                android:layout_below="@id/EmailIcon"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:id="@+id/UserPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/PhoneIcon"
+                android:layout_below="@id/EmailIcon"
+                android:text=""
+                android:textSize="20dp"
+                android:textColor="#000"
+                android:textStyle="normal"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="2dp"/>
+
+
+            <ImageView
+                android:id="@+id/FavoriteIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_favorite_24"
+                android:layout_below="@id/PhoneIcon"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:id="@+id/UserFavorite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/PhoneIcon"
+                android:layout_below="@id/PhoneIcon"
+                android:text="My Favorites"
+                android:textSize="20dp"
+                android:textColor="#000"
+                android:textStyle="normal"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="2dp"/>
+
+
+
+            <ImageView
+                android:id="@+id/OrdersIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_my_orders_24"
+                android:layout_below="@id/FavoriteIcon"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:id="@+id/UserOrders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/PhoneIcon"
+                android:layout_below="@id/FavoriteIcon"
+                android:text="My Orders"
+                android:textSize="20dp"
+                android:textColor="#000"
+                android:textStyle="normal"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="2dp"/>
+
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/circular"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="-50dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="-65dp"/>
+
+            <ImageView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:background="@drawable/circular"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="-80dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="40dp"/>
+
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/circular"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="-50dp"
+                android:layout_marginLeft="-65dp"/>
+
+            <ImageView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:background="@drawable/circular"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="-80dp"
+                android:layout_marginLeft="40dp"/>
 
 
         </RelativeLayout>

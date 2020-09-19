@@ -95,7 +95,7 @@ public class AddOffer extends AppCompatActivity {
                     Uri downloadUrl = urlTask.getResult();
                     Offer offer = new Offer(description.getText().toString().trim() ,
                             downloadUrl.toString());
-                    DatabaseReference z = FirebaseDatabase.getInstance().getReference("salesman");
+                    DatabaseReference z = FirebaseDatabase.getInstance().getReference("offers");
                     z.child(name.getText().toString().trim()).setValue(offer);
                 }
             }).addOnFailureListener(new OnFailureListener() {

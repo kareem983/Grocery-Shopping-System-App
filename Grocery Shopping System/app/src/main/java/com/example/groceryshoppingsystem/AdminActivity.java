@@ -15,12 +15,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class AdminActivity extends AppCompatActivity {
     private Toolbar mToolBar;
-    private FloatingActionButton floatingActionButton;
     private BottomNavigationView bottomNavigationView;
     private TextView FragmentTitle;
     private FirebaseAuth mAuth;
@@ -36,7 +34,6 @@ public class AdminActivity extends AppCompatActivity {
         setSupportActionBar(mToolBar);
 
         FragmentTitle =(TextView)findViewById(R.id.FragmentTitle);
-        floatingActionButton= (FloatingActionButton)findViewById(R.id.floatingBtnId);
         bottomNavigationView= (BottomNavigationView)findViewById(R.id.Bottom_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(naveListener);
 
@@ -44,14 +41,6 @@ public class AdminActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.FrameLayout,new ProductsFragment()).commit();
         FragmentTitle.setText("All Products");
 
-
-        //on clicking to adding button
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //here add button
-            }
-        });
 
     }
 

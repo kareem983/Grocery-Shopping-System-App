@@ -112,8 +112,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ///----------------------------
         //View view1 = LayoutInflater.inflate(R.layout.activity_main, this);
 
-
-        Navigation_view_header_data();
     }
 
     @Override
@@ -140,9 +138,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+
+
+
     @Override
     public void onStart() {
         super.onStart();
+
+        Navigation_view_header_data();
     }
 
     @Override
@@ -160,9 +163,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     name = dataSnapshot.child("Name").getValue().toString();
                     photo = dataSnapshot.child("Image").getValue().toString();
                     if (photo.equals("default")) {
-                        Picasso.get().load(R.drawable.profile_icon).into(image);
+                        Picasso.get().load(R.drawable.profile).into(image);
                     } else
-                        Picasso.get().load(photo).placeholder(R.drawable.profile_icon).into(image);
+                        Picasso.get().load(photo).placeholder(R.drawable.profile).into(image);
                     mperson_name.setText(name);
                 }
             }

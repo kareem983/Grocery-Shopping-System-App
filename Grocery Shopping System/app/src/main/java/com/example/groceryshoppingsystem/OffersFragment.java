@@ -1,5 +1,6 @@
 package com.example.groceryshoppingsystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 public class OffersFragment extends Fragment {
@@ -20,6 +24,7 @@ public class OffersFragment extends Fragment {
     //my variables
     private RecyclerView OffersRecycler;
     private AdminOptionsAdapter adapter;
+    private FloatingActionButton OffersFloatingActionButton;
 
 
     public OffersFragment() {
@@ -50,6 +55,7 @@ public class OffersFragment extends Fragment {
         view=inflater.inflate(R.layout.fragment_offers, container, false);
 
         OffersRecycler= (RecyclerView)view.findViewById(R.id.OffersRecycler);
+        OffersFloatingActionButton= (FloatingActionButton)view.findViewById(R.id.OffersFloatingBtnId);
 
         final ArrayList<AdminOptions> OptionArrayList = new ArrayList<>();
         for(int i=1;i<=10;i++){
@@ -60,6 +66,15 @@ public class OffersFragment extends Fragment {
         OffersRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         OffersRecycler.setAdapter(adapter);
 
+        //on clicking to adding button
+        OffersFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //here add button
+                startActivity(new Intent(getActivity(),AddOffer.class));
+
+            }
+        });
 
         return view;
     }

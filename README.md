@@ -18,3 +18,8 @@ Products & Offers & SalesMen Fragment (Kareem)
 Main Activity (Amr & Osama)
 
 Main Navigation View (Amr)
+
+User Profile Activity (Kareem)
+
+ADD, Edit, Delete (Products/SalesMen/Offers) (Ziad)
+
