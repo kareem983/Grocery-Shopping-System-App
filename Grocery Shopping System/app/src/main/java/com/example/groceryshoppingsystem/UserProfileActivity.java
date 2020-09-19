@@ -30,7 +30,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -126,7 +125,28 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id=menuItem.getItemId();
         if(id==R.id.Home){
+            startActivity(new Intent(UserProfileActivity.this,MainActivity.class));
             finish();
+        }
+        else if(id==R.id.fruits){
+            Intent intent =new Intent(UserProfileActivity.this,CategoryActivity.class);
+            intent.putExtra("Category Name","Fruits");
+            startActivity(intent);
+        }
+        else if(id==R.id.vegetables){
+            Intent intent =new Intent(UserProfileActivity.this,CategoryActivity.class);
+            intent.putExtra("Category Name","Vegetables");
+            startActivity(intent);
+        }
+        else if(id==R.id.meats){
+            Intent intent =new Intent(UserProfileActivity.this,CategoryActivity.class);
+            intent.putExtra("Category Name","Meats");
+            startActivity(intent);
+        }
+        else if(id==R.id.electronics){
+            Intent intent =new Intent(UserProfileActivity.this,CategoryActivity.class);
+            intent.putExtra("Category Name","Electronics");
+            startActivity(intent);
         }
         else if(id==R.id.Logout){
             FirebaseAuth.getInstance().signOut();

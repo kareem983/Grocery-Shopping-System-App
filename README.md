@@ -23,3 +23,7 @@ User Profile Activity (Kareem)
 
 ADD, Edit, Delete (Products/SalesMen/Offers) (Ziad)
 
+All Categories Activity (Kareem)
+
+
+

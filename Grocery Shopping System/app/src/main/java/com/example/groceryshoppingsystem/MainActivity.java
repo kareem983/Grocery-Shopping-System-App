@@ -128,6 +128,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.Profile) {
             startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
         }
+        else if(id==R.id.fruits){
+            Intent intent =new Intent(MainActivity.this,CategoryActivity.class);
+            intent.putExtra("Category Name","Fruits");
+            startActivity(intent);
+        }
+        else if(id==R.id.vegetables){
+            Intent intent =new Intent(MainActivity.this,CategoryActivity.class);
+            intent.putExtra("Category Name","Vegetables");
+            startActivity(intent);
+        }
+        else if(id==R.id.meats){
+            Intent intent =new Intent(MainActivity.this,CategoryActivity.class);
+            intent.putExtra("Category Name","Meats");
+            startActivity(intent);
+        }
+        else if(id==R.id.electronics){
+            Intent intent =new Intent(MainActivity.this,CategoryActivity.class);
+            intent.putExtra("Category Name","Electronics");
+            startActivity(intent);
+        }
         else if (id == R.id.Logout) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(MainActivity.this, loginActivity.class));
@@ -139,12 +159,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-
-
     @Override
     public void onStart() {
         super.onStart();
-
         Navigation_view_header_data();
     }
 

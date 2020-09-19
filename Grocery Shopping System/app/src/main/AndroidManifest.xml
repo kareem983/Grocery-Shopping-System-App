@@ -13,9 +13,14 @@
         android:roundIcon="@mipmap/appicon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddSalesMan"></activity>
-        <activity android:name=".AddOffer" />
-        <activity android:name=".AddProduct" />
+        <activity android:name=".CategoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AddSalesMan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AddOffer"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AddProduct"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".UserProfileActivity"
             android:screenOrientation="portrait" />

@@ -29,7 +29,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="10dp"
-                android:text="a7a"
+                android:text=""
                 android:textColor="#000"
                 android:textSize="14sp" />
 
@@ -44,7 +44,7 @@
                 android:drawablePadding="10dp"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:text="Ae al kalam"
+                android:text=""
                 android:textColor="#000"
                 android:textSize="14sp" />
         </RelativeLayout>

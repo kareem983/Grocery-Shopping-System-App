@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="390dp"
+    android:background="@drawable/product_container"
+    android:layout_margin="20dp">
+
+
+    <ImageView
+        android:id="@+id/PrImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/PrName"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_below="@id/PrImage"
+        android:text=""
+        android:gravity="center"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/PrPrice"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_below="@id/PrName"
+        android:text=""
+        android:gravity="center"
+        android:textSize="18dp"
+        android:textColor="#000"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/PrExpiryDate"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_below="@id/PrPrice"
+        android:text=""
+        android:gravity="center"
+        android:textSize="18dp"
+        android:textColor="#000"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"/>
+
+
+    <ImageView
+        android:id="@+id/PrFavoriteImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/PrExpiryDate"/>
+
+</RelativeLayout>
