@@ -1,17 +1,30 @@
 package com.example.groceryshoppingsystem;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SalesMenFragment extends Fragment {
 
@@ -23,8 +36,11 @@ public class SalesMenFragment extends Fragment {
 
     //my variables
     private RecyclerView SalesMenRecycler;
-    private AdminOptionsAdapter adapter;
+    private AdminSalesManAdapter adapter;
     private FloatingActionButton SalesFloatingActionButton;
+    private List<AdminSalesMan> adminSalesManList;
+    private DatabaseReference mDataBaseRef;
+    private ProgressBar bar;
 
 
 
@@ -58,14 +74,80 @@ public class SalesMenFragment extends Fragment {
         SalesMenRecycler= (RecyclerView)view.findViewById(R.id.SalesMenRecycler);
         SalesFloatingActionButton= (FloatingActionButton)view.findViewById(R.id.SalesFloatingBtnId);
 
-        final ArrayList<AdminOptions> OptionArrayList = new ArrayList<>();
-        for(int i=1;i<=10;i++){
-            OptionArrayList.add(new AdminOptions("SalesMan "+i,R.drawable.ic_baseline_add_24));
-        }
+        mDataBaseRef = FirebaseDatabase.getInstance().getReference("salesman");
+        bar = view.findViewById(R.id.salesManProgressBar);
 
-        adapter = new AdminOptionsAdapter(getActivity(),OptionArrayList);
+        adminSalesManList = new ArrayList<>();
+
+        bar.setVisibility(View.VISIBLE);
+        adapter = new AdminSalesManAdapter(getActivity(),adminSalesManList);
         SalesMenRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         SalesMenRecycler.setAdapter(adapter);
+
+        mDataBaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adminSalesManList.clear();
+
+                for(DataSnapshot snapshot1 : snapshot.getChildren())
+                {
+                    adminSalesManList.add(new AdminSalesMan(snapshot1.getKey() ,
+                            snapshot1.child("img").getValue(String.class) ,
+                            snapshot1.child("qrimage").getValue(String.class),
+                            snapshot1.child("salary").getValue(String.class)));
+                }
+                adapter.notifyDataSetChanged();
+                bar.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        adapter.setOnItemClickListener(new AdminOfferAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Intent i = new Intent(getActivity() , EditSalesMan.class);
+                Bundle b = new Bundle();
+                b.putString("img" , adminSalesManList.get(pos).getImg());
+                b.putString("name" , adminSalesManList.get(pos).getName());
+                b.putString("salary" , adminSalesManList.get(pos).getSalary());
+                b.putString("qrimg" , adminSalesManList.get(pos).getQrimg());
+                i.putExtras(b);
+                startActivity(i);
+            }
+        });
+
+        adapter.setOnLongClickListener(new AdminOfferAdapter.onLongClickListener() {
+            @Override
+            public void onItemLongClick(final int pos) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity()).setTitle("Confirmation").setMessage("Are You Sure You Want To Delete ?!").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DatabaseReference reference = mDataBaseRef.child(adminSalesManList.get(pos).getName());
+                        reference.removeValue();
+                        StorageReference a = FirebaseStorage.getInstance().getReference("salesman").child(adminSalesManList.get(pos).getName() + ".jpg");
+                        a.delete();
+                        StorageReference b = FirebaseStorage.getInstance().getReference("salesman").child(adminSalesManList.get(pos).getName());
+                        b.delete();
+                        StorageReference c = FirebaseStorage.getInstance().getReference("salesman").child(adminSalesManList.get(pos).getName() + "qr.jpg");
+                        c.delete();
+                        StorageReference d = FirebaseStorage.getInstance().getReference("salesman").child(adminSalesManList.get(pos).getName() + "qr");
+                        d.delete();
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).setIcon(android.R.drawable.ic_dialog_alert);
+                dialog.show();
+
+
+            }
+        });
 
         //on clicking to adding button
         SalesFloatingActionButton.setOnClickListener(new View.OnClickListener() {

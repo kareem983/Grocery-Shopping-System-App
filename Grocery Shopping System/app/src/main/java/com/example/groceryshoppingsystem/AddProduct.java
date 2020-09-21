@@ -87,7 +87,12 @@ public class AddProduct extends AppCompatActivity {
                 if(mUploadTask != null && mUploadTask.isInProgress())
                     Toast.makeText(AddProduct.this, "Upload Is In Progress", Toast.LENGTH_SHORT).show();
                 else
+                {
                     uploadData();
+                    Toast.makeText(AddProduct.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
             }
         });
     }
@@ -125,7 +130,6 @@ public class AddProduct extends AppCompatActivity {
                             .child(category)
                             .child(name.getText().toString());
                     z.setValue(product);
-                    Toast.makeText(AddProduct.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -158,9 +162,8 @@ public class AddProduct extends AppCompatActivity {
         if(requestCode == RegisterActivity.GALARY_PICK && resultCode == Activity.RESULT_OK && data.getData() != null && data != null)
         {
             imgUri = data.getData();
-
             try {
-                Picasso.get().load(imgUri).into(img);
+                Picasso.get().load(imgUri).fit().centerCrop().into(img);
             } catch (Exception e) {
                 Log.e(this.toString() , e.getMessage().toString());
             }

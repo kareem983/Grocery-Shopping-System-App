@@ -1,17 +1,32 @@
 package com.example.groceryshoppingsystem;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductsFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -23,8 +38,11 @@ public class ProductsFragment extends Fragment {
 
     //my variables
     private RecyclerView ProductsRecycler;
-    private AdminOptionsAdapter adapter;
+    private AdminProductAdapter adapter;
     private FloatingActionButton ProductsFloatingActionButton;
+    private List<AdminProduct> adminProducts;
+    private DatabaseReference mDataBaseRef;
+    private ProgressBar bar;
 
 
     public ProductsFragment() {
@@ -51,30 +69,84 @@ public class ProductsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-         view=inflater.inflate(R.layout.fragment_products, container, false);
+        view=inflater.inflate(R.layout.fragment_products, container, false);
 
         ProductsRecycler= (RecyclerView)view.findViewById(R.id.ProductsRecycler);
         ProductsFloatingActionButton= (FloatingActionButton)view.findViewById(R.id.ProductsFloatingBtnId);
 
-        final ArrayList<AdminOptions> OptionArrayList = new ArrayList<>();
-        OptionArrayList.add(new AdminOptions("Apple",R.drawable.ic_baseline_add_24));
-        OptionArrayList.add(new AdminOptions("Tomato",R.drawable.ic_baseline_local_offer_24));
-        OptionArrayList.add(new AdminOptions("Banana",R.drawable.ic_baseline_delete_24));
-        OptionArrayList.add(new AdminOptions("Grape",R.drawable.ic_baseline_edit_24));
+        bar = view.findViewById(R.id.productProgressBar);
 
-        OptionArrayList.add(new AdminOptions("Cucumber",R.drawable.ic_baseline_add_24));
-        OptionArrayList.add(new AdminOptions("pepper",R.drawable.ic_baseline_local_offer_24));
-        OptionArrayList.add(new AdminOptions("plum",R.drawable.ic_baseline_delete_24));
-        OptionArrayList.add(new AdminOptions("Date",R.drawable.ic_baseline_edit_24));
+        mDataBaseRef = FirebaseDatabase.getInstance().getReference("product");
+        adminProducts = new ArrayList<>();
 
-        OptionArrayList.add(new AdminOptions("coriander",R.drawable.ic_baseline_add_24));
-        OptionArrayList.add(new AdminOptions("Orange",R.drawable.ic_baseline_local_offer_24));
-        OptionArrayList.add(new AdminOptions("pomegranate",R.drawable.ic_baseline_delete_24));
-        OptionArrayList.add(new AdminOptions("watermelon",R.drawable.ic_baseline_edit_24));
-
-        adapter = new AdminOptionsAdapter(getActivity(),OptionArrayList);
+        adapter = new AdminProductAdapter(getActivity(),adminProducts);
         ProductsRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         ProductsRecycler.setAdapter(adapter);
+
+        mDataBaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adminProducts.clear();
+                for(DataSnapshot snapshot1:snapshot.getChildren())//category
+                {
+                    for(DataSnapshot snapshot2 : snapshot1.getChildren())//name
+                    {
+                        adminProducts.add(new AdminProduct(snapshot2.getKey() ,
+                                snapshot1.getKey() ,
+                                snapshot2.child("expired").getValue(String.class),
+                                snapshot2.child("image").getValue(String.class) ,
+                                snapshot2.child("price").getValue(String.class) ,
+                                snapshot2.child("quantity").getValue(String.class)));
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                bar.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        adapter.setOnItemClickListener(new AdminOfferAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Intent i = new Intent(getActivity() , EditProduct.class);
+                Bundle b = new Bundle();
+                b.putString("img" , adminProducts.get(pos).getImage());
+                b.putString("name" , adminProducts.get(pos).getName());
+                b.putString("category" , adminProducts.get(pos).getCategory());
+                b.putString("expired" , adminProducts.get(pos).getExpired());
+                b.putString("price" , adminProducts.get(pos).getPrice());
+                b.putString("quantity" , adminProducts.get(pos).getQuantity());
+                i.putExtras(b);
+                startActivity(i);
+                Log.e("ProdFrag Expired: " , adminProducts.get(pos).getName());
+            }
+        });
+
+        adapter.setOnLongClickListener(new AdminOfferAdapter.onLongClickListener() {
+            @Override
+            public void onItemLongClick(final int pos) {
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity()).setTitle("Confirmation").setMessage("Are You Sure You Want To Delete ?!").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DatabaseReference reference = mDataBaseRef.child(adminProducts.get(pos).getCategory()).child(adminProducts.get(pos).getName());
+                        reference.removeValue();
+                        StorageReference z = FirebaseStorage.getInstance().getReference("offers").child(adminProducts.get(pos).getName() + ".jpg");
+                        z.delete();
+                        StorageReference x = FirebaseStorage.getInstance().getReference("offers").child(adminProducts.get(pos).getName());
+                        x.delete();
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {}
+                }).setIcon(android.R.drawable.ic_dialog_alert);
+                dialog.show();
+            }
+        });
 
 
         //on clicking to adding button

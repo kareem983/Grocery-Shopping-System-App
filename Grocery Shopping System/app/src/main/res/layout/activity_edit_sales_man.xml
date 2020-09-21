@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddSalesMan"
+    tools:context=".EditSalesMan"
     android:background="@color/cardview_dark_background">
 
     <ImageView
-        android:id="@+id/salesManImage"
+        android:id="@+id/salesManImageEdit"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="64dp"
@@ -23,7 +23,7 @@
         android:src="@drawable/ic_baseline_supervisor_account_24"/>
 
     <EditText
-        android:id="@+id/editTextSalesManName"
+        android:id="@+id/editTextSalesManNameEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -37,10 +37,10 @@
         android:textColorHint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/salesManImage" />
+        app:layout_constraintTop_toBottomOf="@+id/salesManImageEdit" />
 
     <EditText
-        android:id="@+id/editTextSalesManSalary"
+        android:id="@+id/editTextSalesManSalaryEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -54,10 +54,10 @@
         android:textColorHint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSalesManName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextSalesManNameEdit" />
 
     <Button
-        android:id="@+id/btnAddSalesMan"
+        android:id="@+id/btnAddSalesManEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -70,7 +70,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btnChooseSalesManImage"
+        android:id="@+id/btnChooseSalesManImageEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"

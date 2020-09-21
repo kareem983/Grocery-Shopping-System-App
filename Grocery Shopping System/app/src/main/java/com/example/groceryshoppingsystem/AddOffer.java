@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
@@ -40,6 +41,7 @@ public class AddOffer extends AppCompatActivity {
     private ImageView img;
     private Uri imgUri;
     private StorageReference mStorageRef;
+    private StorageTask mUploadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,20 @@ public class AddOffer extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadData();
+                if(mUploadTask != null && mUploadTask.isInProgress())
+                    Toast.makeText(AddOffer.this, "Upload Is In Progress", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    try {
+                        uploadData();
+                        Toast.makeText(AddOffer.this, "Added Successfully", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }catch (Exception e)
+                    {
+                        Toast.makeText(AddOffer.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
             }
         });
 
@@ -87,7 +102,7 @@ public class AddOffer extends AppCompatActivity {
         if(imgUri != null)
         {
             StorageReference fileReference = mStorageRef.child(name.getText().toString() + "." + getFileExtension(imgUri));
-            fileReference.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            mUploadTask = fileReference.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
@@ -129,12 +144,12 @@ public class AddOffer extends AppCompatActivity {
         if(requestCode == RegisterActivity.GALARY_PICK && resultCode == Activity.RESULT_OK && data != null)
         {
             imgUri = data.getData();
+            Log.e("uri" , imgUri.toString());
             try {
-                Picasso.get().load(imgUri).into(img);
+                Picasso.get().load(imgUri).fit().centerCrop().into(img);
             } catch (Exception e) {
                 Log.e(this.toString() , e.getMessage().toString());
             }
         }
     }
-
 }

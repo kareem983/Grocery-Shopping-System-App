@@ -1,17 +1,33 @@
 package com.example.groceryshoppingsystem;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OffersFragment extends Fragment {
 
@@ -23,8 +39,11 @@ public class OffersFragment extends Fragment {
 
     //my variables
     private RecyclerView OffersRecycler;
-    private AdminOptionsAdapter adapter;
+    private AdminOfferAdapter adapter;
     private FloatingActionButton OffersFloatingActionButton;
+    private List<AdminOffer> OfferList;
+    private DatabaseReference mDataBaseRef;
+    private ProgressBar bar;
 
 
     public OffersFragment() {
@@ -54,17 +73,77 @@ public class OffersFragment extends Fragment {
         // Inflate the layout for this fragment
         view=inflater.inflate(R.layout.fragment_offers, container, false);
 
+        bar = view.findViewById(R.id.offerProgressBar);
         OffersRecycler= (RecyclerView)view.findViewById(R.id.OffersRecycler);
         OffersFloatingActionButton= (FloatingActionButton)view.findViewById(R.id.OffersFloatingBtnId);
 
-        final ArrayList<AdminOptions> OptionArrayList = new ArrayList<>();
-        for(int i=1;i<=10;i++){
-            OptionArrayList.add(new AdminOptions("Offer "+i,R.drawable.ic_baseline_add_24));
-        }
+        mDataBaseRef = FirebaseDatabase.getInstance().getReference("offers");
+        OfferList = new ArrayList<>();
 
-        adapter = new AdminOptionsAdapter(getActivity(),OptionArrayList);
+        adapter = new AdminOfferAdapter(getActivity(),OfferList);
         OffersRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         OffersRecycler.setAdapter(adapter);
+        mDataBaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                OfferList.clear();
+                for(DataSnapshot snapshot1 : snapshot.getChildren())
+                {
+                    OfferList.add(new AdminOffer(snapshot1.getKey() ,
+                            snapshot1.child("describtion").getValue(String.class) ,
+                            snapshot1.child("img").getValue(String.class)));
+                }
+                adapter.notifyDataSetChanged();
+                bar.setVisibility(View.INVISIBLE);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
+                bar.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        adapter.setOnItemClickListener(new AdminOfferAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Intent i = new Intent(getActivity() , EditOffer.class);
+                Bundle b = new Bundle();
+                b.putString("img" , OfferList.get(pos).getOfferImg());
+                b.putString("name" , OfferList.get(pos).getOfferName());
+                b.putString("describtion" , OfferList.get(pos).getOfferDescription());
+                i.putExtras(b);
+                startActivity(i);
+            }
+        });
+
+        adapter.setOnLongClickListener(new AdminOfferAdapter.onLongClickListener() {
+            @Override
+            public void onItemLongClick(final int pos) {
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity()).setTitle("Confirmation").setMessage("Are You Sure You Want To Delete ?!").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DatabaseReference reference = mDataBaseRef.child(OfferList.get(pos).getOfferName());
+                        reference.removeValue();
+                        StorageReference z = FirebaseStorage.getInstance().getReference("offers").child(OfferList.get(pos).getOfferName() + ".jpg");
+                        z.delete();
+                        StorageReference x = FirebaseStorage.getInstance().getReference("offers").child(OfferList.get(pos).getOfferName());
+                        x.delete();
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).setIcon(android.R.drawable.ic_dialog_alert);
+                dialog.show();
+
+
+            }
+        });
+
 
         //on clicking to adding button
         OffersFloatingActionButton.setOnClickListener(new View.OnClickListener() {

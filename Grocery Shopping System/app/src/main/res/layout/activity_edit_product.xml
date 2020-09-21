@@ -4,13 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddProduct"
+    tools:context=".EditProduct"
     android:background="@color/cardview_dark_background">
 
     <EditText
-        android:hint="Enter The Expiration date"
-        android:textColorHint="@android:color/black"
-        android:id="@+id/editTextProductExpire"
+        android:id="@+id/editTextProductExpireEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -19,16 +17,16 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:ems="10"
-        android:textColor="@android:color/black"
+        android:hint="Enter The Expiration date"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextProductPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextProductPriceEdit" />
 
     <EditText
-        android:hint="Enter The Price"
-        android:textColorHint="@android:color/black"
-        android:id="@+id/editTextProductPrice"
+        android:id="@+id/editTextProductPriceEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -37,15 +35,17 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:ems="10"
+        android:hint="Enter The Price"
         android:inputType="number"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextProductNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextProductNumberEdit" />
 
     <ImageView
-        android:id="@+id/imgProduct"
+        android:id="@+id/imgProductEdit"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="64dp"
@@ -60,8 +60,7 @@
         android:src="@drawable/ic_baseline_supervisor_account_24" />
 
     <EditText
-        android:textColorHint="@android:color/black"
-        android:id="@+id/editTextProductName"
+        android:id="@+id/editTextProductNameEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -72,14 +71,15 @@
         android:ems="10"
         android:hint="Enter The Name"
         android:inputType="textPersonName"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgProduct"
-        android:textColor="@android:color/black" />
+        app:layout_constraintTop_toBottomOf="@+id/imgProductEdit" />
 
     <EditText
         android:textColorHint="@android:color/black"
-        android:id="@+id/editTextProductNumber"
+        android:id="@+id/editTextProductNumberEdit"
         android:layout_width="0dp"
         android:textColor="@android:color/white"
         android:layout_height="wrap_content"
@@ -93,10 +93,10 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextProductName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextProductNameEdit" />
 
     <Button
-        android:id="@+id/btnChooseImg"
+        android:id="@+id/btnChooseImgEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -107,7 +107,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnAddEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -115,7 +115,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
-        android:text="Add"
+        android:text="Done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -130,6 +130,6 @@
         android:layout_marginRight="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextProductExpire" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextProductExpireEdit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

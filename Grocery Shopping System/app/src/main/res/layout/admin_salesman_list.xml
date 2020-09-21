@@ -5,10 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:padding="10dp"
+    android:layout_margin="5dp"
     app:cardCornerRadius="20dp"
-    android:id="@+id/OfferCardView"
+    android:id="@+id/SalesManCardView"
     app:cardBackgroundColor="@color/cardview_dark_background"
     app:cardElevation="8dp"
     android:clickable="true"
@@ -16,18 +15,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <ImageView
-            android:id="@+id/adapterOfferImage"
+            android:id="@+id/adapterSalesManImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="100dp"
-            android:layout_marginLeft="100dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginRight="100dp"
+            android:layout_marginEnd="200dp"
+            android:layout_marginRight="200dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,30 +34,34 @@
             app:srcCompat="@drawable/profile" />
 
         <TextView
-            android:id="@+id/adapterOfferName"
-            android:layout_width="wrap_content"
+            android:id="@+id/AdapterSalesManName"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="TextView"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="72dp"
             android:textColor="@android:color/white"
-            android:textSize="24sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/adapterOfferImage"/>
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/adapterSalesManImage"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/adapterOfferDescription"
-            android:layout_width="wrap_content"
+            android:id="@+id/AdapterSalesManSalary"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="TextView"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/adapterOfferName"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/adapterSalesManImage"
+            app:layout_constraintTop_toBottomOf="@+id/AdapterSalesManName"
             app:layout_constraintVertical_bias="0.0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

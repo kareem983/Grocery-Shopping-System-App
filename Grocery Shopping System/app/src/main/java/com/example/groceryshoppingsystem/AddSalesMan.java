@@ -43,6 +43,7 @@ public class AddSalesMan extends AppCompatActivity {
     private ImageView img;
     private Uri imgUri;
     private StorageReference mStorageRef;
+    private DatabaseReference mDataBaseRef;
     private StorageTask mUploadTask;
 
     @Override
@@ -51,6 +52,7 @@ public class AddSalesMan extends AppCompatActivity {
         setContentView(R.layout.activity_add_sales_man);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("salesman");
+        mDataBaseRef = FirebaseDatabase.getInstance().getReference("salesman");
 
         name = findViewById(R.id.editTextSalesManName);
         salary = findViewById(R.id.editTextSalesManSalary);
@@ -69,6 +71,8 @@ public class AddSalesMan extends AppCompatActivity {
                 {
                     uploadData();
                     uploadQr();
+                    Toast.makeText(AddSalesMan.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
         });
@@ -98,17 +102,14 @@ public class AddSalesMan extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG , 100 , byteArrayOutputStream);
         byte[] data = byteArrayOutputStream.toByteArray();
 
-        StorageReference fileReference = mStorageRef.child("qrimages");
-        fileReference.child(name.getText().toString() + "." + "jpg");
-        mUploadTask = fileReference.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        StorageReference fileReference = mStorageRef.child(name.getText().toString().trim() + "qr." + "jpg");
+        fileReference.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                 while (!urlTask.isSuccessful());
                 Uri downloadUrl = urlTask.getResult();
-
-                DatabaseReference z = FirebaseDatabase.getInstance().getReference("salesman")
-                        .child(name.getText().toString().trim())
+                DatabaseReference z = mDataBaseRef.child(name.getText().toString().trim())
                         .child("qrimage");
                 z.setValue(downloadUrl.toString());
             }
@@ -122,23 +123,21 @@ public class AddSalesMan extends AppCompatActivity {
 
     public void uploadImage()
     {
-
         if(imgUri != null)
         {
-            StorageReference fileReference = mStorageRef.child("images");
-            fileReference.child(name.getText().toString() + "." + getFileExtension(imgUri));
+            StorageReference fileReference = mStorageRef.child(name.getText().toString().trim() + "." + getFileExtension(imgUri));
             mUploadTask = fileReference.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                     while (!urlTask.isSuccessful());
                     Uri downloadUrl = urlTask.getResult();
-
-                    SalesMan man = new SalesMan(salary.getText().toString().trim() ,
-                            downloadUrl.toString());
-                    DatabaseReference z = FirebaseDatabase.getInstance().getReference("salesman")
-                            .child(name.getText().toString().trim());
-                    z.setValue(man);
+                    DatabaseReference z = mDataBaseRef.child(name.getText().toString().trim())
+                            .child("img");
+                    z.setValue(downloadUrl.toString());
+                    DatabaseReference x = mDataBaseRef.child(name.getText().toString().trim())
+                            .child("salary");
+                    x.setValue(salary.getText().toString().trim());
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -187,64 +186,11 @@ public class AddSalesMan extends AppCompatActivity {
             imgUri = data.getData();
 
             try {
-                Picasso.get().load(imgUri).into(img);
+                Picasso.get().load(imgUri).fit().centerCrop().into(img);
             } catch (Exception e) {
                 Log.e(this.toString() , e.getMessage().toString());
             }
 
         }
     }
-
-    /*public Uri bitmapToUriConverter(Bitmap mBitmap) {
-        Uri uri = null;
-        try {
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            // Calculate inSampleSize
-            options.inSampleSize = calculateInSampleSize(options, 100, 100);
-
-            // Decode bitmap with inSampleSize set
-            options.inJustDecodeBounds = false;
-            Bitmap newBitmap = Bitmap.createScaledBitmap(mBitmap, 200, 200,
-                    true);
-            File file = new File(getApplication().getFilesDir(), "Image"
-                    + new Random().nextInt() + ".jpeg");
-            FileOutputStream out = getApplication().openFileOutput(file.getName(),
-                    Context.MODE_WORLD_READABLE);
-            newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.flush();
-            out.close();
-            //get absolute path
-            String realPath = file.getAbsolutePath();
-            File f = new File(realPath);
-            uri = Uri.fromFile(f);
-
-        } catch (Exception e) {
-            Log.e("Your Error Message", e.getMessage());
-        }
-        return uri;
-    }
-
-
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) >= reqHeight
-                    && (halfWidth / inSampleSize) >= reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }*/
 }
