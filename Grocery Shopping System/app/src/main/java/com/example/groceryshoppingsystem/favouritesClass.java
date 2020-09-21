@@ -1,27 +1,17 @@
 package com.example.groceryshoppingsystem;
 
-public class HorizontalProductModel {
-    private String productimage;
-    private String producttitle;
-    private String productprice;
-    private boolean checked;
-
-
-    public boolean isChecked() {
-        return checked;
+public class favouritesClass {
+    public favouritesClass() {
     }
 
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-    }
-
-
-    public HorizontalProductModel(String productimage, String producttitle, String productprice,boolean checked) {
+    public favouritesClass(String productimage, String producttitle, String productprice, boolean checked) {
         this.productimage = productimage;
         this.producttitle = producttitle;
         this.productprice = productprice;
         this.checked = checked;
     }
+
+    private String productimage;
 
     public String getProductimage() {
         return productimage;
@@ -47,5 +37,16 @@ public class HorizontalProductModel {
         this.productprice = productprice;
     }
 
+    private String producttitle;
+    private String productprice;
 
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    private boolean checked;
 }

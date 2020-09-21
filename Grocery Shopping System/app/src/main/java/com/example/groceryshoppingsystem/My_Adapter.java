@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class My_Adapter extends PagerAdapter {
@@ -43,7 +45,7 @@ public class My_Adapter extends PagerAdapter {
         imageView = view.findViewById(R.id.contentImage);
         title = view.findViewById(R.id.contenttitle);
         desc = view.findViewById(R.id.contenDesc);
-        imageView.setImageResource(models.get(position).getImage());
+        Picasso.get().load(models.get(position).getImage()).into(imageView);
         title.setText(models.get(position).getTitle());
         desc.setText(models.get(position).getDesc());
         container.addView(view);

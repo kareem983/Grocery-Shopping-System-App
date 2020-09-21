@@ -31,7 +31,8 @@
             android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/main_TooBar">
+            android:layout_below="@+id/main_TooBar"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,6 +76,24 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/my_cardView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <include layout="@layout/grid_product_layout" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/my_cardView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <include layout="@layout/grid_product_layout" />
+
+                </LinearLayout>
+
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
@@ -85,11 +104,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/navigation_drawer_header"
-        app:menu="@menu/main_menu"
         android:background="#FFF7DA"
+        app:headerLayout="@layout/navigation_drawer_header"
         app:itemIconTint="#000"
-        app:itemTextColor="#A30000">
+        app:itemTextColor="#A30000"
+        app:menu="@menu/main_menu">
+
     </com.google.android.material.navigation.NavigationView>
 
 

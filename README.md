@@ -27,3 +27,6 @@ All Categories Activity (Kareem)
 
 Product Info Activity (Kareem)
 
+Favorite Activity (Amr)
+
+

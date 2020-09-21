@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -88,12 +87,12 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
             @Override
             public void onClick(View view) {
                 if(ProductIsFavorite.equalsIgnoreCase("true")){
-                    PIsFav.setImageResource(R.drawable.ic_baseline_favorite_24);
+                    PIsFav.setImageResource(R.drawable.ic_baseline_favorite_shadow_24);
                     ProductIsFavorite="false";
                     //here save update in data base
                 }
                 else{
-                    PIsFav.setImageResource(R.drawable.red_favorite);
+                    PIsFav.setImageResource(R.drawable.ic_baseline_favorite_24);
                     ProductIsFavorite="true";
                     //here save update in data base
                 }
@@ -136,8 +135,8 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
         PName.setText(ProductName);
         PPrice.setText("Price: "+ProductPrice+" EGP");
 
-        if(ProductIsFavorite.equalsIgnoreCase("true"))PIsFav.setImageResource(R.drawable.red_favorite);
-        else PIsFav.setImageResource(R.drawable.ic_baseline_favorite_24);
+        if(ProductIsFavorite.equalsIgnoreCase("true"))PIsFav.setImageResource(R.drawable.ic_baseline_favorite_24);
+        else PIsFav.setImageResource(R.drawable.ic_baseline_favorite_shadow_24);
 
         if(ProductNExpiryDate.equalsIgnoreCase("null"))PExpiryDate.setVisibility(View.GONE);
         else {PExpiryDate.setVisibility(View.VISIBLE); PExpiryDate.setText("Expiry Date: "+ProductNExpiryDate);}
@@ -240,6 +239,9 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
         }
         else if(id==R.id.Profile){
             startActivity(new Intent(ProductInfoActivity.this,UserProfileActivity.class));
+        }
+        else if(id == R.id.favourites){
+            startActivity(new Intent(ProductInfoActivity.this, favourites_activity.class));
         }
         else if(id==R.id.fruits){
             Intent intent =new Intent(ProductInfoActivity.this,CategoryActivity.class);

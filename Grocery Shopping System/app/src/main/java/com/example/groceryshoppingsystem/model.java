@@ -1,21 +1,21 @@
 package com.example.groceryshoppingsystem;
 
 public class model {
-    private int image;
+    private String image;
     private String title;
     private String desc;
 
-    public model(int image, String title, String desc) {
+    public model(String image, String title, String desc) {
         this.image = image;
         this.title = title;
         this.desc = desc;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

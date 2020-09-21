@@ -74,22 +74,22 @@ public class CategoryProductInfoAdapter extends RecyclerView.Adapter<CategoryPro
         else holder.ProductExpiryDate.setVisibility(View.VISIBLE);
 
         if(product.getIsFavorite()){
-            holder.PrFavoriteImage.setImageResource(R.drawable.red_favorite);
+            holder.PrFavoriteImage.setImageResource(R.drawable.ic_baseline_favorite_24);
         }
         else{
-            holder.PrFavoriteImage.setImageResource(R.drawable.ic_baseline_favorite_24);
+            holder.PrFavoriteImage.setImageResource(R.drawable.ic_baseline_favorite_shadow_24);
         }
 
         holder.PrFavoriteImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(product.getIsFavorite()){
-                    holder.PrFavoriteImage.setImageResource(R.drawable.ic_baseline_favorite_24);
+                    holder.PrFavoriteImage.setImageResource(R.drawable.ic_baseline_favorite_shadow_24);
                     product.setFavorite(false);
                     //here save isFavorite in firebase
                 }
                 else{
-                    holder.PrFavoriteImage.setImageResource(R.drawable.red_favorite);
+                    holder.PrFavoriteImage.setImageResource(R.drawable.ic_baseline_favorite_24);
                     product.setFavorite(true);
                     //here save isFavorite in firebase
                 }

@@ -6,15 +6,22 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class GridproductAdapter extends BaseAdapter {
-
     List<HorizontalProductModel> horizontalProductModelList;
+    ImageView productImage;
+    TextView producttitle, productprice;
+    ImageView checkBox;
+    List<favouritesClass> favourites;
 
-    public GridproductAdapter(List<HorizontalProductModel> horizontalProductModelList) {
+    public GridproductAdapter(List<HorizontalProductModel> horizontalProductModelList, List<favouritesClass> favourites) {
         this.horizontalProductModelList = horizontalProductModelList;
+        this.favourites = favourites;
     }
 
     @Override
@@ -33,22 +40,55 @@ public class GridproductAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
+
         View view;
         if (convertView == null) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_item, null);
-            ImageView productImage = view.findViewById(R.id.item_image);
-            TextView producttitle = view.findViewById(R.id.item_title);
-            TextView productdesc = view.findViewById(R.id.item_desc);
-            TextView productprice = view.findViewById(R.id.item_price);
-            productImage.setImageResource(horizontalProductModelList.get(position).getProductimage());
+            productImage = view.findViewById(R.id.item_image);
+            producttitle = view.findViewById(R.id.item_title);
+            productprice = view.findViewById(R.id.item_Price);
+            checkBox = view.findViewById(R.id.check_box);
+            Picasso.get().load(horizontalProductModelList.get(position).getProductimage()).into(productImage);
             producttitle.setText(horizontalProductModelList.get(position).getProducttitle());
-            productdesc.setText(horizontalProductModelList.get(position).getProductdesc());
             productprice.setText(horizontalProductModelList.get(position).getProductprice());
+            boolean isfavourite = false;
+            for (int i = 0; i < favourites.size(); i++) {
+                if (horizontalProductModelList.get(position).getProducttitle().equals(favourites.get(i).getProducttitle())) {
+                    isfavourite = true;
+                    horizontalProductModelList.get(position).setChecked(true);
+                    break;
+                }
+            }
+            if (isfavourite) {
+                checkBox.setImageResource(R.drawable.ic_baseline_favorite_24);
+            } else
+                checkBox.setImageResource(R.drawable.ic_baseline_favorite_shadow_24);
         } else {
             view = convertView;
         }
+        checkBox.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("favourites")
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                HorizontalProductModel hz = horizontalProductModelList.get(position);
+                if (!(horizontalProductModelList.get(position).isChecked())) {
+                    horizontalProductModelList.get(position).setChecked(true);
+                    checkBox = v.findViewById(R.id.check_box);
+                    checkBox.setImageResource(R.drawable.ic_baseline_favorite_24);
+                    ref.child(horizontalProductModelList.get(position).getProducttitle()).setValue(hz);
+                } else {
+                    horizontalProductModelList.get(position).setChecked(false);
+                    checkBox = v.findViewById(R.id.check_box);
+                    checkBox.setImageResource(R.drawable.ic_baseline_favorite_shadow_24);
+                    ref.child(horizontalProductModelList.get(position).getProducttitle()).setValue(null);
+                }
+            }
+        });
         return view;
     }
+
+
 }

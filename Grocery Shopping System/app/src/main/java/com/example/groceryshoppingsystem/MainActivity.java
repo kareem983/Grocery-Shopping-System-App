@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager pager;
     private My_Adapter adapter;
     private List<model> models;
-    List<HorizontalProductModel> lastmodels;
+    private DatabaseReference m;
+    private View mnavigationview;
+    private static List<favouritesClass> favourites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,50 +58,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = findViewById(R.id.navegation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        View view = navigationView.getHeaderView(0);
-        mperson_name = view.findViewById(R.id.persname);
-        image = view.findViewById(R.id.circimage);
-
-        //slider
-        models = new ArrayList<>();
-        models.add(new model(R.drawable.ic_baseline_favorite_24, "Title", "eh elkalam asdasd asd ad asdadwq dqweqw qw wqe qwe wqe qwe wq asd sa dsad sa zxzcxzc"));
-        models.add(new model(R.drawable.ic_baseline_my_orders_24, "Title", "eh elkalam"));
-        models.add(new model(R.drawable.profile_icon, "Title", "eh elkalam"));
-        models.add(new model(R.drawable.ic_baseline_exit_to_app_24, "Title", "eh elkalam"));
-        adapter = new My_Adapter(models, this);
-        pager = findViewById(R.id.cardview);
-        pager.setAdapter((PagerAdapter) adapter);
-        pager.setPadding(130, 0, 130, 0);
-
-        // Square Slider
-        LinearLayout mylayout = (LinearLayout) findViewById(R.id.my_cardView);
-        LayoutInflater inflater = getLayoutInflater();
-        View myLayout = inflater.inflate(R.layout.grid_product_layout, mylayout, false);
-        TextView gridlayouttitle = mylayout.findViewById(R.id.grid_product_layout_textview);
-        Button GridLayoutViewBtn = mylayout.findViewById(R.id.grid_button_layout_viewall_button);
-        GridView gv = mylayout.findViewById(R.id.product_layout_gridview);
-        lastmodels = new ArrayList<>();
-        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "amr", "ae el kalam", "sfveksbmsv"));
-        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "osama", "ae el kalam", "sfveksbmsv"));
-        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "kareem", "ae el kalam", "sfveksbmsv"));
-        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "ziad", "ae el kalam", "sfveksbmsv"));
-        gv.setAdapter(new GridproductAdapter(lastmodels));
-        mylayout = (LinearLayout) findViewById(R.id.my_cardView2);
-        inflater = getLayoutInflater();
-        myLayout = inflater.inflate(R.layout.grid_product_layout, mylayout, false);
-        gridlayouttitle = mylayout.findViewById(R.id.grid_product_layout_textview);
-        GridLayoutViewBtn = mylayout.findViewById(R.id.grid_button_layout_viewall_button);
-        gv = mylayout.findViewById(R.id.product_layout_gridview);
-        lastmodels = new ArrayList<>();
-        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "amrr", "ae el kalam", "sfveksbmsv"));
-        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "osamaa", "ae el kalam", "sfveksbmsv"));
-        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "kareemm", "ae el kalam", "sfveksbmsv"));
-        lastmodels.add(new HorizontalProductModel(R.drawable.ic_baseline_delete_24, "ziadd", "ae el kalam", "sfveksbmsv"));
-        gv.setAdapter(new GridproductAdapter(lastmodels));
-
-
-        //toolbar
+        mnavigationview = navigationView.getHeaderView(0);
+        mperson_name = mnavigationview.findViewById(R.id.persname);
+        image = mnavigationview.findViewById(R.id.circimage);
         drawerLayout = findViewById(R.id.drawer);
+
+
         mToolBar = findViewById(R.id.main_TooBar);
         setSupportActionBar(mToolBar);
         mtoggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
@@ -108,11 +72,209 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setTitle("بقالة");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        //Retrieve Header View User Data
+        Navigation_view_header_data();
+
+        //Retrieve Favourites
+        Retrieve_fav();
+
+        // FirstView
+        Retrieve_Electroncis();
+
+        // SecondView
+        Retrieve_Fruits();
+
+        //Third View
+        Retrieve_Meats();
+
+        // Fourth View
+        Retrieve_Vegatables();
+
+        // OFFERS
+        Retrieve_offers();
         ///----------------------------
         //View view1 = LayoutInflater.inflate(R.layout.activity_main, this);
 
     }
+
+    public void Retrieve_Electroncis() {
+        LinearLayout mylayout = (LinearLayout) findViewById(R.id.my_cardView);
+        LayoutInflater inflater = getLayoutInflater();
+        inflater.inflate(R.layout.grid_product_layout, mylayout, false);
+        TextView gridlayouttitle = mylayout.findViewById(R.id.grid_product_layout_textview);
+        gridlayouttitle.setText("Electronics");
+        Button GridLayoutViewBtn = mylayout.findViewById(R.id.grid_button_layout_viewall_button);
+        final GridView gv = mylayout.findViewById(R.id.product_layout_gridview);
+        final List<HorizontalProductModel> lastmodels = new ArrayList<>();
+        final GridproductAdapter my_adapter;
+        my_adapter = new GridproductAdapter(lastmodels, favourites);
+        m = FirebaseDatabase.getInstance().getReference().child("product").child("Electronics");
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    user my_user = new user();
+                    my_user = ds.getValue(user.class);
+                    my_user.setCategory(ds.getKey().toString());
+                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false));
+                }
+                gv.setAdapter(my_adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+    }
+
+    public void Retrieve_fav() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("favourites")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        favourites = new ArrayList<>();
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    favouritesClass fav = new favouritesClass();
+                    fav = ds.getValue(favouritesClass.class);
+                    favourites.add(fav);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        ref.addListenerForSingleValueEvent(eventListener);
+    }
+
+    public void Retrieve_Fruits() {
+        LinearLayout mylayout = (LinearLayout) findViewById(R.id.my_cardView2);
+        LayoutInflater inflater = getLayoutInflater();
+        inflater.inflate(R.layout.grid_product_layout, mylayout, false);
+        TextView gridlayouttitle = mylayout.findViewById(R.id.grid_product_layout_textview);
+        gridlayouttitle.setText("Fruits");
+        Button GridLayoutViewBtn = mylayout.findViewById(R.id.grid_button_layout_viewall_button);
+        final GridView gv = mylayout.findViewById(R.id.product_layout_gridview);
+        final List<HorizontalProductModel> lastmodels = new ArrayList<>();
+        final GridproductAdapter my_adapter;
+        my_adapter = new GridproductAdapter(lastmodels, favourites);
+        m = FirebaseDatabase.getInstance().getReference().child("product").child("Fruits");
+        ValueEventListener eventListener = new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    user my_user = new user();
+                    my_user = ds.getValue(user.class);
+                    my_user.setCategory(ds.getKey().toString());
+                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false));
+                }
+                gv.setAdapter(my_adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+    }
+
+    public void Retrieve_Meats() {
+        LinearLayout mylayout = (LinearLayout) findViewById(R.id.my_cardView3);
+        LayoutInflater inflater = getLayoutInflater();
+        inflater.inflate(R.layout.grid_product_layout, mylayout, false);
+        TextView gridlayouttitle = mylayout.findViewById(R.id.grid_product_layout_textview);
+        gridlayouttitle.setText("Meats");
+        Button GridLayoutViewBtn = mylayout.findViewById(R.id.grid_button_layout_viewall_button);
+        final GridView gv = mylayout.findViewById(R.id.product_layout_gridview);
+        final List<HorizontalProductModel> lastmodels = new ArrayList<>();
+        final GridproductAdapter my_adapter;
+        my_adapter = new GridproductAdapter(lastmodels, favourites);
+        m = FirebaseDatabase.getInstance().getReference().child("product").child("Meats");
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    user my_user = new user();
+                    my_user = ds.getValue(user.class);
+                    my_user.setCategory(ds.getKey().toString());
+                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false));
+                }
+                gv.setAdapter(my_adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+    }
+
+    public void Retrieve_Vegatables() {
+        LinearLayout mylayout = (LinearLayout) findViewById(R.id.my_cardView4);
+        LayoutInflater inflater = getLayoutInflater();
+        inflater.inflate(R.layout.grid_product_layout, mylayout, false);
+        TextView gridlayouttitle = mylayout.findViewById(R.id.grid_product_layout_textview);
+        gridlayouttitle.setText("Vegetables");
+        Button GridLayoutViewBtn = mylayout.findViewById(R.id.grid_button_layout_viewall_button);
+        final GridView gv = mylayout.findViewById(R.id.product_layout_gridview);
+        final List<HorizontalProductModel> lastmodels = new ArrayList<>();
+        final GridproductAdapter my_adapter;
+        my_adapter = new GridproductAdapter(lastmodels, favourites);
+        m = FirebaseDatabase.getInstance().getReference().child("product").child("Vegetables");
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    user my_user = new user();
+                    my_user = ds.getValue(user.class);
+                    my_user.setCategory(ds.getKey().toString());
+                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false));
+                }
+                gv.setAdapter(my_adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+    }
+
+    public void Retrieve_offers() {
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference m = root.child("offers");
+        models = new ArrayList<>();
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Offers offer = new Offers();
+                    offer = ds.getValue(Offers.class);
+                    offer.setTitle(ds.getKey().toString());
+                    models.add(new model(offer.getImg(), offer.getTitle(), offer.getDescribtion()));
+                    adapter = new My_Adapter(models, MainActivity.this);
+                    pager = findViewById(R.id.cardview);
+                    pager.setAdapter((PagerAdapter) adapter);
+                    pager.setPadding(130, 0, 130, 0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -127,6 +289,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.Profile) {
             startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
+        }
+        else if(id == R.id.favourites){
+            startActivity(new Intent(MainActivity.this, favourites_activity.class));
         }
         else if(id==R.id.fruits){
             Intent intent =new Intent(MainActivity.this,CategoryActivity.class);
@@ -158,12 +323,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Navigation_view_header_data();
-    }
 
     @Override
     public void onStop() {

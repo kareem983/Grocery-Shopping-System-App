@@ -126,7 +126,9 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         int id=menuItem.getItemId();
         if(id==R.id.Home){
             startActivity(new Intent(UserProfileActivity.this,MainActivity.class));
-            finish();
+        }
+        else if(id == R.id.favourites){
+            startActivity(new Intent(UserProfileActivity.this, favourites_activity.class));
         }
         else if(id==R.id.fruits){
             Intent intent =new Intent(UserProfileActivity.this,CategoryActivity.class);

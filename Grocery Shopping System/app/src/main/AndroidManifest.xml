@@ -13,8 +13,11 @@
         android:roundIcon="@mipmap/appicon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProductInfoActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".favourites_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProductInfoActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CategoryActivity"
             android:screenOrientation="portrait" />

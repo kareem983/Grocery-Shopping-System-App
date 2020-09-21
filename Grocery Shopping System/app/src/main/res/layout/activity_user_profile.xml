@@ -134,7 +134,7 @@
                 android:id="@+id/FavoriteIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_favorite_24"
+                android:src="@drawable/black_fav"
                 android:layout_below="@id/PhoneIcon"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"

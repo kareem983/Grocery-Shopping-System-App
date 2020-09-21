@@ -54,6 +54,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         //on clicking any product (go to ProductInfo Activity to show it's info)
         onClickAnyProduct();
+        setCategoryData();
 
 
     }
@@ -83,7 +84,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         super.onStart();
         //define Navigation Viewer and got its data
         DefineNavigation();
-        setCategoryData();
     }
 
     private void setCategoryData(){
@@ -186,6 +186,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         }
         else if(id==R.id.Profile){
             startActivity(new Intent(CategoryActivity.this,UserProfileActivity.class));
+        }
+        else if(id == R.id.favourites){
+            startActivity(new Intent(CategoryActivity.this, favourites_activity.class));
         }
         else if(id==R.id.fruits){
             CategoryName = "Fruits";
