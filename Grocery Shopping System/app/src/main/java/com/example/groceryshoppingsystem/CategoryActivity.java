@@ -40,6 +40,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private FirebaseAuth mAuth;
     private FirebaseUser CurrentUser;
     private String UserId;
+    private CategoryProductInfoAdapter.RecyclerViewClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,40 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         UserId = CurrentUser.getUid();
 
         CategoryName = getIntent().getStringExtra("Category Name");
-        setCategoryData();
+
+        //on clicking any product (go to ProductInfo Activity to show it's info)
+        onClickAnyProduct();
+
 
     }
 
+    private void onClickAnyProduct(){
+        listener = new CategoryProductInfoAdapter.RecyclerViewClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                CategoryProductInfo product = CategoryProducts.get(position);
+
+                Intent intent = new Intent(CategoryActivity.this,ProductInfoActivity.class);
+                intent.putExtra("Product",String.valueOf(product));
+
+                 intent.putExtra("Product Name",product.getProductName());
+                 intent.putExtra("Product Price",product.getProductPrice());
+                 intent.putExtra("Product Image",product.getProductImage());
+                 intent.putExtra("Product ExpiryDate",product.getProductExpiryDate());
+                 intent.putExtra("Product IsFavorite",String.valueOf(product.getIsFavorite()));
+
+                startActivity(intent);
+            }
+        };
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //define Navigation Viewer and got its data
+        DefineNavigation();
+        setCategoryData();
+    }
 
     private void setCategoryData(){
         //toolbar
@@ -65,6 +96,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         recyclerView = (RecyclerView)findViewById(R.id.CategoryRecycler);
         CategoryProducts = new ArrayList<>();
 
+        adapter = new CategoryProductInfoAdapter(CategoryActivity.this,CategoryProducts,listener);
+        recyclerView.setLayoutManager(new LinearLayoutManager(CategoryActivity.this));
+        recyclerView.setAdapter(adapter);
 
         getProductsData();
 
@@ -80,16 +114,14 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 if(snapshot.exists()){
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                         String ProductName = dataSnapshot.getKey().toString();
-                        String ProductPrice = "Price: EGP "+dataSnapshot.child("price").getValue().toString();
+                        String ProductPrice = dataSnapshot.child("price").getValue().toString();
                         String ProductImage = dataSnapshot.child("image").getValue().toString();
-                        String ProductExpiryDate = "Expiry Date: "+dataSnapshot.child("expired").getValue().toString();
+                        String ProductExpiryDate = dataSnapshot.child("expired").getValue().toString();
 
                         CategoryProducts.add(new CategoryProductInfo(ProductImage,ProductName,ProductPrice,ProductExpiryDate,false));
                     }
 
-                    adapter = new CategoryProductInfoAdapter(CategoryActivity.this,CategoryProducts);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(CategoryActivity.this));
-                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
             }
             @Override
@@ -98,13 +130,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         m.addListenerForSingleValueEvent(valueEventListener);
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //define Navigation Viewer and got its data
-        DefineNavigation();
-    }
 
 
     private void DefineNavigation(){

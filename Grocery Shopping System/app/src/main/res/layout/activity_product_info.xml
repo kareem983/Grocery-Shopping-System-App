@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ProductDrawer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProductInfoActivity">
+
+    <RelativeLayout
+        android:id="@+id/PBody"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <include layout="@layout/main2_toolbar"
+        android:id="@+id/ProductToolBar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/AddToCart"
+        android:layout_below="@id/ProductToolBar">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/ImageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="#F8F5F5">
+
+            <ImageView
+                android:id="@+id/ProductImage"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:background="#FFF" />
+
+        </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:background="#E43131"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="B2ala Store"
+                    android:textColor="#FFF"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:id="@+id/ProductFav"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/ProductName"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:text=""
+                android:textColor="#000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/ProductCategory"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:text=""
+                android:textColor="#000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/ProductAvailableAmount"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:text=""
+                android:textColor="#000"
+                android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/ProductExpiryDate"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/ProductPrice"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:text=""
+                android:textColor="#000"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/AddToCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#2DD52D"
+        android:layout_margin="10dp">
+
+        <ImageView
+            android:id="@+id/CartIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/new_cart"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/AddToCartText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Add To Cart"
+            android:textAllCaps="true"
+            android:textColor="#FFF"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/CheckCartContainer"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:visibility="gone"
+            android:background="@drawable/container">
+
+            <TextView
+                android:id="@+id/Text"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="40dp"
+                android:text="Shopping Cart"
+                android:textColor="#FFF"
+                android:textSize="23dp"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/Text1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Do you Want to Add this\nproduct to your cart ?"
+                android:textColor="#FFF"
+                android:layout_below="@id/Text"
+                android:textSize="18dp"
+                android:gravity="center"/>
+
+            <Button
+                android:id="@+id/BackBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="80dp"
+                android:layout_marginLeft="80dp"
+                android:text="Back"
+                android:textColor="#000"
+                android:padding="10dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/product_container"/>
+
+            <Button
+                android:id="@+id/ConformBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="80dp"
+                android:layout_marginRight="80dp"
+                android:text="Confirm"
+                android:padding="10dp"
+                android:textColor="#FFF"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/container"/>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/ProductNavigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/main_menu"
+        app:headerLayout="@layout/navigation_drawer_header"
+        android:background="#FFF7DA"
+        app:itemIconTint="#000"
+        app:itemTextColor="#A30000"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>

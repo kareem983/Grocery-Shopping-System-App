@@ -1,11 +1,14 @@
 package com.example.groceryshoppingsystem;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
@@ -13,7 +16,9 @@ import java.util.List;
 
 public class CategoryProductInfoAdapter extends RecyclerView.Adapter<CategoryProductInfoAdapter.ViewHolder> {
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    private RecyclerViewClickListener listener;
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
             private ImageView ProductImage;
             private TextView ProductName;
             private TextView ProductPrice;
@@ -27,6 +32,13 @@ public class CategoryProductInfoAdapter extends RecyclerView.Adapter<CategoryPro
             ProductPrice = (TextView)itemView.findViewById(R.id.PrPrice);
             ProductExpiryDate = (TextView)itemView.findViewById(R.id.PrExpiryDate);
             PrFavoriteImage = (ImageView)itemView.findViewById(R.id.PrFavoriteImage);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onClick(view, getAdapterPosition());
         }
     }
 
@@ -34,9 +46,10 @@ public class CategoryProductInfoAdapter extends RecyclerView.Adapter<CategoryPro
     private Context context;
     private List<CategoryProductInfo> ProductList;
 
-    public CategoryProductInfoAdapter(Context context, List<CategoryProductInfo> ProductList){
+    public CategoryProductInfoAdapter(Context context, List<CategoryProductInfo> ProductList, RecyclerViewClickListener listener){
         this.context = context;
         this.ProductList = ProductList;
+        this.listener =listener;
     }
 
 
@@ -44,6 +57,7 @@ public class CategoryProductInfoAdapter extends RecyclerView.Adapter<CategoryPro
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.category_products_list,parent,false);
+
         return new ViewHolder(v);
     }
 
@@ -53,10 +67,10 @@ public class CategoryProductInfoAdapter extends RecyclerView.Adapter<CategoryPro
 
         Picasso.get().load(product.getProductImage()).into(holder.ProductImage);
         holder.ProductName.setText(product.getProductName());
-        holder.ProductPrice.setText(product.getProductPrice());
-        holder.ProductExpiryDate.setText(product.getProductExpiryDate());
+        holder.ProductPrice.setText("Price: "+product.getProductPrice()+" EGP");
+        holder.ProductExpiryDate.setText("Expiry Date: "+product.getProductExpiryDate());
 
-        if(product.getProductExpiryDate().equals("Expiry Date: null")) holder.ProductExpiryDate.setVisibility(View.INVISIBLE);
+        if(product.getProductExpiryDate().equalsIgnoreCase("null")) holder.ProductExpiryDate.setVisibility(View.INVISIBLE);
         else holder.ProductExpiryDate.setVisibility(View.VISIBLE);
 
         if(product.getIsFavorite()){
@@ -70,12 +84,14 @@ public class CategoryProductInfoAdapter extends RecyclerView.Adapter<CategoryPro
             @Override
             public void onClick(View view) {
                 if(product.getIsFavorite()){
-                    holder.PrFavoriteImage.setImageResource(R.drawable.red_favorite);
+                    holder.PrFavoriteImage.setImageResource(R.drawable.ic_baseline_favorite_24);
                     product.setFavorite(false);
+                    //here save isFavorite in firebase
                 }
                 else{
-                    holder.PrFavoriteImage.setImageResource(R.drawable.ic_baseline_favorite_24);
+                    holder.PrFavoriteImage.setImageResource(R.drawable.red_favorite);
                     product.setFavorite(true);
+                    //here save isFavorite in firebase
                 }
             }
         });
@@ -85,6 +101,11 @@ public class CategoryProductInfoAdapter extends RecyclerView.Adapter<CategoryPro
     @Override
     public int getItemCount() {
         return ProductList.size();
+    }
+
+
+    public interface RecyclerViewClickListener{
+        void onClick(View view, int position);
     }
 
 }
