@@ -5,6 +5,7 @@ public class HorizontalProductModel {
     private String producttitle;
     private String productprice;
     private boolean checked;
+    private String ExpiredDate;
 
 
     public boolean isChecked() {
@@ -16,11 +17,20 @@ public class HorizontalProductModel {
     }
 
 
-    public HorizontalProductModel(String productimage, String producttitle, String productprice,boolean checked) {
+    public HorizontalProductModel(String productimage, String producttitle, String productprice,boolean checked, String ExpiredDate) {
         this.productimage = productimage;
         this.producttitle = producttitle;
         this.productprice = productprice;
         this.checked = checked;
+        this.ExpiredDate = ExpiredDate;
+    }
+
+    public String getExpiredDate() {
+        return ExpiredDate;
+    }
+
+    public void setExpiredDate(String expiredDate) {
+        ExpiredDate = expiredDate;
     }
 
     public String getProductimage() {

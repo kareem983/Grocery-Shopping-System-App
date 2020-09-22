@@ -18,8 +18,7 @@
             <ImageView
                 android:id="@+id/contentImage"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/profile_icon" />
+                android:layout_height="200dp"/>
 
             <TextView
                 android:id="@+id/contenttitle"

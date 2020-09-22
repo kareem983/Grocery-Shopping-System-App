@@ -61,8 +61,8 @@ class AdminSalesManAdapter extends RecyclerView.Adapter<AdminSalesManAdapter.Sal
     @Override
     public void onBindViewHolder(@NonNull SalesManViewHolder holder, int position) {
         Picasso.get().load(salesManList.get(position).getImg()).centerCrop().fit().into(holder.img);
-        holder.name.setText(salesManList.get(position).getName());
-        holder.salary.setText(salesManList.get(position).getSalary());
+        holder.name.setText("Name: "+salesManList.get(position).getName());
+        holder.salary.setText("Salary: "+salesManList.get(position).getSalary()+" EGP");
     }
 
 

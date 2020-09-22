@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,7 +56,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         //on clicking any product (go to ProductInfo Activity to show it's info)
         onClickAnyProduct();
-        setCategoryData();
+
 
 
     }
@@ -82,8 +84,11 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     @Override
     protected void onStart() {
         super.onStart();
+
+        setCategoryData();
         //define Navigation Viewer and got its data
         DefineNavigation();
+
     }
 
     private void setCategoryData(){
@@ -113,15 +118,30 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        String ProductName = dataSnapshot.getKey().toString();
-                        String ProductPrice = dataSnapshot.child("price").getValue().toString();
-                        String ProductImage = dataSnapshot.child("image").getValue().toString();
-                        String ProductExpiryDate = dataSnapshot.child("expired").getValue().toString();
+                        final String ProductName = dataSnapshot.getKey().toString();
+                        final String ProductPrice = dataSnapshot.child("price").getValue().toString();
+                        final String ProductImage = dataSnapshot.child("image").getValue().toString();
+                        final String ProductExpiryDate = dataSnapshot.child("expired").getValue().toString();
 
-                        CategoryProducts.add(new CategoryProductInfo(ProductImage,ProductName,ProductPrice,ProductExpiryDate,false));
+                        //check favorites
+                        DatabaseReference Root = FirebaseDatabase.getInstance().getReference();
+                        DatabaseReference x = Root.child("favourites").child(UserId).child(ProductName);
+                        ValueEventListener vvalueEventListener = new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    CategoryProducts.add(new CategoryProductInfo(ProductImage,ProductName,ProductPrice,ProductExpiryDate,true));
+                                }
+                                else{
+                                    CategoryProducts.add(new CategoryProductInfo(ProductImage,ProductName,ProductPrice,ProductExpiryDate,false));
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {}
+                        };
+                        x.addListenerForSingleValueEvent(vvalueEventListener);
                     }
-
-                    adapter.notifyDataSetChanged();
                 }
             }
             @Override
@@ -171,9 +191,20 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         m.addListenerForSingleValueEvent(valueEventListener);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.cart_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(mToggle.onOptionsItemSelected(item)) {return true;}
+        int id =item.getItemId();
+        if(id==R.id.menuCartID){
+            Toast.makeText(CategoryActivity.this,"ddd",Toast.LENGTH_SHORT).show();
+        }
+        if(mToggle.onOptionsItemSelected(item))return true;
         return super.onOptionsItemSelected(item);
     }
 
@@ -182,7 +213,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         int id=menuItem.getItemId();
         if(id==R.id.Home){
             startActivity(new Intent(CategoryActivity.this,MainActivity.class));
-            finish();
         }
         else if(id==R.id.Profile){
             startActivity(new Intent(CategoryActivity.this,UserProfileActivity.class));

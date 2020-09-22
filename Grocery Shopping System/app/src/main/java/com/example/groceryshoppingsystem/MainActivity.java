@@ -3,12 +3,14 @@ package com.example.groceryshoppingsystem;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -113,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final GridView gv = mylayout.findViewById(R.id.product_layout_gridview);
         final List<HorizontalProductModel> lastmodels = new ArrayList<>();
         final GridproductAdapter my_adapter;
-        my_adapter = new GridproductAdapter(lastmodels, favourites);
+        my_adapter = new GridproductAdapter(lastmodels, favourites,MainActivity.this);
         m = FirebaseDatabase.getInstance().getReference().child("product").child("Electronics");
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
@@ -122,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user my_user = new user();
                     my_user = ds.getValue(user.class);
                     my_user.setCategory(ds.getKey().toString());
-                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false));
+                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false,my_user.getExpired()));
                 }
                 gv.setAdapter(my_adapter);
             }
@@ -132,6 +134,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
         m.addListenerForSingleValueEvent(eventListener);
+
+        GridLayoutViewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,CategoryActivity.class);
+                intent.putExtra("Category Name","Electronics");
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void Retrieve_fav() {
@@ -165,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final GridView gv = mylayout.findViewById(R.id.product_layout_gridview);
         final List<HorizontalProductModel> lastmodels = new ArrayList<>();
         final GridproductAdapter my_adapter;
-        my_adapter = new GridproductAdapter(lastmodels, favourites);
+        my_adapter = new GridproductAdapter(lastmodels, favourites,MainActivity.this);
         m = FirebaseDatabase.getInstance().getReference().child("product").child("Fruits");
         ValueEventListener eventListener = new ValueEventListener() {
 
@@ -175,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user my_user = new user();
                     my_user = ds.getValue(user.class);
                     my_user.setCategory(ds.getKey().toString());
-                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false));
+                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false,my_user.getExpired()));
                 }
                 gv.setAdapter(my_adapter);
             }
@@ -185,6 +197,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
         m.addListenerForSingleValueEvent(eventListener);
+
+        GridLayoutViewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,CategoryActivity.class);
+                intent.putExtra("Category Name","Fruits");
+                startActivity(intent);
+            }
+        });
     }
 
     public void Retrieve_Meats() {
@@ -197,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final GridView gv = mylayout.findViewById(R.id.product_layout_gridview);
         final List<HorizontalProductModel> lastmodels = new ArrayList<>();
         final GridproductAdapter my_adapter;
-        my_adapter = new GridproductAdapter(lastmodels, favourites);
+        my_adapter = new GridproductAdapter(lastmodels, favourites,MainActivity.this);
         m = FirebaseDatabase.getInstance().getReference().child("product").child("Meats");
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
@@ -206,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user my_user = new user();
                     my_user = ds.getValue(user.class);
                     my_user.setCategory(ds.getKey().toString());
-                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false));
+                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false,my_user.getExpired()));
                 }
                 gv.setAdapter(my_adapter);
             }
@@ -216,6 +237,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
         m.addListenerForSingleValueEvent(eventListener);
+
+        GridLayoutViewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,CategoryActivity.class);
+                intent.putExtra("Category Name","Meats");
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void Retrieve_Vegatables() {
@@ -228,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final GridView gv = mylayout.findViewById(R.id.product_layout_gridview);
         final List<HorizontalProductModel> lastmodels = new ArrayList<>();
         final GridproductAdapter my_adapter;
-        my_adapter = new GridproductAdapter(lastmodels, favourites);
+        my_adapter = new GridproductAdapter(lastmodels, favourites,MainActivity.this);
         m = FirebaseDatabase.getInstance().getReference().child("product").child("Vegetables");
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
@@ -237,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user my_user = new user();
                     my_user = ds.getValue(user.class);
                     my_user.setCategory(ds.getKey().toString());
-                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false));
+                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false,my_user.getExpired()));
                 }
                 gv.setAdapter(my_adapter);
             }
@@ -247,6 +278,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
         m.addListenerForSingleValueEvent(eventListener);
+
+        GridLayoutViewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,CategoryActivity.class);
+                intent.putExtra("Category Name","Vegetables");
+                startActivity(intent);
+            }
+        });
     }
 
     public void Retrieve_offers() {
@@ -277,7 +317,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.cart_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id =item.getItemId();
+        if(id==R.id.menuCartID){
+            Toast.makeText(MainActivity.this,"ddd",Toast.LENGTH_SHORT).show();
+        }
         if (mtoggle.onOptionsItemSelected(item)) return true;
         return super.onOptionsItemSelected(item);
     }
@@ -352,4 +403,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
         m.addListenerForSingleValueEvent(eventListener);
     }
+
+
+
 }

@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -89,12 +90,20 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
                 if(ProductIsFavorite.equalsIgnoreCase("true")){
                     PIsFav.setImageResource(R.drawable.ic_baseline_favorite_shadow_24);
                     ProductIsFavorite="false";
-                    //here save update in data base
+                    //here Delete favourites from database
+                    DatabaseReference x= FirebaseDatabase.getInstance().getReference().child("favourites").child(UserId);
+                    x.child(ProductName).removeValue();
                 }
                 else{
                     PIsFav.setImageResource(R.drawable.ic_baseline_favorite_24);
                     ProductIsFavorite="true";
-                    //here save update in data base
+                    //here save favourites in database
+                    DatabaseReference x= FirebaseDatabase.getInstance().getReference().child("favourites").child(UserId).child(ProductName);
+                    x.child("checked").setValue(true);
+                    x.child("productimage").setValue(ProductImage);
+                    x.child("productprice").setValue("EGP "+ProductPrice);
+                    x.child("producttitle").setValue(ProductName);
+
                 }
             }
         });
@@ -224,9 +233,20 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
         m.addListenerForSingleValueEvent(valueEventListener);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.cart_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(mToggle.onOptionsItemSelected(item)) {return true;}
+        int id =item.getItemId();
+        if(id==R.id.menuCartID){
+            Toast.makeText(ProductInfoActivity.this,"ddd",Toast.LENGTH_SHORT).show();
+        }
+        if(mToggle.onOptionsItemSelected(item)) return true;
         return super.onOptionsItemSelected(item);
     }
 
@@ -235,7 +255,6 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
         int id=menuItem.getItemId();
         if(id==R.id.Home){
             startActivity(new Intent(ProductInfoActivity.this,MainActivity.class));
-            finish();
         }
         else if(id==R.id.Profile){
             startActivity(new Intent(ProductInfoActivity.this,UserProfileActivity.class));

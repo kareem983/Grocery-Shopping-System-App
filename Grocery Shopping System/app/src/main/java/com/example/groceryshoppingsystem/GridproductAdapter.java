@@ -1,11 +1,14 @@
 package com.example.groceryshoppingsystem;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -18,10 +21,13 @@ public class GridproductAdapter extends BaseAdapter {
     TextView producttitle, productprice;
     ImageView checkBox;
     List<favouritesClass> favourites;
+    ConstraintLayout Container;
+    Context context;
 
-    public GridproductAdapter(List<HorizontalProductModel> horizontalProductModelList, List<favouritesClass> favourites) {
+    public GridproductAdapter(List<HorizontalProductModel> horizontalProductModelList, List<favouritesClass> favourites, Context context) {
         this.horizontalProductModelList = horizontalProductModelList;
         this.favourites = favourites;
+        this.context = context;
     }
 
     @Override
@@ -45,6 +51,7 @@ public class GridproductAdapter extends BaseAdapter {
         View view;
         if (convertView == null) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_item, null);
+            Container = view.findViewById(R.id.MainProductID);
             productImage = view.findViewById(R.id.item_image);
             producttitle = view.findViewById(R.id.item_title);
             productprice = view.findViewById(R.id.item_Price);
@@ -87,8 +94,21 @@ public class GridproductAdapter extends BaseAdapter {
                 }
             }
         });
+
+        Container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,ProductInfoActivity.class);
+                intent.putExtra("Product Name",horizontalProductModelList.get(position).getProducttitle());
+                intent.putExtra("Product Price",horizontalProductModelList.get(position).getProductprice());
+                intent.putExtra("Product Image",horizontalProductModelList.get(position).getProductimage());
+                intent.putExtra("Product ExpiryDate",horizontalProductModelList.get(position).getExpiredDate());
+                intent.putExtra("Product IsFavorite",String.valueOf(horizontalProductModelList.get(position).isChecked()));
+                context.startActivity(intent);
+            }
+        });
+
         return view;
     }
-
 
 }

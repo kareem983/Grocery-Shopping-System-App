@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/adminLogoutId"
-        android:title="Logout"
-        android:icon="@drawable/ic_baseline_exit_to_app_24"/>
+        android:id="@+id/menuCartID"
+        android:title="Cart"
+        android:icon="@drawable/new_cart"
+        app:showAsAction="always"/>
 
 </menu>

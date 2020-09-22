@@ -63,10 +63,13 @@ class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapter.Produ
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Picasso.get().load(adminProducts.get(position).getImage()).centerCrop().fit().into(holder.img);
         holder.name.setText(adminProducts.get(position).getName());
-        holder.category.setText(adminProducts.get(position).getCategory());
-        holder.quantity.setText(adminProducts.get(position).getQuantity());
-        holder.price.setText(adminProducts.get(position).getPrice());
-        holder.expire.setText(adminProducts.get(position).getExpired());
+        holder.category.setText("Category: "+adminProducts.get(position).getCategory());
+        holder.quantity.setText("Available Amounts: "+adminProducts.get(position).getQuantity());
+        holder.price.setText("Price: "+adminProducts.get(position).getPrice()+" EGP");
+
+        if(adminProducts.get(position).getExpired().equalsIgnoreCase("null"))holder.expire.setVisibility(View.GONE);
+        else holder.expire.setVisibility(View.VISIBLE);
+        holder.expire.setText("Expiry Date: "+adminProducts.get(position).getExpired());
 
     }
 

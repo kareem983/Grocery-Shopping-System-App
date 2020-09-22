@@ -29,4 +29,5 @@ Product Info Activity (Kareem)
 
 Favorite Activity (Amr)
 
+Offline Capability(Loading data in case offline internet) (Kareem)
 
