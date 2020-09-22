@@ -13,7 +13,7 @@ Admin Activity (Kareem)
 
 Reset Passowrd (Ziad)
 
-Products & Offers & SalesMen Fragment (Kareem)
+Create Products & Offers & SalesMen Fragment (Kareem)
 
 Main Activity (Amr & Osama)
 
@@ -30,4 +30,6 @@ Product Info Activity (Kareem)
 Favorite Activity (Amr)
 
 Offline Capability(Loading data in case offline internet) (Kareem)
+
+Products & Offers & SalesMen Fragment Methods (Ziad)
 
