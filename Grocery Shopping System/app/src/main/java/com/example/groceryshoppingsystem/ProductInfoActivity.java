@@ -25,6 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProductInfoActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
@@ -38,7 +41,7 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
     //xml views
     private ImageView PImage, PIsFav;
     private TextView PName, PCategory, PAmount, PPrice,PExpiryDate;
-    private RelativeLayout AddToCartContainer,CheckCartContainer;
+    private RelativeLayout AddToCartContainer,DeleteFromCartContainer,CheckCartContainer;
     private Button Back,Confirm;
     private FirebaseAuth mAuth;
     private FirebaseUser CurrentUser;
@@ -65,6 +68,7 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
         PPrice = (TextView)findViewById(R.id.ProductPrice);
         PExpiryDate = (TextView)findViewById(R.id.ProductExpiryDate);
         AddToCartContainer = (RelativeLayout)findViewById(R.id.AddToCart);
+        DeleteFromCartContainer = (RelativeLayout)findViewById(R.id.DeleteFromCart);
         CheckCartContainer = (RelativeLayout)findViewById(R.id.CheckCartContainer);
         Back = (Button)findViewById(R.id.BackBtn);
         Confirm= (Button)findViewById(R.id.ConformBtn);
@@ -115,6 +119,19 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
             }
         });
 
+        DeleteFromCartContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddToCartContainer.setVisibility(View.VISIBLE);
+                DeleteFromCartContainer.setVisibility(View.GONE);
+
+                DatabaseReference x = FirebaseDatabase.getInstance().getReference().child("cart").child(UserId);
+                x.child(ProductName).removeValue();
+
+                Toast.makeText(ProductInfoActivity.this,"The Product Deleted Successfully from your Cart",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,8 +143,19 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
             @Override
             public void onClick(View view) {
                 CheckCartContainer.setVisibility(View.GONE);
+                DeleteFromCartContainer.setVisibility(View.VISIBLE);
+                AddToCartContainer.setVisibility(View.GONE);
                 Toast.makeText(ProductInfoActivity.this,"The Product Added Successfully to your Cart",Toast.LENGTH_SHORT).show();
                 //here Add the product to the cart
+
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put("productImage",ProductImage);
+                hashMap.put("productPrice",ProductPrice);
+                hashMap.put("quantity","1");
+
+                DatabaseReference x = FirebaseDatabase.getInstance().getReference().child("cart").child(UserId);
+                x.child(ProductName).setValue(hashMap);
+
             }
         });
 
@@ -244,7 +272,7 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id =item.getItemId();
         if(id==R.id.menuCartID){
-            Toast.makeText(ProductInfoActivity.this,"ddd",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(ProductInfoActivity.this, CartActivity.class));
         }
         if(mToggle.onOptionsItemSelected(item)) return true;
         return super.onOptionsItemSelected(item);
@@ -261,6 +289,12 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
         }
         else if(id == R.id.favourites){
             startActivity(new Intent(ProductInfoActivity.this, favourites_activity.class));
+        }
+        else if(id == R.id.Cart){
+            startActivity(new Intent(ProductInfoActivity.this, CartActivity.class));
+        }
+        else if(id == R.id.MyOrders){
+            startActivity(new Intent(ProductInfoActivity.this, OrderActivity.class));
         }
         else if(id==R.id.fruits){
             Intent intent =new Intent(ProductInfoActivity.this,CategoryActivity.class);

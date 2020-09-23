@@ -116,10 +116,12 @@
         </LinearLayout>
     </ScrollView>
 
+
+
     <RelativeLayout
         android:id="@+id/AddToCart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:background="#2DD52D"
         android:layout_margin="10dp">
@@ -144,6 +146,38 @@
             android:textStyle="bold"
             android:gravity="center"/>
     </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/DeleteFromCart"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentBottom="true"
+            android:background="#F00"
+            android:visibility="gone"
+            android:layout_margin="10dp">
+
+            <ImageView
+                android:id="@+id/DeleteIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_delete_24"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:id="@+id/DeleteFromCartText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Delete From my Cart"
+                android:textAllCaps="true"
+                android:textColor="#FFF"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+        </RelativeLayout>
+
+
 
         <RelativeLayout
             android:id="@+id/CheckCartContainer"
@@ -202,7 +236,6 @@
                 android:background="@drawable/container"/>
 
         </RelativeLayout>
-
 
     </RelativeLayout>
 

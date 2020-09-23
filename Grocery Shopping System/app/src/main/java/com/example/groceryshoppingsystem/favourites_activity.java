@@ -80,7 +80,7 @@ public class favourites_activity extends AppCompatActivity implements Navigation
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id =item.getItemId();
         if(id==R.id.menuCartID){
-            Toast.makeText(favourites_activity.this,"ddd",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(favourites_activity.this, CartActivity.class));
         }
         if (mToggle.onOptionsItemSelected(item))return true;
         return super.onOptionsItemSelected(item);
@@ -91,10 +91,15 @@ public class favourites_activity extends AppCompatActivity implements Navigation
         int id = menuItem.getItemId();
         if (id == R.id.Home) {
             startActivity(new Intent(favourites_activity.this, MainActivity.class));
-
         }
         else if (id == R.id.Profile) {
             startActivity(new Intent(favourites_activity.this, UserProfileActivity.class));
+        }
+        else if(id == R.id.Cart){
+            startActivity(new Intent(favourites_activity.this, CartActivity.class));
+        }
+        else if(id == R.id.MyOrders){
+            startActivity(new Intent(favourites_activity.this, OrderActivity.class));
         }
         else if(id==R.id.fruits){
             Intent intent =new Intent(favourites_activity.this,CategoryActivity.class);

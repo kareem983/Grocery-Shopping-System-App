@@ -127,7 +127,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id =item.getItemId();
         if(id==R.id.menuCartID){
-            Toast.makeText(UserProfileActivity.this,"ddd",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(UserProfileActivity.this, CartActivity.class));
         }
         if(mToggle.onOptionsItemSelected(item)) return true;
         return super.onOptionsItemSelected(item);
@@ -142,6 +142,12 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         }
         else if(id == R.id.favourites){
             startActivity(new Intent(UserProfileActivity.this, favourites_activity.class));
+        }
+        else if(id == R.id.Cart){
+            startActivity(new Intent(UserProfileActivity.this, CartActivity.class));
+        }
+        else if(id == R.id.MyOrders){
+            startActivity(new Intent(UserProfileActivity.this, OrderActivity.class));
         }
         else if(id==R.id.fruits){
             Intent intent =new Intent(UserProfileActivity.this,CategoryActivity.class);

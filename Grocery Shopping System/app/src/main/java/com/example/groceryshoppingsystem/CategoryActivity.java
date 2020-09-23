@@ -202,7 +202,7 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id =item.getItemId();
         if(id==R.id.menuCartID){
-            Toast.makeText(CategoryActivity.this,"ddd",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(CategoryActivity.this, CartActivity.class));
         }
         if(mToggle.onOptionsItemSelected(item))return true;
         return super.onOptionsItemSelected(item);
@@ -216,6 +216,12 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         }
         else if(id==R.id.Profile){
             startActivity(new Intent(CategoryActivity.this,UserProfileActivity.class));
+        }
+        else if(id == R.id.Cart){
+            startActivity(new Intent(CategoryActivity.this, CartActivity.class));
+        }
+        else if(id == R.id.MyOrders){
+            startActivity(new Intent(CategoryActivity.this, OrderActivity.class));
         }
         else if(id == R.id.favourites){
             startActivity(new Intent(CategoryActivity.this, favourites_activity.class));

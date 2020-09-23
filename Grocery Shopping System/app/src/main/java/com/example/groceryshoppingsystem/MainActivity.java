@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user my_user = new user();
                     my_user = ds.getValue(user.class);
                     my_user.setCategory(ds.getKey().toString());
-                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false,my_user.getExpired()));
+                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), my_user.getPrice(), false,my_user.getExpired()));
                 }
                 gv.setAdapter(my_adapter);
             }
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user my_user = new user();
                     my_user = ds.getValue(user.class);
                     my_user.setCategory(ds.getKey().toString());
-                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false,my_user.getExpired()));
+                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), my_user.getPrice(), false,my_user.getExpired()));
                 }
                 gv.setAdapter(my_adapter);
             }
@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user my_user = new user();
                     my_user = ds.getValue(user.class);
                     my_user.setCategory(ds.getKey().toString());
-                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false,my_user.getExpired()));
+                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), my_user.getPrice(), false,my_user.getExpired()));
                 }
                 gv.setAdapter(my_adapter);
             }
@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user my_user = new user();
                     my_user = ds.getValue(user.class);
                     my_user.setCategory(ds.getKey().toString());
-                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(), "EGP " + my_user.getPrice(), false,my_user.getExpired()));
+                    lastmodels.add(new HorizontalProductModel(my_user.getImage(), my_user.getCategory(),my_user.getPrice(), false,my_user.getExpired()));
                 }
                 gv.setAdapter(my_adapter);
             }
@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         int id =item.getItemId();
         if(id==R.id.menuCartID){
-            Toast.makeText(MainActivity.this,"ddd",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this, CartActivity.class));
         }
         if (mtoggle.onOptionsItemSelected(item)) return true;
         return super.onOptionsItemSelected(item);
@@ -343,6 +343,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(id == R.id.favourites){
             startActivity(new Intent(MainActivity.this, favourites_activity.class));
+        }
+        else if(id == R.id.Cart){
+            startActivity(new Intent(MainActivity.this, CartActivity.class));
+        }
+        else if(id == R.id.MyOrders){
+            startActivity(new Intent(MainActivity.this, OrderActivity.class));
         }
         else if(id==R.id.fruits){
             Intent intent =new Intent(MainActivity.this,CategoryActivity.class);

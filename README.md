@@ -33,3 +33,6 @@ Offline Capability(Loading data in case offline internet) (Kareem)
 
 Products & Offers & SalesMen Fragment Methods (Ziad)
 
+Cart & Orders (Osama)
+
+

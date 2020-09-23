@@ -25,7 +25,7 @@
             android:id="@+id/main_TooBar"
             layout="@layout/main2_toolbar"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteY="0dp"/>
 
         <ScrollView
             android:id="@+id/scroll"
