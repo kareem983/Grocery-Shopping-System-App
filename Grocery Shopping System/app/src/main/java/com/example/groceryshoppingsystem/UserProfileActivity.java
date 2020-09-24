@@ -349,6 +349,9 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
                         CustomCartNumber.setText(String.valueOf(dataSnapshot.getChildrenCount()-1));
                     }
                 }
+                else{
+                    CustomCartNumber.setVisibility(View.GONE);
+                }
             }
 
             @Override

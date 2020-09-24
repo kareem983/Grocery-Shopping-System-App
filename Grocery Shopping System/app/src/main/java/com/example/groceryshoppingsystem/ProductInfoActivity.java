@@ -421,6 +421,9 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
                         CustomCartNumber.setText(String.valueOf(dataSnapshot.getChildrenCount()-1));
                     }
                 }
+                else{
+                    CustomCartNumber.setVisibility(View.GONE);
+                }
             }
 
             @Override

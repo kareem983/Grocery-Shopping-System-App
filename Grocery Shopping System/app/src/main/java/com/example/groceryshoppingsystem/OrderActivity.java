@@ -200,6 +200,9 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
                         CustomCartNumber.setText(String.valueOf(dataSnapshot.getChildrenCount()-1));
                     }
                 }
+                else{
+                    CustomCartNumber.setVisibility(View.GONE);
+                }
             }
 
             @Override

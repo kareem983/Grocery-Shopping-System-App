@@ -295,6 +295,9 @@ public class CartCheckActivity extends AppCompatActivity implements NavigationVi
                         CustomCartNumber.setText(String.valueOf(dataSnapshot.getChildrenCount()-1));
                     }
                 }
+                else{
+                    CustomCartNumber.setVisibility(View.GONE);
+                }
             }
 
             @Override
