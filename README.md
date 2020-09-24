@@ -37,7 +37,5 @@ Cart & Orders (Osama)
 
 Products Offers (Kareem)
 
-Cart Bage Icon (Number Of Products in cart Icon)(Kareem)
-
-
+Cart Icon Badge Feature (Number Of Products in cart Icon) (Kareem)
 

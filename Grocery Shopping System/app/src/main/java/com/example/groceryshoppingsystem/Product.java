@@ -1,6 +1,6 @@
 package com.example.groceryshoppingsystem;
 
-class Product {
+class Product { 
     public String quantity , price , expired , image;
 
     public Product(String quantity, String price, String expired, String image) {
