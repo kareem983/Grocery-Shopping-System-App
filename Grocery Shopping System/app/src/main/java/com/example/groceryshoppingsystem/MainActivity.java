@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         image = mnavigationview.findViewById(R.id.circimage);
         drawerLayout = findViewById(R.id.drawer);
 
-
         mToolBar = findViewById(R.id.main_TooBar);
         setSupportActionBar(mToolBar);
         mtoggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);

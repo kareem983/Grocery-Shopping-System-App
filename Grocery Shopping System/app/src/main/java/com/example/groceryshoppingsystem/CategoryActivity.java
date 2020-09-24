@@ -68,13 +68,12 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 CategoryProductInfo product = CategoryProducts.get(position);
 
                 Intent intent = new Intent(CategoryActivity.this,ProductInfoActivity.class);
-                intent.putExtra("Product",String.valueOf(product));
-
                  intent.putExtra("Product Name",product.getProductName());
                  intent.putExtra("Product Price",product.getProductPrice());
                  intent.putExtra("Product Image",product.getProductImage());
                  intent.putExtra("Product ExpiryDate",product.getProductExpiryDate());
                  intent.putExtra("Product IsFavorite",String.valueOf(product.getIsFavorite()));
+                 intent.putExtra("Is Offered","no");
 
                 startActivity(intent);
             }

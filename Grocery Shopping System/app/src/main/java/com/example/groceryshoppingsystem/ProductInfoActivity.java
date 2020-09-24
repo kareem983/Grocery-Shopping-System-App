@@ -7,12 +7,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,9 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
 import java.util.HashMap;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProductInfoActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
@@ -37,11 +37,12 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
     private Toolbar mToolbar;
     private TextView mPerson_name;
     private CircleImageView mPerson_image;
-    private String ProductName, ProductPrice, ProductImage, ProductNExpiryDate, ProductIsFavorite;
+    private String ProductName, ProductPrice, ProductImage, ProductNExpiryDate, ProductIsFavorite, IsOffered;
     //xml views
     private ImageView PImage, PIsFav;
-    private TextView PName, PCategory, PAmount, PPrice,PExpiryDate;
+    private TextView PName, PCategory, PAmount, PPrice, OldPrice,OfferRate, PExpiryDate;
     private RelativeLayout AddToCartContainer,DeleteFromCartContainer,CheckCartContainer;
+    private LinearLayout OfferContainer;
     private Button Back,Confirm;
     private FirebaseAuth mAuth;
     private FirebaseUser CurrentUser;
@@ -55,17 +56,39 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
         CurrentUser = mAuth.getCurrentUser();
         UserId = CurrentUser.getUid();
 
+        //toolbar
         mToolbar =(Toolbar)findViewById(R.id.ProductToolBar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Product Info");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //have sending data
+        ProductName= getIntent().getStringExtra("Product Name");
+        ProductPrice= getIntent().getStringExtra("Product Price");
+        ProductImage= getIntent().getStringExtra("Product Image");
+        ProductNExpiryDate= getIntent().getStringExtra("Product ExpiryDate");
+        ProductIsFavorite= getIntent().getStringExtra("Product IsFavorite");
+        IsOffered = getIntent().getStringExtra("Is Offered");
+
+        // define xml data
+        DefineXmlViews();
+
+        setProductData();
+        onClicking();
+
+    }
+
+
+    private void DefineXmlViews(){
         PImage = (ImageView)findViewById(R.id.ProductImage);
         PIsFav = (ImageView)findViewById(R.id.ProductFav);
         PName = (TextView)findViewById(R.id.ProductName);
         PCategory = (TextView)findViewById(R.id.ProductCategory);
         PAmount = (TextView)findViewById(R.id.ProductAvailableAmount);
-        PPrice = (TextView)findViewById(R.id.ProductPrice);
+        PPrice = (TextView)findViewById(R.id.CurrentProductPrice);
+        OldPrice = (TextView)findViewById(R.id.OldProductPrice);
+        OfferRate = (TextView)findViewById(R.id.OfferRate);
+        OfferContainer = (LinearLayout)findViewById(R.id.OfferContainer);
         PExpiryDate = (TextView)findViewById(R.id.ProductExpiryDate);
         AddToCartContainer = (RelativeLayout)findViewById(R.id.AddToCart);
         DeleteFromCartContainer = (RelativeLayout)findViewById(R.id.DeleteFromCart);
@@ -73,19 +96,26 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
         Back = (Button)findViewById(R.id.BackBtn);
         Confirm= (Button)findViewById(R.id.ConformBtn);
 
-
-        ProductName= getIntent().getStringExtra("Product Name");
-        ProductPrice= getIntent().getStringExtra("Product Price");
-        ProductImage= getIntent().getStringExtra("Product Image");
-        ProductNExpiryDate= getIntent().getStringExtra("Product ExpiryDate");
-        ProductIsFavorite= getIntent().getStringExtra("Product IsFavorite");
-
-        setProductData();
-
-        onClicking();
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference x = root.child("cart").child(UserId).child(ProductName);
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    AddToCartContainer.setVisibility(View.GONE);
+                    DeleteFromCartContainer.setVisibility(View.VISIBLE);
+                }
+                else{
+                    AddToCartContainer.setVisibility(View.VISIBLE);
+                    DeleteFromCartContainer.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        };
+        x.addListenerForSingleValueEvent(valueEventListener);
 
     }
-
 
     private void onClicking(){
         PIsFav.setOnClickListener(new View.OnClickListener() {
@@ -147,11 +177,15 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
                 AddToCartContainer.setVisibility(View.GONE);
                 Toast.makeText(ProductInfoActivity.this,"The Product Added Successfully to your Cart",Toast.LENGTH_SHORT).show();
                 //here Add the product to the cart
-
                 HashMap<String,String> hashMap = new HashMap<>();
                 hashMap.put("productImage",ProductImage);
                 hashMap.put("productPrice",ProductPrice);
                 hashMap.put("quantity","1");
+                int PriceAfterOffer;
+                if(IsOffered.equalsIgnoreCase("yes"))PriceAfterOffer = (int) ((Integer.valueOf(ProductPrice)) - (Integer.valueOf(ProductPrice)*0.3));
+                else PriceAfterOffer =(int)(Integer.valueOf(ProductPrice));
+
+                hashMap.put("productPrice",String.valueOf(PriceAfterOffer));
 
                 DatabaseReference x = FirebaseDatabase.getInstance().getReference().child("cart").child(UserId);
                 x.child(ProductName).setValue(hashMap);
@@ -170,12 +204,24 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
     private void setProductData(){
         Picasso.get().load(ProductImage).into(PImage);
         PName.setText(ProductName);
-        PPrice.setText("Price: "+ProductPrice+" EGP");
+
+        if(IsOffered.equalsIgnoreCase("yes")){
+            int PriceAfterOffer = (int) ((Integer.valueOf(ProductPrice)) - (Integer.valueOf(ProductPrice)*0.3));
+            PPrice.setText("Price: "+PriceAfterOffer+" EGP");
+            OldPrice. setText(ProductPrice+" EGP");
+            OfferRate.setText("- 30%");
+            OldPrice.setPaintFlags(OldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+        else{
+            OfferContainer.setVisibility(View.GONE);
+            PPrice.setText("Price: "+ProductPrice+" EGP");
+        }
+
 
         if(ProductIsFavorite.equalsIgnoreCase("true"))PIsFav.setImageResource(R.drawable.ic_baseline_favorite_24);
         else PIsFav.setImageResource(R.drawable.ic_baseline_favorite_shadow_24);
 
-        if(ProductNExpiryDate.equalsIgnoreCase("null"))PExpiryDate.setVisibility(View.GONE);
+        if(ProductNExpiryDate.equalsIgnoreCase("null") )PExpiryDate.setVisibility(View.GONE);
         else {PExpiryDate.setVisibility(View.VISIBLE); PExpiryDate.setText("Expiry Date: "+ProductNExpiryDate);}
 
 

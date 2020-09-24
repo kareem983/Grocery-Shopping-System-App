@@ -35,4 +35,5 @@ Products & Offers & SalesMen Fragment Methods (Ziad)
 
 Cart & Orders (Osama)
 
+Products Offers (Kareem)
 

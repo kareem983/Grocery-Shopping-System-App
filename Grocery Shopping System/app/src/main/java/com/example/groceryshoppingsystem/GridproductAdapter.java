@@ -104,6 +104,8 @@ public class GridproductAdapter extends BaseAdapter {
                 intent.putExtra("Product Image",horizontalProductModelList.get(position).getProductimage());
                 intent.putExtra("Product ExpiryDate",horizontalProductModelList.get(position).getExpiredDate());
                 intent.putExtra("Product IsFavorite",String.valueOf(horizontalProductModelList.get(position).isChecked()));
+                intent.putExtra("Is Offered","no");
+
                 context.startActivity(intent);
             }
         });
