@@ -6,7 +6,7 @@
     android:id="@+id/cartCheckDrawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CartCheckActivity">
+    tools:context=".UI.CartCheckActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".OfflineCapability"
+        android:name=".UI.OfflineCapability"
         android:allowBackup="true"
         android:icon="@mipmap/appicon"
         android:label="@string/app_name"
@@ -15,58 +15,58 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".CartCheckActivity"
+            android:name=".UI.CartCheckActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".OrderActivity"
+            android:name=".UI.OrderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CartActivity"
+            android:name=".UI.CartActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EditSalesMan"
+            android:name=".UI.EditSalesMan"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EditProduct"
+            android:name=".UI.EditProduct"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EditOffer"
+            android:name=".UI.EditOffer"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".favourites_activity"
+            android:name=".UI.favourites_activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ProductInfoActivity"
+            android:name=".UI.ProductInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CategoryActivity"
+            android:name=".UI.CategoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddSalesMan"
+            android:name=".UI.AddSalesMan"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddOffer"
+            android:name=".UI.AddOffer"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddProduct"
+            android:name=".UI.AddProduct"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UserProfileActivity"
+            android:name=".UI.UserProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ForgetPassword"
+            android:name=".UI.ForgetPassword"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".UI.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".loginActivity"
+            android:name=".UI.loginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AdminActivity"
+            android:name=".UI.AdminActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".UI.SplashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -75,7 +75,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".UI.MainActivity"
             android:screenOrientation="portrait" /> <!-- activity of cropper image -->
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

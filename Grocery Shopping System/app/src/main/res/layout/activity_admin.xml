@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminActivity"
+    tools:context=".UI.AdminActivity"
     android:background="@drawable/back">
 
     <include layout="@layout/main2_toolbar"

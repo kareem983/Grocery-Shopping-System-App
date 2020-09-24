@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".OrderFregmant">
+    tools:context=".UI.OrderFregmant">
 
     <!-- TODO: Update blank fragment layout -->
 

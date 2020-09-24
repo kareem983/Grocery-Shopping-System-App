@@ -12,7 +12,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="@+id/main_TooBar"
     app:layout_constraintVertical_bias="1.0"
-    tools:context=".favourites_activity">
+    tools:context=".UI.favourites_activity">
 
     <RelativeLayout
         android:id="@+id/parent"
