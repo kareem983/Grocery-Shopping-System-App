@@ -1,17 +1,18 @@
 package com.example.groceryshoppingsystem;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -49,6 +50,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private View mnavigationview;
     private static List<favouritesClass> favourites;
 
+    //Custom Xml Views (cart Icon)
+    private RelativeLayout CustomCartContainer;
+    private TextView PageTitle;
+    private TextView CustomCartNumber;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mtoggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
         drawerLayout.addDrawerListener(mtoggle);
         mtoggle.syncState();
-        getSupportActionBar().setTitle("بقالة");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
@@ -99,8 +105,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // OFFERS
         Retrieve_offers();
-        ///----------------------------
-        //View view1 = LayoutInflater.inflate(R.layout.activity_main, this);
+
+        //Refresh CartIcon
+        showCartIcon();
 
     }
 
@@ -316,18 +323,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.cart_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id =item.getItemId();
-        if(id==R.id.menuCartID){
-            startActivity(new Intent(MainActivity.this, CartActivity.class));
-        }
         if (mtoggle.onOptionsItemSelected(item)) return true;
         return super.onOptionsItemSelected(item);
     }
@@ -409,6 +405,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         m.addListenerForSingleValueEvent(eventListener);
     }
 
+
+    private void showCartIcon(){
+        //toolbar & cartIcon
+        ActionBar actionBar= getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view= inflater.inflate(R.layout.main2_toolbar,null);
+        actionBar.setCustomView(view);
+
+        //************custom action items xml**********************
+        CustomCartContainer = (RelativeLayout)findViewById(R.id.CustomCartIconContainer);
+        PageTitle =(TextView)findViewById(R.id.PageTitle);
+        CustomCartNumber = (TextView)findViewById(R.id.CustomCartNumber);
+
+        PageTitle.setText("بقالة");
+        setNumberOfItemsInCartIcon();
+
+        CustomCartContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, CartActivity.class));
+            }
+        });
+
+    }
+
+
+    private void setNumberOfItemsInCartIcon(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference m = root.child("cart").child(Uid);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if(dataSnapshot.getChildrenCount()==1){
+                        CustomCartNumber.setVisibility(View.GONE);
+                    }
+                    else {
+                        CustomCartNumber.setVisibility(View.VISIBLE);
+                        CustomCartNumber.setText(String.valueOf(dataSnapshot.getChildrenCount()-1));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+    }
 
 
 }

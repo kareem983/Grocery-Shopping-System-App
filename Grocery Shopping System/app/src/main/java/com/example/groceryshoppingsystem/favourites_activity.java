@@ -1,16 +1,16 @@
 package com.example.groceryshoppingsystem;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -43,6 +43,11 @@ public class favourites_activity extends AppCompatActivity implements Navigation
     private String UserId;
     private RecyclerView.Adapter my_adapter;
 
+    //Custom Xml Views (cart Icon)
+    private RelativeLayout CustomCartContainer;
+    private TextView PageTitle;
+    private TextView CustomCartNumber;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,6 @@ public class favourites_activity extends AppCompatActivity implements Navigation
 
         mToolBar = findViewById(R.id.main_Toolbar);
         setSupportActionBar(mToolBar);
-        getSupportActionBar().setTitle("Favourites");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -68,20 +72,14 @@ public class favourites_activity extends AppCompatActivity implements Navigation
     @Override
     protected void onStart() {
         super.onStart();
+
+        //Refresh CartIcon
+        showCartIcon();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.cart_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id =item.getItemId();
-        if(id==R.id.menuCartID){
-            startActivity(new Intent(favourites_activity.this, CartActivity.class));
-        }
         if (mToggle.onOptionsItemSelected(item))return true;
         return super.onOptionsItemSelected(item);
     }
@@ -206,5 +204,56 @@ public class favourites_activity extends AppCompatActivity implements Navigation
         Retrieve_fav();
     }
 
+
+    private void showCartIcon(){
+        //toolbar & cartIcon
+        ActionBar actionBar= getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view= inflater.inflate(R.layout.main2_toolbar,null);
+        actionBar.setCustomView(view);
+
+        //************custom action items xml**********************
+        CustomCartContainer = (RelativeLayout)findViewById(R.id.CustomCartIconContainer);
+        PageTitle =(TextView)findViewById(R.id.PageTitle);
+        CustomCartNumber = (TextView)findViewById(R.id.CustomCartNumber);
+
+        PageTitle.setText("Favourites");
+        setNumberOfItemsInCartIcon();
+
+        CustomCartContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(favourites_activity.this, CartActivity.class));
+            }
+        });
+
+    }
+
+
+    private void setNumberOfItemsInCartIcon(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference m = root.child("cart").child(UserId);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if(dataSnapshot.getChildrenCount()==1){
+                        CustomCartNumber.setVisibility(View.GONE);
+                    }
+                    else {
+                        CustomCartNumber.setVisibility(View.VISIBLE);
+                        CustomCartNumber.setText(String.valueOf(dataSnapshot.getChildrenCount()-1));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+    }
 
 }

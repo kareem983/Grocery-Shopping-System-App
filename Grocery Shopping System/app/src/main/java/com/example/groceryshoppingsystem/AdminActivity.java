@@ -1,18 +1,21 @@
 package com.example.groceryshoppingsystem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -21,6 +24,9 @@ public class AdminActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private TextView FragmentTitle;
     private FirebaseAuth mAuth;
+
+    private RelativeLayout CustomCartContainer;
+    private TextView PageTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,7 @@ public class AdminActivity extends AppCompatActivity {
         //tool bar
         mToolBar = (Toolbar)findViewById(R.id.Admin_ToolBar);
         setSupportActionBar(mToolBar);
+        getSupportActionBar().setTitle("Admin Control");
 
         FragmentTitle =(TextView)findViewById(R.id.FragmentTitle);
         bottomNavigationView= (BottomNavigationView)findViewById(R.id.Bottom_view);
@@ -43,6 +50,13 @@ public class AdminActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        NotshowCartIcon();
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener naveListener=
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -110,4 +124,24 @@ public class AdminActivity extends AppCompatActivity {
         alert.show();
 
     }
+
+
+    private void NotshowCartIcon(){
+        //toolbar & cartIcon
+        ActionBar actionBar= getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view= inflater.inflate(R.layout.main2_toolbar,null);
+        //actionBar.setCustomView(view);
+
+        //************custom action items xml**********************
+        CustomCartContainer = (RelativeLayout)findViewById(R.id.CustomCartIconContainer);
+        PageTitle =(TextView)findViewById(R.id.PageTitle);
+        PageTitle.setVisibility(View.GONE);
+        CustomCartContainer.setVisibility(View.GONE);
+
+    }
+
 }

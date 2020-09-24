@@ -8,4 +8,43 @@
     android:layout_margin="20dp">
 
 
+
+    <TextView
+        android:id="@+id/PageTitle"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:text=""
+        android:textColor="#FFF"
+        android:textSize="20dp"
+        android:gravity="left"/>
+
+
+    <RelativeLayout
+        android:id="@+id/CustomCartIconContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginRight="10dp">
+
+
+        <ImageView
+            android:id="@+id/CustomCartIcon"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/new_cart"/>
+
+        <TextView
+            android:id="@+id/CustomCartNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/CustomCartIcon"
+            android:layout_marginLeft="-15dp"
+            android:text=""
+            android:textColor="#FFF"
+            android:background="@drawable/circular2"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
+    </RelativeLayout>
+
 </androidx.appcompat.widget.Toolbar>

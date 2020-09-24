@@ -37,3 +37,7 @@ Cart & Orders (Osama)
 
 Products Offers (Kareem)
 
+Cart Bage Icon (Number Of Products in cart Icon)(Kareem)
+
+
+

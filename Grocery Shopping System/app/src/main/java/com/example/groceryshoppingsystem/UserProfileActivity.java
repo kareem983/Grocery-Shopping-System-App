@@ -2,21 +2,22 @@ package com.example.groceryshoppingsystem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -57,6 +58,11 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     private String UserId;
     private StorageReference mStorageReference;
 
+    //Custom Xml Views (cart Icon)
+    private RelativeLayout CustomCartContainer;
+    private TextView PageTitle;
+    private TextView CustomCartNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +75,6 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         //toolbar
         mToolBar = findViewById(R.id.UserProfileToolBar);
         setSupportActionBar(mToolBar);
-        getSupportActionBar().setTitle("بقالة");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //define xml data
@@ -95,14 +100,14 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         UserFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //here go to Favorites Activity
+                startActivity(new Intent(UserProfileActivity.this, favourites_activity.class));
             }
         });
 
         UserOrders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //here go to Orders Activity
+                startActivity(new Intent(UserProfileActivity.this, OrderActivity.class));
             }
         });
 
@@ -114,21 +119,13 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         super.onStart();
         //define Navigation Viewer and got its data
         DefineNavigation();
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.cart_menu,menu);
-        return super.onCreateOptionsMenu(menu);
+        //Refresh CartIcon
+        showCartIcon();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id =item.getItemId();
-        if(id==R.id.menuCartID){
-            startActivity(new Intent(UserProfileActivity.this, CartActivity.class));
-        }
         if(mToggle.onOptionsItemSelected(item)) return true;
         return super.onOptionsItemSelected(item);
     }
@@ -283,7 +280,6 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
 
     }
 
-
     private void UploadImageInStorageDataBase(Uri resultUri){
         final StorageReference FilePath =mStorageReference.child("users_image").child(UserId+"jpg");
 
@@ -308,4 +304,57 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         });
 
     }
+
+
+    private void showCartIcon(){
+        //toolbar & cartIcon
+        ActionBar actionBar= getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view= inflater.inflate(R.layout.main2_toolbar,null);
+        actionBar.setCustomView(view);
+
+        //************custom action items xml**********************
+        CustomCartContainer = (RelativeLayout)findViewById(R.id.CustomCartIconContainer);
+        PageTitle =(TextView)findViewById(R.id.PageTitle);
+        CustomCartNumber = (TextView)findViewById(R.id.CustomCartNumber);
+
+        PageTitle.setText("My Profile");
+        setNumberOfItemsInCartIcon();
+
+        CustomCartContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(UserProfileActivity.this, CartActivity.class));
+            }
+        });
+
+    }
+
+
+    private void setNumberOfItemsInCartIcon(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference m = root.child("cart").child(UserId);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if(dataSnapshot.getChildrenCount()==1){
+                        CustomCartNumber.setVisibility(View.GONE);
+                    }
+                    else {
+                        CustomCartNumber.setVisibility(View.VISIBLE);
+                        CustomCartNumber.setText(String.valueOf(dataSnapshot.getChildrenCount()-1));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+    }
+
 }

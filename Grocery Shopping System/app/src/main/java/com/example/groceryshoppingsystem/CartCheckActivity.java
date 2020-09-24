@@ -1,16 +1,19 @@
 package com.example.groceryshoppingsystem;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +21,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,9 +33,6 @@ import java.util.Calendar;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CartCheckActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-    // Delete All in Cart After Saving
-    // Cleaning the Code At Last
-    // Handle All Designs
     String ttlPrice , DelPrice , ttlPrice2 , saved;
     DatabaseReference root;
     String CurrentUser;
@@ -42,14 +43,25 @@ public class CartCheckActivity extends AppCompatActivity implements NavigationVi
     private Toolbar mToolbar;
     private TextView mPerson_name;
     private CircleImageView mPerson_image;
+    private FirebaseAuth mAuth;
+    private FirebaseUser CurrentUsr;
+    private String UserId;
+
+    //Custom Xml Views (cart Icon)
+    private RelativeLayout CustomCartContainer;
+    private TextView PageTitle;
+    private TextView CustomCartNumber;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_check);
+        mAuth = FirebaseAuth.getInstance();
+        CurrentUsr = mAuth.getCurrentUser();
+        UserId = CurrentUsr.getUid();
 
         mToolbar = (Toolbar)findViewById(R.id.cartCheckToolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Check Order");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -153,6 +165,10 @@ public class CartCheckActivity extends AppCompatActivity implements NavigationVi
         mToggle.syncState();
 
         getNavHeaderData();
+
+        //Refresh CartIcon
+        showCartIcon();
+
     }
 
 
@@ -181,19 +197,8 @@ public class CartCheckActivity extends AppCompatActivity implements NavigationVi
         m.addListenerForSingleValueEvent(valueEventListener);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.cart_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id =item.getItemId();
-        if(id==R.id.menuCartID){
-            startActivity(new Intent(CartCheckActivity.this, CartActivity.class));
-        }
         if(mToggle.onOptionsItemSelected(item)) return true;
         return super.onOptionsItemSelected(item);
     }
@@ -246,5 +251,56 @@ public class CartCheckActivity extends AppCompatActivity implements NavigationVi
         return true;
     }
 
+
+    private void showCartIcon(){
+        //toolbar & cartIcon
+        ActionBar actionBar= getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view= inflater.inflate(R.layout.main2_toolbar,null);
+        actionBar.setCustomView(view);
+
+        //************custom action items xml**********************
+        CustomCartContainer = (RelativeLayout)findViewById(R.id.CustomCartIconContainer);
+        PageTitle =(TextView)findViewById(R.id.PageTitle);
+        CustomCartNumber = (TextView)findViewById(R.id.CustomCartNumber);
+
+        PageTitle.setText("Check Order");
+        setNumberOfItemsInCartIcon();
+
+        CustomCartContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CartCheckActivity.this, CartActivity.class));
+            }
+        });
+
+    }
+
+
+    private void setNumberOfItemsInCartIcon(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference m = root.child("cart").child(UserId);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if(dataSnapshot.getChildrenCount()==1){
+                        CustomCartNumber.setVisibility(View.GONE);
+                    }
+                    else {
+                        CustomCartNumber.setVisibility(View.VISIBLE);
+                        CustomCartNumber.setText(String.valueOf(dataSnapshot.getChildrenCount()-1));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+    }
 
 }

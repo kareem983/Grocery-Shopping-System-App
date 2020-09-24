@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bar">
 
-
         <include
             android:id="@+id/main_TooBar"
             layout="@layout/main2_toolbar"

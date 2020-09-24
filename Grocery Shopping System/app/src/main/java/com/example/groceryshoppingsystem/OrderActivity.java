@@ -1,27 +1,29 @@
 package com.example.groceryshoppingsystem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class OrderActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -31,15 +33,25 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
     private Toolbar mToolbar;
     private TextView mPerson_name;
     private CircleImageView mPerson_image;
+    private FirebaseAuth mAuth;
+    private FirebaseUser CurrentUser;
+    private String UserId;
+    //Custom Xml Views (cart Icon)
+    private RelativeLayout CustomCartContainer;
+    private TextView PageTitle;
+    private TextView CustomCartNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         getSupportFragmentManager().beginTransaction().replace(R.id.Orderframe,new OrderFregmant()).commit();
+        mAuth = FirebaseAuth.getInstance();
+        CurrentUser = mAuth.getCurrentUser();
+        UserId = CurrentUser.getUid();
 
         mToolbar = (Toolbar)findViewById(R.id.OrderToolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("My Orders");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
@@ -61,6 +73,10 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
         mToggle.syncState();
 
         getNavHeaderData();
+
+        //Refresh CartIcon
+        showCartIcon();
+
     }
 
 
@@ -89,19 +105,8 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
         m.addListenerForSingleValueEvent(valueEventListener);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.cart_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id =item.getItemId();
-        if(id==R.id.menuCartID){
-            startActivity(new Intent(OrderActivity.this, CartActivity.class));
-        }
         if(mToggle.onOptionsItemSelected(item)) return true;
         return super.onOptionsItemSelected(item);
     }
@@ -151,5 +156,56 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
+
+    private void showCartIcon(){
+        //toolbar & cartIcon
+        ActionBar actionBar= getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view= inflater.inflate(R.layout.main2_toolbar,null);
+        actionBar.setCustomView(view);
+
+        //************custom action items xml**********************
+        CustomCartContainer = (RelativeLayout)findViewById(R.id.CustomCartIconContainer);
+        PageTitle =(TextView)findViewById(R.id.PageTitle);
+        CustomCartNumber = (TextView)findViewById(R.id.CustomCartNumber);
+
+        PageTitle.setText("My Orders");
+        setNumberOfItemsInCartIcon();
+
+        CustomCartContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(OrderActivity.this, CartActivity.class));
+            }
+        });
+
+    }
+
+
+    private void setNumberOfItemsInCartIcon(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference m = root.child("cart").child(UserId);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if(dataSnapshot.getChildrenCount()==1){
+                        CustomCartNumber.setVisibility(View.GONE);
+                    }
+                    else {
+                        CustomCartNumber.setVisibility(View.VISIBLE);
+                        CustomCartNumber.setText(String.valueOf(dataSnapshot.getChildrenCount()-1));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+    }
 
 }
