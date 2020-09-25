@@ -2,21 +2,26 @@ package com.example.groceryshoppingsystem.UI;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.groceryshoppingsystem.Model.Offer;
@@ -24,6 +29,7 @@ import com.example.groceryshoppingsystem.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -34,7 +40,7 @@ import com.squareup.picasso.Picasso;
 
 public class EditOffer extends AppCompatActivity {
 
-    private EditText name, description;
+    private TextInputEditText name, description;
     private Button edit, choose;
     private ImageView img;
     private Uri imgUri;
@@ -43,10 +49,20 @@ public class EditOffer extends AppCompatActivity {
     private StorageTask mUploadTask;
     private String oldName, category , oldImagePath;
     private byte[] oldImageBytes;
+    private Toolbar mToolBar;
+    private RelativeLayout CustomCartContainer;
+    private TextView PageTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_offer);
+
+        //tool bar
+        mToolBar = (Toolbar)findViewById(R.id.EditOffer_ToolBar);
+        setSupportActionBar(mToolBar);
+        getSupportActionBar().setTitle("Edit Offer");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         name = findViewById(R.id.editTextOfferNameEdit);
         description = findViewById(R.id.editTextOfferDescriptionEdit);
@@ -109,6 +125,14 @@ public class EditOffer extends AppCompatActivity {
         });
 
     }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        NotshowCartIcon();
+    }
     public void deleteData() {
         DatabaseReference reference = mDatabaseRef.child(oldName);
         reference.removeValue();
@@ -126,6 +150,8 @@ public class EditOffer extends AppCompatActivity {
         }
 
     }
+
+
 
     public void uploadData() {
         if (name.getText().toString().isEmpty() || description.getText().toString().isEmpty() || imgUri == null) {
@@ -205,5 +231,23 @@ public class EditOffer extends AppCompatActivity {
                 Log.e(this.toString(), e.getMessage().toString());
             }
         }
+    }
+
+    private void NotshowCartIcon(){
+        //toolbar & cartIcon
+        ActionBar actionBar= getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view= inflater.inflate(R.layout.main2_toolbar,null);
+        //actionBar.setCustomView(view);
+
+        //************custom action items xml**********************
+        CustomCartContainer = (RelativeLayout)findViewById(R.id.CustomCartIconContainer);
+        PageTitle =(TextView)findViewById(R.id.PageTitle);
+        PageTitle.setVisibility(View.GONE);
+        CustomCartContainer.setVisibility(View.GONE);
+
     }
 }

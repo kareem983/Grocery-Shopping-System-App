@@ -25,13 +25,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.EditSalesMan"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".UI.AdminActivity"/>
         <activity
             android:name=".UI.EditProduct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".UI.AdminActivity"/>
         <activity
             android:name=".UI.EditOffer"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".UI.AdminActivity"/>
         <activity
             android:name=".UI.favourites_activity"
             android:screenOrientation="portrait" />
@@ -43,13 +46,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.AddSalesMan"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".UI.AdminActivity"/>
         <activity
             android:name=".UI.AddOffer"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".UI.AdminActivity"/>
         <activity
             android:name=".UI.AddProduct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".UI.AdminActivity"/>
         <activity
             android:name=".UI.UserProfileActivity"
             android:screenOrientation="portrait" />

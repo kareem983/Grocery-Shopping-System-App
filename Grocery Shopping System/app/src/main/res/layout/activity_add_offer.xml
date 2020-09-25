@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.AddOffer">
 
+    <include layout="@layout/main2_toolbar"
+        android:id="@+id/AddOffer_ToolBar"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/AddOffer_ToolBar">
+
     <ImageView
         android:id="@+id/offerImage"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="250dp"
         android:layout_marginStart="64dp"
         android:layout_marginLeft="64dp"
         android:layout_marginTop="16dp"
@@ -19,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_baseline_supervisor_account_24" />
+        android:src="@drawable/add_offers" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextOfferLayout"
@@ -27,18 +35,23 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="38dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/offerImage">
+        app:layout_constraintTop_toBottomOf="@+id/offerImage"
+        android:background="@drawable/stroke_button">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextOfferName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Offer Name"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="10dp"
+            android:background="@android:color/transparent"
             android:inputType="textPersonName"
             android:textColor="@android:color/black"
             android:textColorHint="@android:color/darker_gray" />
@@ -51,24 +64,41 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextOfferLayout">
-
+        app:layout_constraintTop_toBottomOf="@+id/editTextOfferLayout"
+        android:background="@drawable/stroke_button">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextOfferDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Offer Description"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="10dp"
+            android:background="@android:color/transparent"
             android:inputType="textMultiLine"
             android:textColor="@android:color/black"
             android:textColorHint="@android:color/darker_gray" />
     </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddOffer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="32dp"
+            android:text="Add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"/>
 
 
     <com.google.android.material.button.MaterialButton
@@ -83,18 +113,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAddOffer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="32dp"
-        android:text="Add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

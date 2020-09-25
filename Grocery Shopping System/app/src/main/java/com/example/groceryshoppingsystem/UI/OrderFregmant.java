@@ -25,6 +25,7 @@ public class OrderFregmant extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
+
     ArrayList<MyorderModel> orderItemList;
     OrderAdapter adapter ;
     private FirebaseAuth mAuth;
@@ -51,27 +52,26 @@ public class OrderFregmant extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        mAuth=FirebaseAuth.getInstance();
-        CurrentUser = mAuth.getCurrentUser().getUid();
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_order_fregmant, container, false);
+        mAuth=FirebaseAuth.getInstance();
+        CurrentUser = mAuth.getCurrentUser().getUid();
+
         OrderItemRecyclerView =  view.findViewById(R.id.orderrecycler);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        OrderItemRecyclerView.setLayoutManager(layoutManager);
         orderItemList = new ArrayList<MyorderModel>();
+        adapter = new OrderAdapter(getActivity(),orderItemList);
 
-        root = FirebaseDatabase.getInstance().getReference();
-        m = root.child("order").child(CurrentUser);
-        adapter = new OrderAdapter(orderItemList);
-
+        OrderItemRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         OrderItemRecyclerView.setAdapter(adapter);
-        ValueEventListener valueEventListener =new ValueEventListener() {
+
+        DatabaseReference roott= FirebaseDatabase.getInstance().getReference();
+        DatabaseReference x = roott.child("order").child(CurrentUser);
+        ValueEventListener valueEventListener1 =new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -84,27 +84,19 @@ public class OrderFregmant extends Fragment {
                         {
                             products+= "    #"+data.getKey() + "\n        Price: " + data.child("productPrice").getValue().toString() + " EGP\n        Quantity: " + data.child("quantity").getValue().toString()+"\n";
                         }
+
                         orderItemList.add( new MyorderModel("   Date :  " + Date ,"   Products Number :  "+String.valueOf(nums),"   Total Price :  "+ totalPrice , "   "+products));
                     }
-
                 }
                 else{
                     orderItemList.clear();
                 }
-
                 adapter.notifyDataSetChanged();
             }
-
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         };
-        m.addListenerForSingleValueEvent(valueEventListener);
-
-
-
+        x.addListenerForSingleValueEvent(valueEventListener1);
 
         return view;
     }

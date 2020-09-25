@@ -2,10 +2,13 @@ package com.example.groceryshoppingsystem.UI;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -15,12 +18,15 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.groceryshoppingsystem.R;
@@ -52,11 +58,20 @@ public class AddSalesMan extends AppCompatActivity {
     private DatabaseReference mDataBaseRef;
     private StorageTask mUploadTask;
     private TextInputLayout nameLayout , salaryLayout;
+    private Toolbar mToolBar;
+    private RelativeLayout CustomCartContainer;
+    private TextView PageTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sales_man);
+
+        //tool bar
+        mToolBar = (Toolbar)findViewById(R.id.AddSalesMen_ToolBar);
+        setSupportActionBar(mToolBar);
+        getSupportActionBar().setTitle("Add SalesMan");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("salesman");
         mDataBaseRef = FirebaseDatabase.getInstance().getReference("salesman");
@@ -175,6 +190,13 @@ public class AddSalesMan extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        NotshowCartIcon();
+    }
+
     public void uploadData()
     {
         if(name.getText().toString().isEmpty() || salary.getText().toString().isEmpty() || imgUri == null)
@@ -283,4 +305,24 @@ public class AddSalesMan extends AppCompatActivity {
 
         }
     }
+
+
+    private void NotshowCartIcon(){
+        //toolbar & cartIcon
+        ActionBar actionBar= getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
+
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view= inflater.inflate(R.layout.main2_toolbar,null);
+        //actionBar.setCustomView(view);
+
+        //************custom action items xml**********************
+        CustomCartContainer = (RelativeLayout)findViewById(R.id.CustomCartIconContainer);
+        PageTitle =(TextView)findViewById(R.id.PageTitle);
+        PageTitle.setVisibility(View.GONE);
+        CustomCartContainer.setVisibility(View.GONE);
+
+    }
+
 }
