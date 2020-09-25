@@ -11,6 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -25,6 +27,8 @@ import com.example.groceryshoppingsystem.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -40,13 +44,14 @@ import androidmads.library.qrgenearator.QRGEncoder;
 
 public class AddSalesMan extends AppCompatActivity {
 
-    private EditText name , salary;
+    private TextInputEditText name , salary;
     private Button add , choose;
     private ImageView img;
     private Uri imgUri;
     private StorageReference mStorageRef;
     private DatabaseReference mDataBaseRef;
     private StorageTask mUploadTask;
+    private TextInputLayout nameLayout , salaryLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +66,18 @@ public class AddSalesMan extends AppCompatActivity {
         add = findViewById(R.id.btnAddSalesMan);
         choose = findViewById(R.id.btnChooseSalesManImage);
         img = findViewById(R.id.salesManImage);
-
-
+        nameLayout = findViewById(R.id.editTextSalesManNameLayout);
+        salaryLayout = findViewById(R.id.editTextSalesManSalaryLayout);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(mUploadTask != null && mUploadTask.isInProgress())
                     Toast.makeText(AddSalesMan.this, "Upload Is In Progress", Toast.LENGTH_SHORT).show();
+                else if(name.getText().toString().isEmpty() || salary.getText().toString().isEmpty() || imgUri == null)
+                {
+                    Toast.makeText(AddSalesMan.this, "Empty Cells", Toast.LENGTH_SHORT).show();
+                }
                 else
                 {
                     uploadData();
@@ -83,6 +92,85 @@ public class AddSalesMan extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openImage();
+            }
+        });
+
+        salaryLayout.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(salary.getText().toString().trim().isEmpty())
+                {
+                    salaryLayout.setErrorEnabled(true);
+                    salaryLayout.setError("Please Enter Offer Name");
+                }
+                else
+                {
+                    salaryLayout.setErrorEnabled(false);
+                }
+            }
+        });
+
+        salary.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(salary.getText().toString().trim().isEmpty())
+                {
+                    salaryLayout.setErrorEnabled(true);
+                    salaryLayout.setError("Please Enter Offer Name");
+                }
+                else
+                {
+                    salaryLayout.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        nameLayout.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(name.getText().toString().trim().isEmpty())
+                {
+                    nameLayout.setErrorEnabled(true);
+                    nameLayout.setError("Please Enter Offer Name");
+                }
+                else
+                {
+                    nameLayout.setErrorEnabled(false);
+                }
+            }
+        });
+
+        name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(name.getText().toString().trim().isEmpty())
+                {
+                    nameLayout.setErrorEnabled(true);
+                    nameLayout.setError("Please Enter Offer Name");
+                }
+                else
+                {
+                    nameLayout.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
     }

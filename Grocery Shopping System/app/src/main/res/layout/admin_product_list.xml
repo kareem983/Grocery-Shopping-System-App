@@ -6,12 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardCornerRadius="20dp"
     android:id="@+id/ProductCardView"
-    app:cardBackgroundColor="@color/cardview_dark_background"
-    app:cardElevation="8dp"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    app:cardBackgroundColor="#121212"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="20dp"
+    android:clickable="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

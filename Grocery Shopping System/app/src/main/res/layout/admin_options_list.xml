@@ -9,7 +9,7 @@
     android:padding="10dp"
     app:cardCornerRadius="20dp"
     android:id="@+id/OfferCardView"
-    app:cardBackgroundColor="@color/cardview_dark_background"
+    app:cardBackgroundColor="#121212"
     app:cardElevation="8dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground">

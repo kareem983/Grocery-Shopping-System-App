@@ -4,10 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceryshoppingsystem.Model.AdminProduct;
@@ -63,6 +65,8 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+        holder.cardView.setAnimation(AnimationUtils.loadAnimation(context , R.anim.fade_scale_animation));
+        holder.img.setAnimation(AnimationUtils.loadAnimation(context , R.anim.fade_transition_animation));
         Picasso.get().load(adminProducts.get(position).getImage()).centerCrop().fit().into(holder.img);
         holder.name.setText(adminProducts.get(position).getName());
         holder.category.setText("Category: "+adminProducts.get(position).getCategory());
@@ -85,7 +89,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
 
         ImageView img;
         TextView name , category , quantity , price , expire;
-
+        CardView cardView;
         public ProductViewHolder(@NonNull View itemView, final AdminOfferAdapter.onItemClickListener itemlistener , final AdminOfferAdapter.onLongClickListener longClickListener) {
             super(itemView);
             img = itemView.findViewById(R.id.adapterProductImage);
@@ -94,6 +98,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
             quantity = itemView.findViewById(R.id.AdapterProductQuantity);
             price = itemView.findViewById(R.id.AdapterProductPrice);
             expire = itemView.findViewById(R.id.AdapterProductExpire);
+            cardView = itemView.findViewById(R.id.ProductCardView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

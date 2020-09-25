@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.AddOffer"
-    android:background="@color/cardview_dark_background">
+    tools:context=".UI.AddOffer">
 
     <ImageView
         android:id="@+id/offerImage"
@@ -22,8 +21,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/ic_baseline_supervisor_account_24" />
 
-    <EditText
-        android:id="@+id/editTextOfferName"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextOfferLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -31,32 +30,48 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:hint="Enter The Offer Name"
-        android:inputType="textPersonName"
-        android:textColor="@android:color/black"
-        android:textColorHint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/offerImage" />
+        app:layout_constraintTop_toBottomOf="@+id/offerImage">
 
-    <EditText
-        android:id="@+id/editTextOfferDescription"
-        android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextOfferName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Offer Name"
+            android:inputType="textPersonName"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextOfferDescriptionLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:hint="Enter The Offer Description"
-        android:inputType="textMultiLine"
-        android:textColor="@android:color/black"
-        android:textColorHint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextOfferName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextOfferLayout">
 
-    <Button
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextOfferDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Offer Description"
+            android:inputType="textMultiLine"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChooseOfferImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,9 +80,10 @@
         android:layout_marginBottom="32dp"
         android:text="Choose Image"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddOffer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,6 +94,7 @@
         android:layout_marginBottom="32dp"
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

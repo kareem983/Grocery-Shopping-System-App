@@ -14,9 +14,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/SalesMenRecycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"/>
+        android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/SalesFloatingBtnId"
@@ -26,6 +24,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
-        android:backgroundTint="@color/colorPrimaryDark"/>
+        android:background="#6200EA"/>
 
 </RelativeLayout>

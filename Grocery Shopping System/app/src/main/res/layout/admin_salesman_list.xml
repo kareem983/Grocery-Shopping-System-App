@@ -8,8 +8,8 @@
     android:layout_margin="5dp"
     app:cardCornerRadius="20dp"
     android:id="@+id/SalesManCardView"
-    app:cardBackgroundColor="@color/cardview_dark_background"
-    app:cardElevation="8dp"
+    app:cardBackgroundColor="#121212"
+    app:cardElevation="10dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground">
 

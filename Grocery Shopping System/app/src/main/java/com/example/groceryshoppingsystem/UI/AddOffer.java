@@ -9,6 +9,8 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -22,6 +24,8 @@ import com.example.groceryshoppingsystem.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -32,12 +36,13 @@ import com.squareup.picasso.Picasso;
 
 public class AddOffer extends AppCompatActivity {
 
-    private EditText name , description;
+    private TextInputEditText name , description;
     private Button add , choose;
     private ImageView img;
     private Uri imgUri;
     private StorageReference mStorageRef;
     private StorageTask mUploadTask;
+    private TextInputLayout nameTextInputLayout , descTextInputLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +54,101 @@ public class AddOffer extends AppCompatActivity {
         add = findViewById(R.id.btnAddOffer);
         choose = findViewById(R.id.btnChooseOfferImg);
         img = findViewById(R.id.offerImage);
+        nameTextInputLayout = findViewById(R.id.editTextOfferLayout);
+        descTextInputLayout = findViewById(R.id.editTextOfferDescriptionLayout);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("offers");
+
+        nameTextInputLayout.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(name.getText().toString().trim().isEmpty())
+                {
+                    nameTextInputLayout.setErrorEnabled(true);
+                    nameTextInputLayout.setError("Please Enter Offer Name");
+                }
+                else
+                {
+                    nameTextInputLayout.setErrorEnabled(false);
+                }
+            }
+        });
+
+        descTextInputLayout.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(description.getText().toString().trim().isEmpty())
+                {
+                    descTextInputLayout.setErrorEnabled(true);
+                    descTextInputLayout.setError("Please Enter Offer Name");
+                }
+                else
+                {
+                    descTextInputLayout.setErrorEnabled(false);
+                }
+            }
+        });
+
+        name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(name.getText().toString().trim().isEmpty())
+                {
+                    nameTextInputLayout.setErrorEnabled(true);
+                    nameTextInputLayout.setError("Please Enter Offer Name");
+                }
+                else
+                {
+                    nameTextInputLayout.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        description.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(description.getText().toString().trim().isEmpty())
+                {
+                    descTextInputLayout.setErrorEnabled(true);
+                    descTextInputLayout.setError("Please Enter Offer Name");
+                }
+                else
+                {
+                    descTextInputLayout.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(mUploadTask != null && mUploadTask.isInProgress())
                     Toast.makeText(AddOffer.this, "Upload Is In Progress", Toast.LENGTH_SHORT).show();
+                else if(name.getText().toString().isEmpty() || description.getText().toString().isEmpty() || imgUri == null)
+                {
+                    Toast.makeText(AddOffer.this, "Empty Cells", Toast.LENGTH_SHORT).show();
+                }
                 else
                 {
                     try {

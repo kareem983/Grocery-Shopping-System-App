@@ -126,7 +126,6 @@ public class ProductsFragment extends Fragment {
                 b.putString("quantity" , adminProducts.get(pos).getQuantity());
                 i.putExtras(b);
                 startActivity(i);
-                Log.e("ProdFrag Expired: " , adminProducts.get(pos).getName());
             }
         });
 

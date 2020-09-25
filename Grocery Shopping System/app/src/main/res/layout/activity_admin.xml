@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.AdminActivity"
-    android:background="@drawable/back">
+    tools:context=".UI.AdminActivity">
 
     <include layout="@layout/main2_toolbar"
         android:id="@+id/Admin_ToolBar"/>
@@ -15,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textSize="23dp"
+        android:textSize="20sp"
         android:textColor="#000"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
@@ -34,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/container"
+        android:background="@drawable/container2"
         app:menu="@menu/admin_bottom_menu"
         app:itemIconTint="#FFF"
         app:itemTextColor="#FFF"

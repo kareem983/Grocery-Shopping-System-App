@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.AddSalesMan"
-    android:background="@color/cardview_dark_background">
+    tools:context=".UI.AddSalesMan">
 
     <ImageView
         android:id="@+id/salesManImage"
@@ -16,47 +15,59 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="64dp"
         android:layout_marginRight="64dp"
+        android:src="@drawable/ic_baseline_supervisor_account_24"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_baseline_supervisor_account_24"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextSalesManName"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextSalesManNameLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:hint="Enter The Sales Man Name"
-        android:inputType="textPersonName"
-        android:textColor="@android:color/black"
-        android:textColorHint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/salesManImage" />
+        app:layout_constraintTop_toBottomOf="@+id/salesManImage">
 
-    <EditText
-        android:id="@+id/editTextSalesManSalary"
-        android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextSalesManName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="SalesMan Name"
+            android:inputType="textPersonName"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextSalesManSalaryLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:hint="Enter The Salary"
-        android:inputType="number"
-        android:textColor="@android:color/black"
-        android:textColorHint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSalesManName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextSalesManNameLayout">
 
-    <Button
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextSalesManSalary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Salary"
+            android:inputType="number"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddSalesMan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,10 +77,11 @@
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
         android:text="Add"
+        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChooseSalesManImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,6 +89,7 @@
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
         android:text="Choose Image"
+        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,10 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceryshoppingsystem.Model.AdminSalesMan;
@@ -62,6 +64,9 @@ public class AdminSalesManAdapter extends RecyclerView.Adapter<AdminSalesManAdap
 
     @Override
     public void onBindViewHolder(@NonNull SalesManViewHolder holder, int position) {
+
+        holder.img.setAnimation(AnimationUtils.loadAnimation(context , R.anim.fade_transition_animation));
+        holder.cardView.setAnimation(AnimationUtils.loadAnimation(context , R.anim.fade_scale_animation));
         Picasso.get().load(salesManList.get(position).getImg()).centerCrop().fit().into(holder.img);
         holder.name.setText("Name: "+salesManList.get(position).getName());
         holder.salary.setText("Salary: "+salesManList.get(position).getSalary()+" EGP");
@@ -77,12 +82,14 @@ public class AdminSalesManAdapter extends RecyclerView.Adapter<AdminSalesManAdap
 
         ImageView img;
         TextView name , salary;
+        CardView cardView;
         public SalesManViewHolder(@NonNull View itemView, final AdminOfferAdapter.onItemClickListener itemlistener , final AdminOfferAdapter.onLongClickListener longClickListener) {
             super(itemView);
 
             img = itemView.findViewById(R.id.adapterSalesManImage);
             name = itemView.findViewById(R.id.AdapterSalesManName);
             salary = itemView.findViewById(R.id.AdapterSalesManSalary);
+            cardView = itemView.findViewById(R.id.SalesManCardView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

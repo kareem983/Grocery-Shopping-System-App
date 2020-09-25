@@ -5,9 +5,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceryshoppingsystem.Model.AdminOffer;
@@ -62,6 +64,8 @@ public class AdminOfferAdapter extends RecyclerView.Adapter<AdminOfferAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.cardView.setAnimation(AnimationUtils.loadAnimation(context , R.anim.fade_scale_animation));
+        holder.img.setAnimation(AnimationUtils.loadAnimation(context , R.anim.fade_transition_animation));
         Picasso.get().load(offers.get(position).getOfferImg()).centerCrop().fit().into(holder.img);
         holder.name.setText(offers.get(position).getOfferName());
         holder.description.setText(offers.get(position).getOfferDescription());
@@ -76,11 +80,13 @@ public class AdminOfferAdapter extends RecyclerView.Adapter<AdminOfferAdapter.Vi
 
         ImageView img;
         TextView name , description;
+        CardView cardView;
         public ViewHolder(@NonNull View itemView , final onItemClickListener itemlistener , final onLongClickListener longClickListener) {
             super(itemView);
             img = itemView.findViewById(R.id.adapterOfferImage);
             name = itemView.findViewById(R.id.adapterOfferName);
             description = itemView.findViewById(R.id.adapterOfferDescription);
+            cardView = itemView.findViewById(R.id.OfferCardView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
