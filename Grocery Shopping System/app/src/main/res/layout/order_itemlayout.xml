@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#1E1E1E">
+    android:background="#1E1E1E"
+    android:layout_margin="10dp">
 
     <TextView
         android:id="@+id/textView2"
@@ -84,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="15dp"
         android:outlineSpotShadowColor="@color/colorAccent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="5dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

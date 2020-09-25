@@ -9,9 +9,7 @@
                 android:endColor="#192943"
                 android:angle="0"/>
             <stroke android:color="@android:color/transparent"/>
-            <corners android:topLeftRadius="20dp"
-                android:topRightRadius="20dp"/>
+            <corners android:radius="20dp"/>
         </shape>
-
     </item>
 </selector>

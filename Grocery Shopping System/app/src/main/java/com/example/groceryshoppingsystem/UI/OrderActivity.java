@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.groceryshoppingsystem.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -78,6 +77,9 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
 
         //Refresh CartIcon
         showCartIcon();
+
+        //to check if the total price is zero or not
+        HandleTotalPriceToZeroIfNotExist();
 
     }
 
@@ -211,6 +213,24 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         };
         m.addListenerForSingleValueEvent(eventListener);
+    }
+
+    private void HandleTotalPriceToZeroIfNotExist(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference m = root.child("cart").child(UserId);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    FirebaseDatabase.getInstance().getReference().child("cart").child(UserId).child("totalPrice").setValue("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+
     }
 
 }

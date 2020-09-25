@@ -1,6 +1,7 @@
 package com.example.groceryshoppingsystem.UI;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,21 +15,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import com.example.groceryshoppingsystem.Adapters.GridproductAdapter;
-import com.example.groceryshoppingsystem.Model.HorizontalProductModel;
 import com.example.groceryshoppingsystem.Adapters.My_Adapter;
+import com.example.groceryshoppingsystem.Model.HorizontalProductModel;
 import com.example.groceryshoppingsystem.Model.Offers;
-import com.example.groceryshoppingsystem.R;
 import com.example.groceryshoppingsystem.Model.favouritesClass;
 import com.example.groceryshoppingsystem.Model.model;
 import com.example.groceryshoppingsystem.Model.user;
+import com.example.groceryshoppingsystem.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -118,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Refresh CartIcon
         showCartIcon();
 
+        //to check if the total price is zero or not
+        HandleTotalPriceToZeroIfNotExist();
     }
 
     public void Retrieve_Electroncis() {
@@ -375,14 +378,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         }
         else if (id == R.id.Logout) {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(MainActivity.this, loginActivity.class));
-            finish();
+            CheckLogout();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
+
+    private void CheckLogout(){
+        AlertDialog.Builder checkAlert = new AlertDialog.Builder(MainActivity.this);
+        checkAlert.setMessage("Do you want to Logout?")
+                .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent=new Intent(MainActivity.this,loginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = checkAlert.create();
+        alert.setTitle("LogOut");
+        alert.show();
+
+    }
 
 
     @Override
@@ -469,5 +494,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         m.addListenerForSingleValueEvent(eventListener);
     }
 
+
+    private void HandleTotalPriceToZeroIfNotExist(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference m = root.child("cart").child(Uid);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    FirebaseDatabase.getInstance().getReference().child("cart").child(Uid).child("totalPrice").setValue("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+
+    }
 
 }

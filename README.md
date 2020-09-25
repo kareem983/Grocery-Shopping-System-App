@@ -39,3 +39,5 @@ Products Offers (Kareem)
 
 Cart Icon Badge Feature (Number Of Products in cart Icon) (Kareem)
 
+Admin Animation (Ziad)
+

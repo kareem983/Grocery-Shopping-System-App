@@ -17,9 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.example.groceryshoppingsystem.Model.CategoryProductInfo;
 import com.example.groceryshoppingsystem.Adapters.CategoryProductInfoAdapter;
+import com.example.groceryshoppingsystem.Model.CategoryProductInfo;
 import com.example.groceryshoppingsystem.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -79,12 +78,12 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
                 CategoryProductInfo product = CategoryProducts.get(position);
 
                 Intent intent = new Intent(CategoryActivity.this,ProductInfoActivity.class);
-                 intent.putExtra("Product Name",product.getProductName());
-                 intent.putExtra("Product Price",product.getProductPrice());
-                 intent.putExtra("Product Image",product.getProductImage());
-                 intent.putExtra("Product ExpiryDate",product.getProductExpiryDate());
-                 intent.putExtra("Product IsFavorite",String.valueOf(product.getIsFavorite()));
-                 intent.putExtra("Is Offered","no");
+                intent.putExtra("Product Name",product.getProductName());
+                intent.putExtra("Product Price",product.getProductPrice());
+                intent.putExtra("Product Image",product.getProductImage());
+                intent.putExtra("Product ExpiryDate",product.getProductExpiryDate());
+                intent.putExtra("Product IsFavorite",String.valueOf(product.getIsFavorite()));
+                intent.putExtra("Is Offered","no");
 
                 startActivity(intent);
             }
@@ -101,6 +100,9 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         //Refresh CartIcon
         showCartIcon();
+
+        //to check if the total price is zero or not
+        HandleTotalPriceToZeroIfNotExist();
 
     }
 
@@ -308,6 +310,24 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         };
         m.addListenerForSingleValueEvent(eventListener);
+    }
+
+    private void HandleTotalPriceToZeroIfNotExist(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference m = root.child("cart").child(UserId);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    FirebaseDatabase.getInstance().getReference().child("cart").child(UserId).child("totalPrice").setValue("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+
     }
 
 }

@@ -5,10 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.groceryshoppingsystem.Model.CartItemModel;
 import com.example.groceryshoppingsystem.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,7 +16,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter  {
@@ -42,42 +39,37 @@ public class CartAdapter extends RecyclerView.Adapter  {
 
     @Override
     public int getItemViewType(int position) {
-      switch (cartItemModelList.get(position).getType())
-      {
-          case 0:
-              return  CartItemModel.cart_item;
-          default:
-              return  -1;
-      }
+        switch (cartItemModelList.get(position).getType())
+        {
+            case 0:
+                return  CartItemModel.cart_item;
+            default:
+                return  -1;
+        }
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View cartitemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item_layout,parent,false);
 
-               View cartitemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item_layout,parent,false);
-               return new cartItemViewHolder(cartitemview , mListener);
-
-
-
-        }
+        return new cartItemViewHolder(cartitemview , mListener);
+    }
 
 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        String resource = cartItemModelList.get(position).getProductImage();
+        String title = cartItemModelList.get(position).getProducttitle();
+        int freeCoupons = cartItemModelList.get(position).getCoupon();
+        int productPrice = cartItemModelList.get(position).getPrice();
+        String cuttedprice = String.valueOf(cartItemModelList.get(position).getCuttedprice());
+        int offerApplied = cartItemModelList.get(position).getOfferApplied();
+        int quantity = cartItemModelList.get(position).getQuantity();
+        ((cartItemViewHolder) holder).setItemDetails(resource, title, freeCoupons, productPrice , quantity, cuttedprice, offerApplied);
 
-
-            String resource = cartItemModelList.get(position).getProductImage();
-            String title = cartItemModelList.get(position).getProducttitle();
-            int freeCoupons = cartItemModelList.get(position).getCoupon();
-            int productPrice = cartItemModelList.get(position).getPrice();
-            String cuttedprice = String.valueOf(cartItemModelList.get(position).getCuttedprice());
-            int offerApplied = cartItemModelList.get(position).getOfferApplied();
-            int quantity = cartItemModelList.get(position).getQuantity();
-            ((cartItemViewHolder) holder).setItemDetails(resource, title, freeCoupons, productPrice , quantity, cuttedprice, offerApplied);
-
-}
+    }
 
 
     @Override
@@ -88,8 +80,8 @@ public class CartAdapter extends RecyclerView.Adapter  {
 
 
     class cartItemViewHolder extends RecyclerView.ViewHolder  {
-private ImageView productimage;
-private TextView producttitle;
+        private ImageView productimage;
+        private TextView producttitle;
         private TextView freecoupon;
         private TextView productprice;
         private TextView cuttedprice;
@@ -101,7 +93,7 @@ private TextView producttitle;
         private ImageView MinusIcon;
         private ImageView CartItemDelete;
         public boolean deletedItem = false ;
-           //-----------
+        //-----------
 
 
 
@@ -135,6 +127,8 @@ private TextView producttitle;
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onDeleteClick(position);
+                            countTotalPrice();
+
                         }
                     }
                 }
@@ -162,20 +156,20 @@ private TextView producttitle;
                 freecoupon.setVisibility(View.INVISIBLE);
                 couponApplied.setVisibility(View.INVISIBLE);
             }
-            productprice.setText(String.valueOf(productPriceText * quantity ));
+            productprice.setText("Price: "+String.valueOf(productPriceText * quantity )+" EGP");
             if ( Integer.parseInt(cutprice) >0) {
                 cuttedprice.setText(cutprice);
                 cuttedprice.setVisibility(View.VISIBLE);
             }
             else {cuttedprice.setVisibility(View.INVISIBLE);}
-               productQuantity.setText(String.valueOf(quantity));
+            productQuantity.setText(String.valueOf(quantity));
             PlusIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    productQuantity.setText( String.valueOf( Integer.parseInt( productQuantity.getText().toString() )+1  )  );
-                    productprice.setText(String.valueOf(productPriceText *Integer.parseInt( productQuantity.getText().toString()) ))  ;
-                   root.child("cart").child(CurrentUser).child(title).child("quantity").setValue(productQuantity.getText().toString());
-                      countTotalPrice();
+                    productQuantity.setText(String.valueOf( Integer.parseInt( productQuantity.getText().toString() )+1  )  );
+                    productprice.setText("Price: "+String.valueOf(productPriceText *Integer.parseInt( productQuantity.getText().toString()) )+" EGP")  ;
+                    root.child("cart").child(CurrentUser).child(title).child("quantity").setValue(productQuantity.getText().toString());
+                    countTotalPrice();
 
                 }
             });
@@ -185,7 +179,7 @@ private TextView producttitle;
                 public void onClick(View v) {
                     if(Integer.valueOf( productQuantity.getText().toString() ) >1) {
                         productQuantity.setText(String.valueOf(Integer.parseInt(productQuantity.getText().toString()) - 1));
-                        productprice.setText(String.valueOf(productPriceText * Integer.parseInt(productQuantity.getText().toString())));
+                        productprice.setText("Price: "+String.valueOf(productPriceText * Integer.parseInt(productQuantity.getText().toString()))+" EGP");
                         root.child("cart").child(CurrentUser).child(title).child("quantity").setValue(productQuantity.getText().toString());
                         countTotalPrice();
                     }
@@ -210,7 +204,7 @@ private TextView producttitle;
 
     }
     class cartTotalAmountViewHolder extends RecyclerView.ViewHolder{
-private TextView totalItemsTitle;
+        private TextView totalItemsTitle;
         private TextView totalItemsPrice ;
         private TextView delivaryPrice;
         private TextView  totalAmount;
@@ -250,7 +244,6 @@ private TextView totalItemsTitle;
 
                 if (snapshot.exists()) {
                     for (DataSnapshot dataSnapshot : snapshot.child(CurrentUser).getChildren()) {
-
                         if (!dataSnapshot.getKey().equals("totalPrice")) {
 
                             String cartItemPrice = dataSnapshot.child("productPrice").getValue(String.class).toString();
@@ -260,7 +253,7 @@ private TextView totalItemsTitle;
 
                     }
                     root.child("cart").child(CurrentUser).child("totalPrice").setValue(String.valueOf(totalpriceVal));
-                    mListener.UpdateTotalPrice(String.valueOf(totalpriceVal));
+                    mListener.UpdateTotalPrice(String.valueOf(totalpriceVal)+" EGP");
                 }
             }
 

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,14 +35,17 @@ public class CartActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar mToolbar;
     private TextView mPerson_name;
     private CircleImageView mPerson_image;
-
     private RelativeLayout CustomCartContainer;
     private TextView PageTitle;
+
+    public static Activity fa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        fa=this;
 
         mToolbar = (Toolbar)findViewById(R.id.cartToolbar);
         setSupportActionBar(mToolbar);
@@ -161,7 +165,7 @@ public class CartActivity extends AppCompatActivity implements NavigationView.On
 
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view= inflater.inflate(R.layout.main2_toolbar,null);
-      //actionBar.setCustomView(view);
+        //actionBar.setCustomView(view);
 
         //************custom action items xml**********************
         CustomCartContainer = (RelativeLayout)findViewById(R.id.CustomCartIconContainer);

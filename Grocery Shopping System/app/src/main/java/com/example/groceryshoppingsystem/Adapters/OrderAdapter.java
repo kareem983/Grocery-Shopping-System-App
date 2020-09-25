@@ -4,16 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.groceryshoppingsystem.Model.MyorderModel;
 import com.example.groceryshoppingsystem.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter {
@@ -68,7 +65,7 @@ public class OrderAdapter extends RecyclerView.Adapter {
         private void setItemDetails(String Date, String Nums, String Price, String Products) {
             orderDate.setText(Date);
             orderNums.setText(Nums);
-            orderPrice.setText(Price);
+            orderPrice.setText(Price+" EGP");
             orderProducts.setText(Products);
         }
 

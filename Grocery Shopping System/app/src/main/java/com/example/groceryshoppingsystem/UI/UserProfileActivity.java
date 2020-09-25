@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.groceryshoppingsystem.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -124,6 +123,9 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
 
         //Refresh CartIcon
         showCartIcon();
+
+        //to check if the total price is zero or not
+        HandleTotalPriceToZeroIfNotExist();
     }
 
     @Override
@@ -202,15 +204,15 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         ValueEventListener valueEventListener=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-               if(snapshot.exists()){
-                   String Name = snapshot.child("Name").getValue().toString();
-                   String Image = snapshot.child("Image").getValue().toString();
-                   mPerson_name.setText(Name);
-                   if (Image.equals("default")) {
-                       Picasso.get().load(R.drawable.profile).into(mPerson_image);
-                   } else
-                       Picasso.get().load(Image).placeholder(R.drawable.profile).into(mPerson_image);
-               }
+                if(snapshot.exists()){
+                    String Name = snapshot.child("Name").getValue().toString();
+                    String Image = snapshot.child("Image").getValue().toString();
+                    mPerson_name.setText(Name);
+                    if (Image.equals("default")) {
+                        Picasso.get().load(R.drawable.profile).into(mPerson_image);
+                    } else
+                        Picasso.get().load(Image).placeholder(R.drawable.profile).into(mPerson_image);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
@@ -362,4 +364,21 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         m.addListenerForSingleValueEvent(eventListener);
     }
 
+    private void HandleTotalPriceToZeroIfNotExist(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference m = root.child("cart").child(UserId);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    FirebaseDatabase.getInstance().getReference().child("cart").child(UserId).child("totalPrice").setValue("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+
+    }
 }

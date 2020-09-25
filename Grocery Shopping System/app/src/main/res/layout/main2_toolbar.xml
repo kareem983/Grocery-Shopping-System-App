@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/container"
-    android:layout_margin="10dp"
-    app:titleTextColor="@android:color/white">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:layout_margin="20dp">
 
     <TextView
         android:id="@+id/PageTitle"
@@ -39,6 +39,7 @@
             android:layout_marginLeft="-15dp"
             android:text=""
             android:textColor="#FFF"
+            android:visibility="gone"
             android:background="@drawable/circular2"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"/>

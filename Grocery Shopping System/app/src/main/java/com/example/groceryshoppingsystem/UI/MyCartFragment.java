@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.groceryshoppingsystem.Adapters.CartAdapter;
 import com.example.groceryshoppingsystem.Model.CartItemModel;
 import com.example.groceryshoppingsystem.R;
@@ -47,7 +46,7 @@ public class MyCartFragment extends Fragment {
         // Required empty public constructor
     }
 
-private RecyclerView CartItemRecyclerView;
+    private RecyclerView CartItemRecyclerView;
     private Button Cartconfirm ,Cartclear;
 
     public static MyCartFragment newInstance(String param1, String param2) {
@@ -73,8 +72,8 @@ private RecyclerView CartItemRecyclerView;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_my_cart, container, false);
         CartItemRecyclerView = view.findViewById(R.id.cart_recycle);
         Cartconfirm = view.findViewById(R.id.cart_confirmbtn);
@@ -87,16 +86,16 @@ private RecyclerView CartItemRecyclerView;
         CartItemRecyclerView.setLayoutManager(layoutManager);
         cartItemModelList = new ArrayList<CartItemModel>();
 
-         root = FirebaseDatabase.getInstance().getReference();
-         m = root.child("cart");
-         cartAdapter = new CartAdapter(cartItemModelList);
+        root = FirebaseDatabase.getInstance().getReference();
+        m = root.child("cart");
+        cartAdapter = new CartAdapter(cartItemModelList);
 
-         CartItemRecyclerView.setAdapter(cartAdapter);
+        CartItemRecyclerView.setAdapter(cartAdapter);
+
 
         ValueEventListener valueEventListener =new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 if (snapshot.exists()) {
                     for (DataSnapshot dataSnapshot : snapshot.child(CurrentUser).getChildren()) {
 
@@ -113,7 +112,7 @@ private RecyclerView CartItemRecyclerView;
                     accountTotalPrice();
                     cartAdapter.notifyDataSetChanged();
                 }
-                }
+            }
 
 
             @Override
@@ -163,14 +162,14 @@ private RecyclerView CartItemRecyclerView;
         ValueEventListener valueEventListener1 = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 if (snapshot.getChildrenCount() <= 1) {
-                    Cart_container.setVisibility(View.GONE);
-                    NoItem.setVisibility(View.VISIBLE);
-
-                } else {
-                    Cart_container.setVisibility(View.VISIBLE);
-                    NoItem.setVisibility(View.GONE);
+                    if (snapshot.exists()) {
+                        Cart_container.setVisibility(View.GONE);
+                        NoItem.setVisibility(View.VISIBLE);
+                    } else {
+                        Cart_container.setVisibility(View.VISIBLE);
+                        NoItem.setVisibility(View.GONE);
+                    }
                 }
             }
             @Override
@@ -182,39 +181,42 @@ private RecyclerView CartItemRecyclerView;
     }
 
 
- public void accountTotalPrice(){
+
+
+
+    public void accountTotalPrice(){
         totalpriceVal = 0;
         m = root.child("cart");
-     ValueEventListener valueEventListener =new ValueEventListener() {
-         @Override
-         public void onDataChange(@NonNull DataSnapshot snapshot) {
+        ValueEventListener valueEventListener =new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-             if (snapshot.exists()) {
-                 for (DataSnapshot dataSnapshot : snapshot.child(CurrentUser).getChildren()) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot dataSnapshot : snapshot.child(CurrentUser).getChildren()) {
 
-                     if (!dataSnapshot.getKey().equals("totalPrice")) {
+                        if (!dataSnapshot.getKey().equals("totalPrice")) {
 
-                         String cartItemPrice = dataSnapshot.child("productPrice").getValue(String.class).toString();
-                         String quantity = dataSnapshot.child("quantity").getValue(String.class).toString();
-                       totalpriceVal += Integer.parseInt(  cartItemPrice) * Integer.parseInt( quantity );
-                     }
+                            String cartItemPrice = dataSnapshot.child("productPrice").getValue(String.class).toString();
+                            String quantity = dataSnapshot.child("quantity").getValue(String.class).toString();
+                            totalpriceVal += Integer.parseInt(  cartItemPrice) * Integer.parseInt( quantity );
+                        }
 
-                 }
-                      root.child("cart").child(CurrentUser).child("totalPrice").setValue(String.valueOf(totalpriceVal));
-                 totalprice.setText(String.valueOf(totalpriceVal));
-                 cartAdapter.notifyDataSetChanged();
-             }
-         }
+                    }
+                    root.child("cart").child(CurrentUser).child("totalPrice").setValue(String.valueOf(totalpriceVal));
+                    totalprice.setText(String.valueOf(totalpriceVal)+" EGP");
+                    cartAdapter.notifyDataSetChanged();
+                }
+            }
 
 
-         @Override
-         public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-         }
-     };
-     m.addListenerForSingleValueEvent(valueEventListener);
+            }
+        };
+        m.addListenerForSingleValueEvent(valueEventListener);
 
- }
+    }
 
 
 

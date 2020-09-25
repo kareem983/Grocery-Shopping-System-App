@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.groceryshoppingsystem.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,23 +86,27 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
     }
 
 
-    private void DefineXmlViews(){
-        PImage = (ImageView)findViewById(R.id.ProductImage);
-        PIsFav = (ImageView)findViewById(R.id.ProductFav);
-        PName = (TextView)findViewById(R.id.ProductName);
-        PCategory = (TextView)findViewById(R.id.ProductCategory);
-        PAmount = (TextView)findViewById(R.id.ProductAvailableAmount);
-        PPrice = (TextView)findViewById(R.id.CurrentProductPrice);
-        OldPrice = (TextView)findViewById(R.id.OldProductPrice);
-        OfferRate = (TextView)findViewById(R.id.OfferRate);
-        OfferContainer = (LinearLayout)findViewById(R.id.OfferContainer);
-        PExpiryDate = (TextView)findViewById(R.id.ProductExpiryDate);
-        AddToCartContainer = (RelativeLayout)findViewById(R.id.AddToCart);
-        DeleteFromCartContainer = (RelativeLayout)findViewById(R.id.DeleteFromCart);
-        CheckCartContainer = (RelativeLayout)findViewById(R.id.CheckCartContainer);
-        Back = (Button)findViewById(R.id.BackBtn);
-        Confirm= (Button)findViewById(R.id.ConformBtn);
+    private void DefineXmlViews() {
+        PImage = (ImageView) findViewById(R.id.ProductImage);
+        PIsFav = (ImageView) findViewById(R.id.ProductFav);
+        PName = (TextView) findViewById(R.id.ProductName);
+        PCategory = (TextView) findViewById(R.id.ProductCategory);
+        PAmount = (TextView) findViewById(R.id.ProductAvailableAmount);
+        PPrice = (TextView) findViewById(R.id.CurrentProductPrice);
+        OldPrice = (TextView) findViewById(R.id.OldProductPrice);
+        OfferRate = (TextView) findViewById(R.id.OfferRate);
+        OfferContainer = (LinearLayout) findViewById(R.id.OfferContainer);
+        PExpiryDate = (TextView) findViewById(R.id.ProductExpiryDate);
+        AddToCartContainer = (RelativeLayout) findViewById(R.id.AddToCart);
+        DeleteFromCartContainer = (RelativeLayout) findViewById(R.id.DeleteFromCart);
+        CheckCartContainer = (RelativeLayout) findViewById(R.id.CheckCartContainer);
+        Back = (Button) findViewById(R.id.BackBtn);
+        Confirm = (Button) findViewById(R.id.ConformBtn);
 
+        RefershContainers();
+    }
+
+    private void RefershContainers(){
         DatabaseReference root = FirebaseDatabase.getInstance().getReference();
         DatabaseReference x = root.child("cart").child(UserId).child(ProductName);
         ValueEventListener valueEventListener = new ValueEventListener() {
@@ -216,6 +219,11 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
 
         //Refresh CartIcon
         showCartIcon();
+
+        RefershContainers();
+
+        //to check if the total price is zero or not
+        HandleTotalPriceToZeroIfNotExist();
     }
 
     private void setProductData(){
@@ -432,6 +440,24 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         };
         m.addListenerForSingleValueEvent(eventListener);
+    }
+
+    private void HandleTotalPriceToZeroIfNotExist(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference m = root.child("cart").child(UserId);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    FirebaseDatabase.getInstance().getReference().child("cart").child(UserId).child("totalPrice").setValue("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+
     }
 
 }

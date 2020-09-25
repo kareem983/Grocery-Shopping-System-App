@@ -75,24 +75,21 @@ public class CartCheckActivity extends AppCompatActivity implements NavigationVi
         savedamount=findViewById(R.id.SavedAmount);
 
 
-
-
         Done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 savedDate();
-                startActivity(new Intent(CartCheckActivity.this , MainActivity.class));
+                CartActivity.fa.finish();
+                finish();
             }
         });
         Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                startActivity(new Intent(CartCheckActivity.this , MainActivity.class));
+                finish();
             }
         });
         getCheckData();
-
 
     }
 
@@ -170,6 +167,9 @@ public class CartCheckActivity extends AppCompatActivity implements NavigationVi
 
         //Refresh CartIcon
         showCartIcon();
+
+        //to check if the total price is zero or not
+        HandleTotalPriceToZeroIfNotExist();
 
     }
 
@@ -306,6 +306,24 @@ public class CartCheckActivity extends AppCompatActivity implements NavigationVi
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         };
         m.addListenerForSingleValueEvent(eventListener);
+    }
+
+    private void HandleTotalPriceToZeroIfNotExist(){
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference m = root.child("cart").child(UserId);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    FirebaseDatabase.getInstance().getReference().child("cart").child(UserId).child("totalPrice").setValue("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        m.addListenerForSingleValueEvent(eventListener);
+
     }
 
 }
