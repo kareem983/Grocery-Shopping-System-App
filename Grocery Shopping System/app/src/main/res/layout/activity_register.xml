@@ -51,8 +51,8 @@
         android:id="@+id/piclayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@+id/bgHeader">
+        android:layout_below="@+id/bgHeader"
+        android:layout_centerInParent="true">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image"
