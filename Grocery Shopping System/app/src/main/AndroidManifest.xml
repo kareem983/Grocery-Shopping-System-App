@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.groceryshoppingsystem">
 
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- permission of cropper image -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".UI.OfflineCapability"
@@ -14,6 +16,10 @@
         android:roundIcon="@mipmap/appicon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".UI.ScanQRCodeActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".UI.OrderActivity"/>
         <activity
             android:name=".UI.CartCheckActivity"
             android:screenOrientation="portrait" />
@@ -25,16 +31,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.EditSalesMan"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".UI.AdminActivity"/>
+            android:parentActivityName=".UI.AdminActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.EditProduct"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".UI.AdminActivity"/>
+            android:parentActivityName=".UI.AdminActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.EditOffer"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".UI.AdminActivity"/>
+            android:parentActivityName=".UI.AdminActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.favourites_activity"
             android:screenOrientation="portrait" />
@@ -46,16 +52,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.AddSalesMan"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".UI.AdminActivity"/>
+            android:parentActivityName=".UI.AdminActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.AddOffer"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".UI.AdminActivity"/>
+            android:parentActivityName=".UI.AdminActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.AddProduct"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".UI.AdminActivity"/>
+            android:parentActivityName=".UI.AdminActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.UserProfileActivity"
             android:screenOrientation="portrait" />
@@ -70,7 +76,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.AdminActivity"
-            android:theme="@style/AppTheme.FullScreen"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.SplashScreen"
@@ -83,7 +88,8 @@
         </activity>
         <activity
             android:name=".UI.MainActivity"
-            android:screenOrientation="portrait" /> <!-- activity of cropper image -->
+            android:screenOrientation="portrait" />
+
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
@@ -91,6 +97,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode"/>
+
     </application>
 
 </manifest>

@@ -41,3 +41,9 @@ Cart Icon Badge Feature (Number Of Products in cart Icon) (Kareem)
 
 Admin Animation (Ziad)
 
+Login & Register Animation (Amr)
+
+QR Code Generator (Ziad)
+
+QR Code Scanner (Kareem)
+

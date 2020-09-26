@@ -1,5 +1,6 @@
 package com.example.groceryshoppingsystem.UI;
 
+import android.app.Activity;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -31,6 +32,7 @@ public class OrderFregmant extends Fragment {
     private FirebaseAuth mAuth;
     private String CurrentUser;
     private DatabaseReference m , root;
+    public static Activity fa;
     public OrderFregmant() {
         // Required empty public constructor
     }
@@ -59,6 +61,7 @@ public class OrderFregmant extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_order_fregmant, container, false);
+        fa= getActivity();
         mAuth=FirebaseAuth.getInstance();
         CurrentUser = mAuth.getCurrentUser().getUid();
 
@@ -79,13 +82,15 @@ public class OrderFregmant extends Fragment {
                         String Date = dataSnapshot.child("Date").getValue().toString();
                         int nums = ((int)(dataSnapshot.child("orderproducts").getChildrenCount()));
                         String totalPrice = dataSnapshot.child("totalPrice").getValue().toString();
+                        String OrderCheck = dataSnapshot.child("IsChecked").getValue().toString();
+
                         String products="Products :\n";
                         for (DataSnapshot data : dataSnapshot.child("orderproducts").getChildren())
                         {
                             products+= "    #"+data.getKey() + "\n        Price: " + data.child("productPrice").getValue().toString() + " EGP\n        Quantity: " + data.child("quantity").getValue().toString()+"\n";
                         }
 
-                        orderItemList.add( new MyorderModel("   Date :  " + Date ,"   Products Number :  "+String.valueOf(nums),"   Total Price :  "+ totalPrice , "   "+products));
+                        orderItemList.add( new MyorderModel(dataSnapshot.getKey(),"   Date :  " + Date ,"   Products Number :  "+String.valueOf(nums),"   Total Price :  "+ totalPrice , "   "+products,OrderCheck));
                     }
                 }
                 else{

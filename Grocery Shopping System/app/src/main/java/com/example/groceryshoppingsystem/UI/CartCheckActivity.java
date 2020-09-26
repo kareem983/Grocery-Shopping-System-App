@@ -136,6 +136,7 @@ public class CartCheckActivity extends AppCompatActivity implements NavigationVi
                 root.child("order").child(CurrentUser).child(key).child("totalPrice").setValue(snapshot.child("totalPrice").getValue());
                 root.child("order").child(CurrentUser).child(key).child("orderproducts").child("totalPrice").removeValue();
                 root.child("order").child(CurrentUser).child(key).child("Date").setValue(String.valueOf(new SimpleDateFormat("dd MMM yyyy hh:mm a").format(Calendar.getInstance().getTime())));
+                root.child("order").child(CurrentUser).child(key).child("IsChecked").setValue("false");
                 Toast.makeText( getApplicationContext() ,"Confermed Completed" , Toast.LENGTH_LONG).show();
                 root.child("cart").child(CurrentUser).removeValue();
             }

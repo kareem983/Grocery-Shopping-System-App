@@ -79,15 +79,47 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/orderPrice"/>
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintTop_toBottomOf="@+id/orderProducts">
+
+
+    <TextView
+        android:id="@+id/OrderCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="18dp"
+        android:text="Order: Pending"
+        android:textColor="#FFF"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/ScanQRCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="15dp"
+        android:text="Scan QR code"
+        android:textColor="#00ACC1"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@drawable/product_container"
+        android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
     <View
         android:id="@+id/divider6"
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:outlineSpotShadowColor="@color/colorAccent"
-        android:layout_marginTop="5dp"
         android:background="?android:attr/listDivider"
+        android:outlineSpotShadowColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderProducts" />
+        app:layout_constraintTop_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
