@@ -1,7 +1,7 @@
 package com.example.groceryshoppingsystem.Model;
 
 public class MyorderModel {
-  private   String Date , orderNums,orderPrice,orderProducts;
+  private String Date , orderNums,orderPrice,orderProducts;
 
     public MyorderModel(String date, String orderNums, String orderPrice, String orderProducts) {
         Date = date;
