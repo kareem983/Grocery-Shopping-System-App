@@ -64,6 +64,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.AdminActivity"
+            android:theme="@style/AppTheme.FullScreen"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.SplashScreen"

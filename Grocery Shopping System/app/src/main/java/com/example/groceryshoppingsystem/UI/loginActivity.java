@@ -6,9 +6,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,7 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 public class loginActivity extends AppCompatActivity {
     EditText mEmail, mPassword;
     Button mlogin;
-    TextView mCreateBtn, mforgerpassword;
+    TextView mforgerpassword;
+    ImageButton mCreateBtn;
     FirebaseAuth fauth;
     ProgressBar mprogresspar;
 
@@ -34,7 +37,7 @@ public class loginActivity extends AppCompatActivity {
         mPassword = (EditText) findViewById(R.id.PasswordLogin);
         fauth = FirebaseAuth.getInstance();
         mlogin = (Button) findViewById(R.id.Login);
-        mCreateBtn = (TextView) findViewById(R.id.SignUPtext);
+        mCreateBtn = (ImageButton) findViewById(R.id.SignUPtext);
         mprogresspar = (ProgressBar) findViewById(R.id.progressBar1);
         mforgerpassword = (TextView) findViewById(R.id.ForgetPassword);
         // Checking if the user is logging in or log out ! ;
@@ -42,8 +45,7 @@ public class loginActivity extends AppCompatActivity {
             if (fauth.getCurrentUser().getEmail().equals("admin@gmail.com")) {
                 startActivity(new Intent(loginActivity.this, AdminActivity.class));
                 finish();
-            }
-            else {
+            } else {
                 startActivity(new Intent(loginActivity.this, MainActivity.class));
                 finish();
             }
