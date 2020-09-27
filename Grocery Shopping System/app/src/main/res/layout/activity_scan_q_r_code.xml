@@ -21,24 +21,30 @@
         android:layout_marginRight="30dp"
         android:background="@drawable/container2">
 
-    <SurfaceView
-        android:id="@+id/surfaceView"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        <com.budiyev.android.codescanner.CodeScannerView
+            android:id="@+id/ScannerView"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:frameAspectRatioHeight="1"
+            app:frameAspectRatioWidth="1"
+            app:frameThickness="2dp"
+            app:frameSize="0.95"
+            app:frameCornersSize="50dp"
+            app:frameCornersRadius="0dp"/>
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="please focus camera on QR code"
-        android:layout_below="@id/surfaceView"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:textSize="18dp"
-        android:textColor="#FFF"/>
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="please focus camera on QR code"
+            android:layout_below="@id/ScannerView"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:textSize="18dp"
+            android:textColor="#FFF"/>
     </RelativeLayout>
 
 </RelativeLayout>

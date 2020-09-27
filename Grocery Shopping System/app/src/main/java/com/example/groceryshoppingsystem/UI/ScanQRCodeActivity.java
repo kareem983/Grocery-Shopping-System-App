@@ -4,24 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.budiyev.android.codescanner.CodeScanner;
+import com.budiyev.android.codescanner.CodeScannerView;
+import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.groceryshoppingsystem.R;
-/*import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.Detector;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,14 +24,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import java.io.IOException;
-*/
+import com.google.zxing.Result;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
+
 public class ScanQRCodeActivity extends AppCompatActivity {
-  /*  private SurfaceView cameraPreview;
+    private CodeScanner codeScanner;
+    private CodeScannerView codeScannerView;
     private TextView textView;
-    private BarcodeDetector barcodeDetector;
-    private CameraSource cameraSource;
-    private final int RequestCameraPermissionID = 1001;
     private FirebaseAuth mAuth;
     private FirebaseUser CurrentUser;
     private String UserId;
@@ -46,28 +45,10 @@ public class ScanQRCodeActivity extends AppCompatActivity {
     private TextView PageTitle;
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == RequestCameraPermissionID) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                try {
-                    cameraSource.start(cameraPreview.getHolder());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
-*/
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_q_r_code);
-  /*      mAuth= FirebaseAuth.getInstance();
+        mAuth= FirebaseAuth.getInstance();
         CurrentUser = mAuth.getCurrentUser();
         UserId = CurrentUser.getUid();
 
@@ -80,85 +61,78 @@ public class ScanQRCodeActivity extends AppCompatActivity {
 
         OrderId = getIntent().getStringExtra("OrderId");
 
-        cameraPreview = (SurfaceView) findViewById(R.id.surfaceView);
-        textView = (TextView) findViewById(R.id.text);
+        codeScannerView =findViewById(R.id.ScannerView);
+        textView = (TextView)findViewById(R.id.text);
+        codeScanner = new CodeScanner(this,codeScannerView);
 
-
-        barcodeDetector = new BarcodeDetector.Builder(this)
-                .setBarcodeFormats(Barcode.QR_CODE).build();
-
-        cameraSource = new CameraSource.Builder(this, barcodeDetector)
-                .setRequestedPreviewSize(640, 480).build();
-
-
-        cameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {
+        codeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
-            public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
-                if (ActivityCompat.checkSelfPermission(ScanQRCodeActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(ScanQRCodeActivity.this,
-                            new String[]{Manifest.permission.CAMERA},RequestCameraPermissionID);
-                    return;
-                }
-
-                try {
-                    cameraSource.start(cameraPreview.getHolder());
-                }
-                catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {}
-            @Override
-            public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
-                cameraSource.stop();
+            public void onDecoded(@NonNull final Result result) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SearchAboutSalesMan(result.getText());
+                        Vibrator vibrator= (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                        vibrator.vibrate(1000);
+                    }
+                });
             }
         });
 
 
-        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
+        codeScannerView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void release() {
-
-            }
-
-            @Override
-            public void receiveDetections(Detector.Detections<Barcode> detections) {
-                final SparseArray<Barcode> qrcodes =detections.getDetectedItems();
-
-                SearchAboutSalesMan(qrcodes.valueAt(0).displayValue);
-
-                if(qrcodes.size()!=0){
-                    textView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Vibrator vibrator= (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                            vibrator.vibrate(1000);
-                        }
-                    });
-                }
+            public void onClick(View view) {
+                codeScanner.startPreview();
+                textView.setText("please focus camera on QR code");
             }
         });
-*/
+
     }
 
-/*
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        requestForCamera();
+    }
+
+    private void requestForCamera() {
+        Dexter.withActivity(ScanQRCodeActivity.this).withPermission(Manifest.permission.CAMERA).withListener(new PermissionListener() {
+            @Override
+            public void onPermissionGranted(PermissionGrantedResponse response) {
+                codeScanner.startPreview();
+            }
+            @Override
+            public void onPermissionDenied(PermissionDeniedResponse response) {
+                Toast.makeText(ScanQRCodeActivity.this,"Camera Permission is Requested",Toast.LENGTH_LONG).show();
+                finish();
+            }
+            @Override
+            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                token.continuePermissionRequest();
+            }
+        }).check();
+    }
+
+
+
     private void SearchAboutSalesMan(String name){
         DatabaseReference root = FirebaseDatabase.getInstance().getReference();
         DatabaseReference x = root.child("salesman").child(name);
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                   if(dataSnapshot.exists()){
-                       FirebaseDatabase.getInstance().getReference().child("order").child(UserId).child(OrderId).child("IsChecked").setValue("true");
-                       textView.setText("This Order Received Successfully");
-                       OrderFregmant.fa.finish();
-                       finish();
-                   }
-                   else {
-                       textView.setText("This Delivery doesn't Exist in our System\nTry Again");
-                   }
+                if(dataSnapshot.exists()){
+                    FirebaseDatabase.getInstance().getReference().child("order").child(UserId).child(OrderId).child("IsChecked").setValue("true");
+                    textView.setText("This Order Received Successfully");
+                    Toast.makeText(ScanQRCodeActivity.this,"Order Received Successfully",Toast.LENGTH_LONG).show();
+                    OrderFregmant.fa.finish();
+                    finish();
+                }
+                else {
+                    textView.setText("This Delivery doesn't Exist in our System\nTry Again");
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
@@ -184,5 +158,5 @@ public class ScanQRCodeActivity extends AppCompatActivity {
         CustomCartContainer.setVisibility(View.GONE);
 
     }
-*/
+
 }
