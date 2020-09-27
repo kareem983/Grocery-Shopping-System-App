@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.groceryshoppingsystem.R;
-import com.google.android.gms.vision.CameraSource;
+/*import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
@@ -30,9 +30,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.io.IOException;
-
+*/
 public class ScanQRCodeActivity extends AppCompatActivity {
-    private SurfaceView cameraPreview;
+  /*  private SurfaceView cameraPreview;
     private TextView textView;
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
@@ -61,11 +61,13 @@ public class ScanQRCodeActivity extends AppCompatActivity {
         }
 
     }
+*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_q_r_code);
-        mAuth= FirebaseAuth.getInstance();
+  /*      mAuth= FirebaseAuth.getInstance();
         CurrentUser = mAuth.getCurrentUser();
         UserId = CurrentUser.getUid();
 
@@ -138,10 +140,10 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                 }
             }
         });
-
+*/
     }
 
-
+/*
     private void SearchAboutSalesMan(String name){
         DatabaseReference root = FirebaseDatabase.getInstance().getReference();
         DatabaseReference x = root.child("salesman").child(name);
@@ -182,5 +184,5 @@ public class ScanQRCodeActivity extends AppCompatActivity {
         CustomCartContainer.setVisibility(View.GONE);
 
     }
-
+*/
 }

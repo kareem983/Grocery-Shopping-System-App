@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.example.groceryshoppingsystem.Model.HorizontalProductModel;
 import com.example.groceryshoppingsystem.Model.favouritesClass;
 import com.example.groceryshoppingsystem.R;

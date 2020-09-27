@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.example.groceryshoppingsystem.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,7 +18,6 @@ public class ForgetPassword extends AppCompatActivity {
     private Button sendForgetBtn;
     private ProgressBar progressbar;
     private FirebaseAuth mfirebaseAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
 import com.example.groceryshoppingsystem.Adapters.AdminOfferAdapter;
 import com.example.groceryshoppingsystem.Adapters.AdminSalesManAdapter;
 import com.example.groceryshoppingsystem.Model.AdminSalesMan;
@@ -26,12 +24,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class SalesMenFragment extends Fragment {
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private View view;
@@ -45,8 +41,6 @@ public class SalesMenFragment extends Fragment {
     private List<AdminSalesMan> adminSalesManList;
     private DatabaseReference mDataBaseRef;
     private ProgressBar bar;
-
-
 
     public SalesMenFragment() {
         // Required empty public constructor

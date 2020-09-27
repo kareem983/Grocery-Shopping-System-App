@@ -1,7 +1,6 @@
 package com.example.groceryshoppingsystem.Model;
 
 public class AdminProduct {
-
     private String name, category , expired , image , price , quantity;
 
     public AdminProduct(String name, String category, String expired, String image, String price, String quantity) {

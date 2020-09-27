@@ -3,11 +3,13 @@ package com.example.groceryshoppingsystem.UI;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -50,11 +52,9 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
     private FirebaseAuth mAuth;
     private FirebaseUser CurrentUser;
     private String UserId;
-
     //Custom Xml Views (cart Icon)
     private RelativeLayout CustomCartContainer;
-    private TextView PageTitle;
-    private TextView CustomCartNumber;
+    private TextView PageTitle,CustomCartNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,10 +103,10 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
         Back = (Button) findViewById(R.id.BackBtn);
         Confirm = (Button) findViewById(R.id.ConformBtn);
 
-        RefershContainers();
+        RefreshContainers();
     }
 
-    private void RefershContainers(){
+    private void RefreshContainers(){
         DatabaseReference root = FirebaseDatabase.getInstance().getReference();
         DatabaseReference x = root.child("cart").child(UserId).child(ProductName);
         ValueEventListener valueEventListener = new ValueEventListener() {
@@ -160,22 +160,6 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
             }
         });
 
-        DeleteFromCartContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddToCartContainer.setVisibility(View.VISIBLE);
-                DeleteFromCartContainer.setVisibility(View.GONE);
-
-                DatabaseReference x = FirebaseDatabase.getInstance().getReference().child("cart").child(UserId);
-                x.child(ProductName).removeValue();
-
-                Toast.makeText(ProductInfoActivity.this,"The Product Deleted Successfully from your Cart",Toast.LENGTH_SHORT).show();
-
-                //Refresh CartIcon
-                showCartIcon();
-            }
-        });
-
         Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -210,6 +194,23 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
             }
         });
 
+        DeleteFromCartContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddToCartContainer.setVisibility(View.VISIBLE);
+                DeleteFromCartContainer.setVisibility(View.GONE);
+
+                DatabaseReference x = FirebaseDatabase.getInstance().getReference().child("cart").child(UserId);
+                x.child(ProductName).removeValue();
+
+                Toast.makeText(ProductInfoActivity.this,"The Product Deleted Successfully from your Cart",Toast.LENGTH_SHORT).show();
+
+                //Refresh CartIcon
+                showCartIcon();
+            }
+        });
+
+
     }
 
     @Override
@@ -220,7 +221,7 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
         //Refresh CartIcon
         showCartIcon();
 
-        RefershContainers();
+        RefreshContainers();
 
         //to check if the total price is zero or not
         HandleTotalPriceToZeroIfNotExist();
@@ -378,14 +379,36 @@ public class ProductInfoActivity extends AppCompatActivity  implements Navigatio
             startActivity(intent);
         }
         else if(id==R.id.Logout){
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(ProductInfoActivity.this,loginActivity.class));
-            finish();
+            CheckLogout();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
+
+    private void CheckLogout(){
+        AlertDialog.Builder checkAlert = new AlertDialog.Builder(ProductInfoActivity.this);
+        checkAlert.setMessage("Do you want to Logout?")
+                .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent=new Intent(ProductInfoActivity.this,loginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = checkAlert.create();
+        alert.setTitle("LogOut");
+        alert.show();
+
+    }
 
 
     private void showCartIcon(){

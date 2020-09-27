@@ -3,6 +3,7 @@ package com.example.groceryshoppingsystem.UI;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -10,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,15 +46,14 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
     private RecyclerView recyclerView;
     private ArrayList<CategoryProductInfo> CategoryProducts;
     private CategoryProductInfoAdapter adapter;
+    //------------------------------------
     private FirebaseAuth mAuth;
     private FirebaseUser CurrentUser;
     private String UserId;
     private CategoryProductInfoAdapter.RecyclerViewClickListener listener;
-
     //Custom Xml Views (cart Icon)
     private RelativeLayout CustomCartContainer;
-    private TextView PageTitle;
-    private TextView CustomCartNumber;
+    private TextView PageTitle, CustomCartNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +65,26 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
 
         CategoryName = getIntent().getStringExtra("Category Name");
 
+
         //on clicking any product (go to ProductInfo Activity to show it's info)
         onClickAnyProduct();
 
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        setCategoryData();
+
+        //define Navigation Viewer and got its data
+        DefineNavigation();
+
+        //Refresh CartIcon
+        showCartIcon();
+
+        //to check if the total price is zero or not
+        HandleTotalPriceToZeroIfNotExist();
 
     }
 
@@ -90,21 +107,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         };
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        setCategoryData();
-        //define Navigation Viewer and got its data
-        DefineNavigation();
-
-        //Refresh CartIcon
-        showCartIcon();
-
-        //to check if the total price is zero or not
-        HandleTotalPriceToZeroIfNotExist();
-
-    }
 
     private void setCategoryData(){
         //toolbar
@@ -124,7 +126,6 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
         showCartIcon();
 
     }
-
 
     private void getProductsData(){
         DatabaseReference root = FirebaseDatabase.getInstance().getReference();
@@ -249,12 +250,35 @@ public class CategoryActivity extends AppCompatActivity implements NavigationVie
             setCategoryData();
         }
         else if(id==R.id.Logout){
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(CategoryActivity.this,loginActivity.class));
-            finish();
+            CheckLogout();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    private void CheckLogout(){
+        AlertDialog.Builder checkAlert = new AlertDialog.Builder(CategoryActivity.this);
+        checkAlert.setMessage("Do you want to Logout?")
+                .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent=new Intent(CategoryActivity.this,loginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = checkAlert.create();
+        alert.setTitle("LogOut");
+        alert.show();
+
     }
 
 

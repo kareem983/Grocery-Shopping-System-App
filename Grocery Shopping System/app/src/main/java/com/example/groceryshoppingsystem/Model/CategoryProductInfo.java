@@ -8,6 +8,7 @@ public class CategoryProductInfo  {
     private boolean IsFavorite;
 
     public CategoryProductInfo(){
+
     }
 
     public CategoryProductInfo(String ProductImage, String ProductName, String ProductPrice, String ProductExpiryDate,boolean IsFavorite){

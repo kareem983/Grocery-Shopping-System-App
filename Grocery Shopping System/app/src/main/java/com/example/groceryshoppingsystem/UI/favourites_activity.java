@@ -1,6 +1,7 @@
 package com.example.groceryshoppingsystem.UI;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,13 +13,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.groceryshoppingsystem.Adapters.MyAdapter_Recycler_View;
 import com.example.groceryshoppingsystem.Model.favouritesClass;
 import com.example.groceryshoppingsystem.R;
@@ -46,18 +47,15 @@ public class favourites_activity extends AppCompatActivity implements Navigation
     private FirebaseUser CurrentUser;
     private String UserId;
     private RecyclerView.Adapter my_adapter;
-
     //Custom Xml Views (cart Icon)
     private RelativeLayout CustomCartContainer;
     private TextView PageTitle;
     private TextView CustomCartNumber;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites_activity);
-
 
         mAuth = FirebaseAuth.getInstance();
         CurrentUser = mAuth.getCurrentUser();
@@ -70,7 +68,6 @@ public class favourites_activity extends AppCompatActivity implements Navigation
 
         //define Navigation Viewer and got its data
         DefineNavigation();
-
 
     }
 
@@ -128,14 +125,36 @@ public class favourites_activity extends AppCompatActivity implements Navigation
             startActivity(intent);
         }
         else if (id == R.id.Logout) {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(favourites_activity.this, loginActivity.class));
-            finish();
+            CheckLogout();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
+
+    private void CheckLogout(){
+        AlertDialog.Builder checkAlert = new AlertDialog.Builder(favourites_activity.this);
+        checkAlert.setMessage("Do you want to Logout?")
+                .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent=new Intent(favourites_activity.this,loginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = checkAlert.create();
+        alert.setTitle("LogOut");
+        alert.show();
+
+    }
 
     private void DefineNavigation() {
         View mnavigationview;

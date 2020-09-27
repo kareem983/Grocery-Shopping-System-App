@@ -160,7 +160,7 @@
             android:id="@+id/CartIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/new_cart"
+            app:srcCompat="@drawable/new_cart"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"/>
 
@@ -190,7 +190,7 @@
                 android:id="@+id/DeleteIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_delete_24"
+                app:srcCompat="@drawable/ic_baseline_delete_24"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="20dp"/>
 
@@ -206,8 +206,6 @@
                 android:textStyle="bold"
                 android:gravity="center"/>
         </RelativeLayout>
-
-
 
         <RelativeLayout
             android:id="@+id/CheckCartContainer"

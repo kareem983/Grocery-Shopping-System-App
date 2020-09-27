@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/UserProfileDrawer"
@@ -44,7 +45,7 @@
             android:layout_below="@id/ProfileCover"
             android:layout_marginTop="-5dp"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/new_camera"/>
+            app:srcCompat="@drawable/new_camera"/>
 
 
         <include layout="@layout/main2_toolbar"
@@ -84,7 +85,7 @@
                 android:id="@+id/EmailIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_email_24"
+                app:srcCompat="@drawable/ic_baseline_email_24"
                 android:layout_below="@id/infoText"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
@@ -109,7 +110,7 @@
                 android:id="@+id/PhoneIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_phone_24"
+                app:srcCompat="@drawable/ic_baseline_phone_24"
                 android:layout_below="@id/EmailIcon"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
@@ -134,7 +135,7 @@
                 android:id="@+id/FavoriteIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/black_fav"
+                app:srcCompat="@drawable/black_fav"
                 android:layout_below="@id/PhoneIcon"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
@@ -154,13 +155,11 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="2dp"/>
 
-
-
             <ImageView
                 android:id="@+id/OrdersIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_my_orders_24"
+                app:srcCompat="@drawable/ic_baseline_my_orders_24"
                 android:layout_below="@id/FavoriteIcon"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"

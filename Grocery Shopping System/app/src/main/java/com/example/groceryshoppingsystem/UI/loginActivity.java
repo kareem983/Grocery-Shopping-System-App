@@ -13,11 +13,9 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.groceryshoppingsystem.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -51,8 +49,10 @@ public class loginActivity extends AppCompatActivity {
         if (fauth.getCurrentUser() != null) {
             if (fauth.getCurrentUser().getEmail().equals("admin@gmail.com")) {
                 startActivity(new Intent(loginActivity.this, AdminActivity.class));
+                finish();
             } else {
                 startActivity(new Intent(loginActivity.this, MainActivity.class));
+                finish();
             }
 
         }
@@ -85,9 +85,11 @@ public class loginActivity extends AppCompatActivity {
                             if (Email.equals("admin@gmail.com") && Password.equals("password")) {
                                 Toast.makeText(loginActivity.this, "Welcome My Creator", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(loginActivity.this, AdminActivity.class));
+                                finish();
                             } else {
                                 Toast.makeText(loginActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(loginActivity.this, MainActivity.class));
+                                finish();
                             }
                         } else {
                             Toast.makeText(loginActivity.this, "Wrong User name Or Password", Toast.LENGTH_SHORT).show();

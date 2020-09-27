@@ -1,7 +1,6 @@
 package com.example.groceryshoppingsystem.Model;
 
 public class Offers {
-
     String describtion;
     String img;
 

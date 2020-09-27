@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,23 +48,17 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     private CircleImageView mPerson_image;
     //----------------------------
     private CircleImageView UserImage;
-    private TextView UserName;
-    private TextView UserEmail;
-    private TextView UserPhone;
-    private TextView UserFavorites;
-    private TextView UserOrders;
+    private TextView UserName, UserEmail, UserPhone, UserFavorites, UserOrders;
     private ProgressBar progressBar;
     private final int GALARY_PICK=1;
-
+    //----------------------------
     private FirebaseAuth mAuth;
     private FirebaseUser CurrentUser;
     private String UserId;
     private StorageReference mStorageReference;
-
     //Custom Xml Views (cart Icon)
     private RelativeLayout CustomCartContainer;
-    private TextView PageTitle;
-    private TextView CustomCartNumber;
+    private TextView PageTitle, CustomCartNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +82,6 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         UserFavorites= (TextView)findViewById(R.id.UserFavorite);
         UserOrders= (TextView)findViewById(R.id.UserOrders);
         progressBar =(ProgressBar)findViewById(R.id.ProfileprogressBar);
-
 
         //get User Profile Data
         getUserProfileData();
@@ -128,12 +123,12 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         HandleTotalPriceToZeroIfNotExist();
     }
 
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(mToggle.onOptionsItemSelected(item)) return true;
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -171,15 +166,36 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
             startActivity(intent);
         }
         else if(id==R.id.Logout){
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(UserProfileActivity.this,loginActivity.class));
-            finish();
+            CheckLogout();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
 
+    private void CheckLogout(){
+        AlertDialog.Builder checkAlert = new AlertDialog.Builder(UserProfileActivity.this);
+        checkAlert.setMessage("Do you want to Logout?")
+                .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent=new Intent(UserProfileActivity.this,loginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = checkAlert.create();
+        alert.setTitle("LogOut");
+        alert.show();
+
+    }
 
     private void DefineNavigation(){
         drawerLayout = (DrawerLayout) findViewById(R.id.UserProfileDrawer);
@@ -258,16 +274,13 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         //to crop image
         if (requestCode == GALARY_PICK && resultCode == RESULT_OK) {
             Uri ImageUri = data.getData();
             CropImage.activity(ImageUri)
                     .setAspectRatio(1, 1)
                     .start(this);
-
         }
-
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
@@ -280,7 +293,6 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
                 Exception error = result.getError();
             }
         }
-
 
     }
 

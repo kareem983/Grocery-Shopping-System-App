@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.groceryshoppingsystem.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +25,6 @@ public class AdminActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private TextView FragmentTitle;
     private FirebaseAuth mAuth;
-
     private RelativeLayout CustomCartContainer;
     private TextView PageTitle;
 

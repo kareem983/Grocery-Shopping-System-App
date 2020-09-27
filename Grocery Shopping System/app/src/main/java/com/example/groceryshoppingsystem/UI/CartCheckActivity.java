@@ -1,6 +1,7 @@
 package com.example.groceryshoppingsystem.UI;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,11 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.example.groceryshoppingsystem.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,7 +49,6 @@ public class CartCheckActivity extends AppCompatActivity implements NavigationVi
     private FirebaseAuth mAuth;
     private FirebaseUser CurrentUsr;
     private String UserId;
-
     //Custom Xml Views (cart Icon)
     private RelativeLayout CustomCartContainer;
     private TextView PageTitle;
@@ -245,13 +245,35 @@ public class CartCheckActivity extends AppCompatActivity implements NavigationVi
             startActivity(intent);
         }
         else if(id==R.id.Logout){
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(CartCheckActivity.this,loginActivity.class));
-            finish();
+            CheckLogout();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    private void CheckLogout(){
+        AlertDialog.Builder checkAlert = new AlertDialog.Builder(CartCheckActivity.this);
+        checkAlert.setMessage("Do you want to Logout?")
+                .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent=new Intent(CartCheckActivity.this,loginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = checkAlert.create();
+        alert.setTitle("LogOut");
+        alert.show();
+
     }
 
 

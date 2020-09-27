@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceryshoppingsystem.Model.MyorderModel;
 import com.example.groceryshoppingsystem.R;
 import com.example.groceryshoppingsystem.UI.ScanQRCodeActivity;
-
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
@@ -73,7 +72,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
                 context.startActivity(intent);
             }
         });
-
 
     }
 

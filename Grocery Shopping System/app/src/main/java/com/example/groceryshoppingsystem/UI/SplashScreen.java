@@ -1,8 +1,6 @@
 package com.example.groceryshoppingsystem.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;

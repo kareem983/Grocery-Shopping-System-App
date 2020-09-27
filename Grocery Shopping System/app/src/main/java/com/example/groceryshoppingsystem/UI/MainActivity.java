@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DatabaseReference m;
     private View mnavigationview;
     private static List<favouritesClass> favourites;
-
     //Custom Xml Views (cart Icon)
     private RelativeLayout CustomCartContainer;
     private TextView PageTitle;

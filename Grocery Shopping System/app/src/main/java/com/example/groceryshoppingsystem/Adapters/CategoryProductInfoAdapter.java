@@ -4,11 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.groceryshoppingsystem.Model.CategoryProductInfo;
 import com.example.groceryshoppingsystem.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,14 +20,13 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class CategoryProductInfoAdapter extends RecyclerView.Adapter<CategoryProductInfoAdapter.ViewHolder> {
-
     private RecyclerViewClickListener listener;
     private FirebaseAuth mAuth;
     private FirebaseUser CurrentUser;
     private String UserId;
 
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+            private RelativeLayout PrContainer;
             private ImageView ProductImage;
             private TextView ProductName;
             private TextView ProductPrice;
@@ -35,6 +35,7 @@ public class CategoryProductInfoAdapter extends RecyclerView.Adapter<CategoryPro
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            PrContainer = (RelativeLayout)itemView.findViewById(R.id.PrContainer);
             ProductImage = (ImageView)itemView.findViewById(R.id.PrImage);
             ProductName = (TextView)itemView.findViewById(R.id.PrName);
             ProductPrice = (TextView)itemView.findViewById(R.id.PrPrice);
@@ -113,6 +114,15 @@ public class CategoryProductInfoAdapter extends RecyclerView.Adapter<CategoryPro
                 }
             }
         });
+
+        //animation
+        holder.PrContainer.setAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_scale_animation));
+        holder.ProductImage.setAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_scale_animation));
+        holder.ProductName.setAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_transition_animation));
+        holder.ProductPrice.setAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_transition_animation));
+        holder.ProductExpiryDate.setAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_transition_animation));
+        holder.PrFavoriteImage.setAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_transition_animation));
+
 
     }
 

@@ -7,20 +7,16 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.groceryshoppingsystem.Model.AdminSalesMan;
 import com.example.groceryshoppingsystem.R;
 import com.squareup.picasso.Picasso;
-
 import java.util.Collections;
 import java.util.List;
 
 public class AdminSalesManAdapter extends RecyclerView.Adapter<AdminSalesManAdapter.SalesManViewHolder> {
-
     private Context context;
     private List<AdminSalesMan> salesManList;
     private AdminOfferAdapter.onItemClickListener itemListener;

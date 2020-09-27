@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -19,12 +18,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.groceryshoppingsystem.Model.Offer;
 import com.example.groceryshoppingsystem.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -41,7 +38,6 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 public class AddOffer extends AppCompatActivity {
-
     private TextInputEditText name , description;
     private Button add , choose;
     private ImageView img;

@@ -1,6 +1,5 @@
 package com.example.groceryshoppingsystem.Adapters;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.groceryshoppingsystem.Model.AdminOffer;
 import com.example.groceryshoppingsystem.R;
 import com.squareup.picasso.Picasso;
@@ -19,7 +17,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class AdminOfferAdapter extends RecyclerView.Adapter<AdminOfferAdapter.ViewHolder> {
-
     private Context context;
     private List<AdminOffer> offers;
     private onItemClickListener itemListener;

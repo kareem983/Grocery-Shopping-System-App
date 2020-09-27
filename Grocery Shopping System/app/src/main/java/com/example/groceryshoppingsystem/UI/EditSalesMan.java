@@ -26,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.groceryshoppingsystem.Model.SalesMan;
 import com.example.groceryshoppingsystem.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -40,14 +39,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
 import java.io.ByteArrayOutputStream;
-
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
 public class EditSalesMan extends AppCompatActivity {
-
     private TextInputEditText name , salary;
     private Button edit , choose;
     private ImageView img;

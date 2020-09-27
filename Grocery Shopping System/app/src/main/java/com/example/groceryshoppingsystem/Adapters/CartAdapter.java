@@ -19,12 +19,11 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter  {
-
     private  List<CartItemModel> cartItemModelList;
     private OnItemClickListener mListener;
 
-    public interface OnItemClickListener {
 
+    public interface OnItemClickListener {
         void onDeleteClick(int position);
         void UpdateTotalPrice(String str);
     }

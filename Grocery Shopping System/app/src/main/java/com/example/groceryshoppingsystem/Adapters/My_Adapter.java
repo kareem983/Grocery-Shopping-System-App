@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.viewpager.widget.PagerAdapter;
-
 import com.example.groceryshoppingsystem.Model.model;
 import com.example.groceryshoppingsystem.R;
 import com.example.groceryshoppingsystem.UI.ProductInfoActivity;

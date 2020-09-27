@@ -43,6 +43,8 @@ Admin Animation (Ziad)
 
 Login & Register Animation (Amr)
 
+Category Animation (Kareem)
+
 QR Code Generator (Ziad)
 
 QR Code Scanner (Kareem)
