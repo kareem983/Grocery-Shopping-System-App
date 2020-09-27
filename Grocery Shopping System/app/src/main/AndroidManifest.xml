@@ -70,6 +70,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.RegisterActivity"
+            android:theme="@style/AppTheme.FullScreen"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.loginActivity"

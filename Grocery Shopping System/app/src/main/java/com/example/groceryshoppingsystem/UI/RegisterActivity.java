@@ -4,17 +4,24 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.groceryshoppingsystem.R;
@@ -30,6 +37,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
+
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.HashMap;
@@ -42,7 +50,10 @@ public class RegisterActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private Uri ResultURI;
     private String uId;
+    private RelativeLayout rlayout;
+    private Animation animation;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +66,17 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText pass1 = (EditText) findViewById(R.id.pass1);
         final EditText pass2 = (EditText) findViewById(R.id.pass2);
         final EditText num = (EditText) findViewById(R.id.num);
+
+        //Header
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.bgHeader);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // amnimation
+        rlayout = findViewById(R.id.rlayout);
+        animation = AnimationUtils.loadAnimation(this, R.anim.uptodowndiagonal);
+        rlayout.setAnimation(animation);
 
         image = findViewById(R.id.image);
         final Button finish = (Button) findViewById(R.id.finish);
@@ -119,6 +141,21 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void choosephoto() {
