@@ -21,11 +21,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.groceryshoppingsystem.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class loginActivity extends AppCompatActivity {
-    EditText mEmail, mPassword;
+    TextInputEditText mPassword;
+    EditText mEmail;
     Button mlogin;
     TextView mforgerpassword, tvLogin;
     ImageButton mCreateBtn;
@@ -38,7 +40,7 @@ public class loginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mEmail = (EditText) findViewById(R.id.EmailLogin);
-        mPassword = (EditText) findViewById(R.id.PasswordLogin);
+        mPassword = findViewById(R.id.PasswordLogin);
         fauth = FirebaseAuth.getInstance();
         tvLogin = findViewById(R.id.tvLogin);
         mlogin = (Button) findViewById(R.id.Login);
@@ -115,5 +117,8 @@ public class loginActivity extends AppCompatActivity {
                 startActivity(new Intent(loginActivity.this, ForgetPassword.class));
             }
         });
+
     }
+
+
 }

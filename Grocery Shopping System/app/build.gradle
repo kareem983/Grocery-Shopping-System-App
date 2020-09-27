@@ -44,6 +44,7 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services:9.8.0'
 
+
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     //image cropper
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'

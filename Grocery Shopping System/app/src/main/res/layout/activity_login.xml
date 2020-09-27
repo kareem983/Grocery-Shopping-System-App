@@ -129,13 +129,19 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/PasswordLogin"
+                    <com.google.android.material.textfield.TextInputLayout
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:inputType="textPassword" />
+                        app:passwordToggleEnabled="true">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/PasswordLogin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"/>
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -188,29 +194,14 @@
                 android:text="Forgot your password?"
                 android:textSize="14sp" />
 
-            <Button
-                android:id="@+id/facebookbutton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ForgetPassword"
-                android:layout_alignLeft="@+id/cv"
-                android:layout_alignRight="@+id/cv"
-                android:layout_marginLeft="26dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/bt_uifb"
-                android:drawableLeft="@drawable/gmailicon"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:text="LOGIN WITH GMAIL"
-                android:textColor="@color/colorPurple" />
+
 
             <ProgressBar
                 android:id="@+id/progressBar1"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/facebookbutton"
+                android:layout_below="@+id/ForgetPassword"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="27dp"
                 android:visibility="invisible" />
