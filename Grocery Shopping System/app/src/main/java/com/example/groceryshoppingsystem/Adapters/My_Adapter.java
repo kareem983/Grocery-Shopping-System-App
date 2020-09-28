@@ -66,6 +66,7 @@ public class My_Adapter extends PagerAdapter {
         OfferCardContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProductIsFavorite="false";
                 getData(models.get(position).getTitle());
 
             }
