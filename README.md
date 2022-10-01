@@ -2,7 +2,7 @@
 Full android Grocery Shopping System App. It consist of Admin and users: (Using online Firebase Database) Admin can login to the system. He also can to Add, Edit, Delete an Existence category/s  or create new category (Category name, Category cost, available Category amount, Expiry date)  Users can to register or login to the system  the system shows the existence categories (fruits, meats, Vegetables, etc...) the user can search about product and know product info (cost, available amount, Expiry date) the user also can to make an order by giving the system (Destination, product name, product amount) the delivery task is deliver this product to the user in selected time
 
 
-#Some images
+- ### App Screenshots
 
 
 ![1](https://user-images.githubusercontent.com/52586356/106370080-96530c00-635f-11eb-8501-b4766b2da5e9.png)
@@ -89,7 +89,7 @@ Full android Grocery Shopping System App. It consist of Admin and users: (Using 
 
 
  
-#***** tasks work *****
+### ***** tasks work *****
 
 Login Activity (Amr)
 
